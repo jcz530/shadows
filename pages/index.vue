@@ -1,34 +1,104 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        shadows
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div 
+    class="container mx-auto mb-10"
+    :style="bgColor"
+  >
+  <div class="css.input.container">
+    <label
+      class="css.input.label" 
+      for="bg-color"
+     
+    >
+      BG Color
+    </label>
+    <input
+      name="bg-color"
+      id="bg-color"
+      v-model="bg.color"
+      class="css.input.input" 
+      type="color"
+      @input="backgroundChange"
+    />
+  </div>
+    <ShadowBuilder />
+    <ShadowPreview />
+    <CSSValueCard />
+   
+    <ExampleShadows />
+
   </div>
 </template>
 
 <script>
-export default {}
+import { mapMutations, mapGetters } from 'vuex'
+import { hexToRgba } from '../utils/colors'
+export default {
+  data() {
+    return {
+      bg: {
+        color: "#ffffff",
+        opacity: 100,
+      },
+      
+      
+    }
+  },
+  computed: {
+    shadows() {
+      return this.$store.state.builder.shadows;
+    },
+
+    ...mapGetters({
+      cssShadow: 'builder/cssShadow',
+    }),
+
+    bgColor() {
+      // return this.$store.state.settings.bg.color
+      return `background: ${hexToRgba(this.$store.state.settings.bg.color, this.$store.state.settings.bg.opacity)}`
+    },
+    // cssShadow() {
+    //   let css = ""
+    //   // if (this.shadows.length > 0)
+    //     // css += "box-shadow: "
+      
+    //   this.shadows.forEach(shadow => {
+    //     const xy = this.calculateXandY(shadow.angle, shadow.distance)
+    //     css += `${xy.x}px ${xy.y}px ${shadow.blur}px ${shadow.spread}px ${hexToRgba(shadow.color, shadow.opacity)}`;
+    //     css += `,`;
+    //   });
+    //   if (css.substr(css.length -1, css.length) == ",") {
+    //     css = css.substr(0, css.length - 1);
+    //   }
+
+    // return css;
+
+    // },
+    bgStyle() {
+      return `background: ${hexToRgba(this.bg.color, this.bg.opacity)}`
+    },
+  },
+  methods: {
+    
+    // setBackground(value) {
+    //   return this.$store.state.settings.counter;
+    // }
+    backgroundChange(e) {
+      console.log(e)
+      this.setBackground(e.target.value)
+    },
+    ...mapMutations({
+      setBackground: 'settings/setBackground'
+    }),
+
+  },
+  mounted() {
+    // this.calculateXandY();
+    this.setBackground('#ff44ff')
+  },
+
+
+
+}
 </script>
 
 <style>
@@ -37,42 +107,5 @@ export default {}
 @apply min-h-screen flex justify-center items-center text-center mx-auto;
 }
 */
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
 
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
 </style>
