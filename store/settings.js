@@ -1,7 +1,7 @@
 export const state = () => ({
     counter: 5,
     bg: {
-        color: "#33ffff",
+        color: "#ffffff",
         opacity: 100,
     }
   })

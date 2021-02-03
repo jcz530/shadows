@@ -34,7 +34,7 @@ export const state = () => ({
   ],
   
   bg: {
-      color: "#33ffff",
+      color: "#ffffff",
       opacity: 100,
   },
 

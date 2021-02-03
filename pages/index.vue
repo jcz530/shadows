@@ -32,6 +32,7 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 import { hexToRgba } from '../utils/colors'
+
 export default {
   data() {
     return {
@@ -56,34 +57,14 @@ export default {
       // return this.$store.state.settings.bg.color
       return `background: ${hexToRgba(this.$store.state.settings.bg.color, this.$store.state.settings.bg.opacity)}`
     },
-    // cssShadow() {
-    //   let css = ""
-    //   // if (this.shadows.length > 0)
-    //     // css += "box-shadow: "
-      
-    //   this.shadows.forEach(shadow => {
-    //     const xy = this.calculateXandY(shadow.angle, shadow.distance)
-    //     css += `${xy.x}px ${xy.y}px ${shadow.blur}px ${shadow.spread}px ${hexToRgba(shadow.color, shadow.opacity)}`;
-    //     css += `,`;
-    //   });
-    //   if (css.substr(css.length -1, css.length) == ",") {
-    //     css = css.substr(0, css.length - 1);
-    //   }
 
-    // return css;
-
-    // },
     bgStyle() {
       return `background: ${hexToRgba(this.bg.color, this.bg.opacity)}`
     },
   },
   methods: {
-    
-    // setBackground(value) {
-    //   return this.$store.state.settings.counter;
-    // }
     backgroundChange(e) {
-      console.log(e)
+      // console.log(e)
       this.setBackground(e.target.value)
     },
     ...mapMutations({
@@ -92,8 +73,7 @@ export default {
 
   },
   mounted() {
-    // this.calculateXandY();
-    this.setBackground('#ff44ff')
+    // this.setBackground('#ff44ff')
   },
 
 

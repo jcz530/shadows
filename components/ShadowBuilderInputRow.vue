@@ -1,12 +1,26 @@
 <template>
   <div class="flex flex-wrap py-6x my-4x mb-4">
     <div :class="css.input.container">
-      <button
+      <!-- <button
         @click='toggleShadowVisibility'
       >
         <span v-if="shadow.visible">On</span>
         <span v-else>Off</span>
-      </button>
+      </button> -->
+      <div @click='toggleShadowVisibility'>
+        <IconLightBulb 
+          v-if="shadow.visible"
+          class="fill-current text-gray-600 " 
+          :class="visibilityIconClass"
+          style="width: 2em;" 
+        />
+        <IconLightBulbOff
+          v-else
+          class="fill-current text-gray-600 " 
+          :class="visibilityIconClass"
+          style="width: 2em; height: 2em;" 
+        />
+      </div>
     </div>
     <div :class="css.input.container">
       <label 
@@ -166,13 +180,21 @@
         :class="css.input.input" 
         @click="duplicateShadow"
       >
-        Duplicate
+        <IconDuplicate
+          class=''
+          style="height: 1em"
+         /> 
+         <!-- Dup -->
       </Button>
        <button
         :class="css.input.input" 
         @click="deleteShadow"
       >
-        Del
+        <IconTrashCan 
+          class=''
+          style="height: 1em"
+          />
+          <!-- Del -->
       </Button>
     </div>
 
@@ -184,7 +206,18 @@
 // @input="(e) => updateOpacity(shadow, e)"
 import { mapMutations, mapGetters } from 'vuex'
 
+import IconLightBulb from '@/assets/icons/light-bulb.svg?inline'
+import IconLightBulbOff from '@/assets/icons/light-bulb-off.svg?inline'
+import IconTrashCan from '@/assets/icons/trash-can.svg?inline'
+import IconDuplicate from '@/assets/icons/duplicate.svg?inline'
+
 export default {
+  components: {
+    IconLightBulb,
+    IconLightBulbOff,
+    IconTrashCan,
+    IconDuplicate,
+  },
   props: {
     shadow: Object,
   },
@@ -203,29 +236,21 @@ export default {
     }
   },
   computed: {
-
-
-        opacity: {
-          get () {
-            return this.shadow.opacity
-          },
-          set (value) {
-            // this.$store.commit('updateOpacity', {shadow:shadow, opacity:e.target.value})
-            this.$store.commit('builder/updateOpacity', {shadow:this.shadow, opacity:value})
-          }
-        },
-    
-    
-    
-    
-    
-    // shadow() {
-    //   return shadow
-    // },
-    // shadows() {
-    //   console.log(this.$store.state.builder.shadows)
-    //   return this.$store.state.builder.shadows;
-    // },
+    visibilityIconClass() {
+      if (this.shadow.visible)
+        return "text-gray-700";
+      else 
+        return "text-gray-400"
+    },
+    opacity: {
+      get () {
+        return this.shadow.opacity
+      },
+      set (value) {
+        // this.$store.commit('updateOpacity', {shadow:shadow, opacity:e.target.value})
+        this.$store.commit('builder/updateOpacity', {shadow:this.shadow, opacity:value})
+      }
+    },
     ...mapGetters({
       }),
   },
