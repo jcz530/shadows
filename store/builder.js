@@ -74,7 +74,7 @@ export const state = () => ({
   export const mutations = {
     
     addShadow(state) {
-      let newShadow = state.defaultShadow
+      let newShadow = Object.assign({}, state.defaultShadow)
       newShadow.id = state.nextId++
 
       state.shadows.push(newShadow)
