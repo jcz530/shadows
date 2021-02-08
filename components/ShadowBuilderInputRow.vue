@@ -1,22 +1,19 @@
 <template>
   <div class="flex flex-wrap py-6x my-4x mb-4">
-    <div :class="css.input.container">
-      <!-- <button
-        @click='toggleShadowVisibility'
+    <div class="w-1/24 mx-4">
+      <div 
+        @click='toggleShadowVisibility' 
+        class="mt-4 mdc-elevation--z1 rounded px-1 py-1"
       >
-        <span v-if="shadow.visible">On</span>
-        <span v-else>Off</span>
-      </button> -->
-      <div @click='toggleShadowVisibility'>
         <IconLightBulb 
           v-if="shadow.visible"
-          class="fill-current text-gray-600 " 
+          class="fill-current" 
           :class="visibilityIconClass"
-          style="width: 2em;" 
+          style="width: 2em; height: 2em" 
         />
         <IconLightBulbOff
           v-else
-          class="fill-current text-gray-600 " 
+          class="fill-current" 
           :class="visibilityIconClass"
           style="width: 2em; height: 2em;" 
         />
@@ -27,23 +24,24 @@
         :class="css.input.label" 
         for="angle"
       >
-        Angle
+        Angle: <small>
+          <input
+            name="angle"
+            id="angle" 
+            v-model="angle"
+            type="number"
+            :max="360"
+            :min="0"
+          />
+          </small>
       </label>
-      <input
-        name="angle"
-        id="angle" 
-        v-model="shadow.angle"
-        :class="css.input.input" 
-        type="number"
-        :max="360"
-        :min="0"
-      />
+      
       <input 
         type="range" 
         placeholder="Angle" 
         name="angle"
         id="angle"
-        v-model="shadow.angle"
+        v-model="angle"
         :class="css.input.range"
         :max="360"
         :min="0"
@@ -52,28 +50,30 @@
 
     <div :class="css.input.container">
       <label
-        :class="css.input.label" 
+        class="" 
         for="distance"
       >
-        Distance
+        Distance 
       </label>
-      <input
-        name="distance"
-        id="distance"
-        v-model="shadow.distance"
-        :class="css.input.input" 
-        type="number"
-      />
+      <div class="bg-gray-200 rounded mdc-elevation--z1">
+      <small><input
+          name="distance"
+          id="distance"
+          v-model="distance"
+          class="bg-gray-200 w-full" 
+          type="number"
+        /></small>
       <input 
         type="range" 
         placeholder="Distance" 
         name="distance"
         id="distance"
-        v-model="shadow.distance"
+        v-model="distance"
         :class="css.input.range"
         :max="100"
         :min="-100"
       />
+      </div>
     </div>
 
     <div :class="css.input.container">
@@ -81,21 +81,22 @@
         :class="css.input.label" 
         for="blur"
       >
-        Blur
-      </label>
-      <input
+        Blur 
+        <input
         name="blur"
         id="blur"
-        v-model="shadow.blur"
-        :class="css.input.input" 
+        v-model="blur"
+        class="css.input.input" 
         type="number"
       />
+      </label>
+      
       <input 
         type="range" 
         placeholder="Blur" 
         name="blur"
         id="blur"
-        v-model="shadow.blur"
+        v-model="blur"
         :class="css.input.range"
         :max="100"
         :min="0"
@@ -107,24 +108,25 @@
         :class="css.input.label" 
         for="spread"
       >
-        Spread
+        Spread:
+         <input
+          name="spread"
+          id="spread"
+          v-model="spread"
+          class="css.input.input" 
+          type="number"
+        />
       </label>
-      <input
-        name="spread"
-        id="spread"
-        v-model="shadow.spread"
-        :class="css.input.input" 
-        type="number"
-      />
+     
       <input 
         type="range" 
         placeholder="Spread" 
         name="spread"
         id="spread"
-        v-model="shadow.spread"
+        v-model="spread"
         :class="css.input.range"
         :max="100"
-        :min="0"
+        :min="-100"
       />
     </div>
 
@@ -138,7 +140,7 @@
       <input
         name="color"
         id="color"
-        v-model="shadow.color"
+        v-model="color"
         class="css.input.input" 
         type="color"
       />
@@ -149,17 +151,18 @@
         :class="css.input.label" 
         for="opacity"
       >
-        Opacity
+        Opacity: 
+          <input
+            name="opacity"
+            id="opacity"
+            v-model="opacity"
+            class="css.input.input" 
+            type="number"
+            :max="100"
+            :min="0"
+          />
       </label>
-      <input
-        name="opacity"
-        id="opacity"
-        v-model="shadow.opacity"
-        :class="css.input.input" 
-        type="number"
-        :max="100"
-        :min="0"
-      />
+      
       <input 
         type="range" 
         placeholder="Opacity" 
@@ -177,33 +180,29 @@
     <div :class="css.input.container">
       
       <button
-        :class="css.input.input" 
+        class="mt-4 bg-indigo-100X rounded px-1 py-1 mdc-elevation--z1" 
         @click="duplicateShadow"
       >
         <IconDuplicate
-          class=''
+          class='fill-current text-indigo-600'
           style="height: 1em"
          /> 
-         <!-- Dup -->
       </Button>
        <button
-        :class="css.input.input" 
+        class="mt-4 ml-3 bg-indigo-100X rounded px-1 py-1 mdc-elevation--z1" 
         @click="deleteShadow"
       >
         <IconTrashCan 
-          class=''
+          class='fill-current text-red-600'
           style="height: 1em"
           />
-          <!-- Del -->
       </Button>
     </div>
-
 
 
   </div>
 </template>
 <script>
-// @input="(e) => updateOpacity(shadow, e)"
 import { mapMutations, mapGetters } from 'vuex'
 
 import IconLightBulb from '@/assets/icons/light-bulb.svg?inline'
@@ -228,7 +227,7 @@ export default {
         input: {
           container: "w-1/12 mx-4",
           label: "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
-          input: "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
+          input: "hidden appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
           range: "w-full  py-1",
         },
         
@@ -240,15 +239,59 @@ export default {
       if (this.shadow.visible)
         return "text-gray-700";
       else 
-        return "text-gray-400"
+        return "text-gray-500"
     },
+    angle: {
+      get () {
+        return this.shadow.angle
+      },
+      set (value) {
+        this.$store.commit('builder/updateField', {shadow:this.shadow, value:value, field:'angle'})
+      }
+    },
+
+    distance: {
+      get () {
+        return this.shadow.distance
+      },
+      set (value) {
+        this.$store.commit('builder/updateField', {shadow:this.shadow, value:value, field:'distance'})
+      }
+    },
+
+    blur: {
+      get () {
+        return this.shadow.blur
+      },
+      set (value) {
+        this.$store.commit('builder/updateField', {shadow:this.shadow, value:value, field:'blur'})
+      }
+    },
+
+    spread: {
+      get () {
+        return this.shadow.spread
+      },
+      set (value) {
+        this.$store.commit('builder/updateField', {shadow:this.shadow, value:value, field:'spread'})
+      }
+    },
+
+    color: {
+      get () {
+        return this.shadow.color
+      },
+      set (value) {
+        this.$store.commit('builder/updateField', {shadow:this.shadow, value:value, field:'color'})
+      }
+    },
+
     opacity: {
       get () {
         return this.shadow.opacity
       },
       set (value) {
-        // this.$store.commit('updateOpacity', {shadow:shadow, opacity:e.target.value})
-        this.$store.commit('builder/updateOpacity', {shadow:this.shadow, opacity:value})
+        this.$store.commit('builder/updateField', {shadow:this.shadow, value:value, field:'opacity'})
       }
     },
     ...mapGetters({
@@ -274,9 +317,9 @@ export default {
     deleteShadow(e) {
       this.$store.commit('builder/deleteShadow', this.shadow)
     },
-     updateOpacity (shadow, e) {
-      this.$store.commit('builder/updateOpacity', this.shadow, e.target.value)
-    },
+    //  updateOpacity (shadow, e) {
+    //   this.$store.commit('builder/updateOpacity', this.shadow, e.target.value)
+    // },
     addNew() {
       this.addShadow()
     },
@@ -286,3 +329,6 @@ export default {
   },
 }
 </script>
+<style scoped>
+
+</style>
