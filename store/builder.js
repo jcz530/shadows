@@ -63,9 +63,15 @@ export const state = () => ({
         css += `${xy.x}px ${xy.y}px ${shadow.blur}px ${shadow.spread}px ${hexToRgba(shadow.color, shadow.opacity)}`;
         css += `,`;
       });
+      // remove trailing comma
       if (css.substr(css.length -1, css.length) == ",") {
         css = css.substr(0, css.length - 1);
       }
+      css = css + ";"
+      css = css + "\n"
+      let regCSS = css
+      css = css + `-webkit-${regCSS}`
+      css = css + `-moz-${regCSS}`
 
       return css;
     }
@@ -94,6 +100,10 @@ export const state = () => ({
         }
       );
       state.shadows = shadows
+    },
+    
+    clearShadows(state) {
+      state.shadows = []
     },
 
     deleteShadow(state, shadow) {
