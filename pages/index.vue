@@ -1,15 +1,13 @@
 <template>
   <div 
     class="container mx-auto mb-10"
-    :style="bgColor"
   >
-    <div
+    <!-- <div
     class="w-full bg-gradient-to-r from-indigo-700 to-indigo-500 mb-8 px-8"
     >
       <h1 class='text-4xl text-white'>Shadows: A CSS Box-Shadow Generator</h1>
-    </div>
+    </div> -->
     <ShadowBuilder />
-    <PageSettings />
     <ShadowPreview />
     <CSSValueCard />
    

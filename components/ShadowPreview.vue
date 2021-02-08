@@ -3,7 +3,7 @@
     <div class=" w-1/3 mx-16">
       <div 
         :style="styles"
-        class="bg-white w-16 h-8 rounded p-10x  mx-16"
+        class="bg-white w-16 h-8 p-10x  mx-16"
       >
         <div class="mb-3 pt-0">
           
@@ -13,7 +13,7 @@
     <div class=" w-1/3 mx-16">
       <div 
         :style="styles" 
-        class="bg-white w-40 h-40 rounded mx-16"
+        class="bg-white w-40 h-40 mx-16"
       >
         <div class="mb-3 pt-0">
           
@@ -23,7 +23,7 @@
     <div class=" w-1/3 mx-16">
       <div 
         :style="styles"
-        class="bg-white w-64 h-64 roundedX mx-16"
+        class="bg-white w-64 h-64 mx-16"
       >
         <div class="mb-3 pt-0">
           

@@ -43,6 +43,18 @@
             :min="0"
             step="0.01"
         />
+        <v-slider
+          hint="Radius"
+          max="10"
+          min="0"
+          thumb-label
+          dense
+          hide-details
+          color="indigo"
+          track-color="indigo lighten-4"
+          v-model="radius"
+          step="0.01"
+        ></v-slider>
         </div>
     </div>
 </template>

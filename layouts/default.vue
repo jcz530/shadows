@@ -1,9 +1,35 @@
 <template>
   <div>
-    <Nuxt />
+    <v-app>
+      <AppBar />
+      <v-main
+        :style="bgColor"
+      >
+        <!-- Provides the application the proper gutter -->
+        <v-container fluid>
+          <Nuxt />
+        </v-container>
+      </v-main>
+      
+      <Footer />
+    </v-app>
   </div>
 </template>
+<script>
+import { hexToRgba } from '../utils/colors'
 
+export default {
+  data() {
+    return {
+    }
+  },
+  computed: {
+    bgColor() {
+      return `background: ${hexToRgba(this.$store.state.settings.bg.color, this.$store.state.settings.bg.opacity)}`
+    },
+  },
+}
+</script>
 <style>
 html {
   font-family:

@@ -1,44 +1,69 @@
 <template>
   <div>
-    <div class="flex flex-wrap justify-center mb-10 w-1/2">
-     <h2 class="text-3xl">Material Design Elevations</h2>
-    </div>
 
-    <div class="flex flex-wrap justify-center mb-10">
-      <div 
-        v-for="(elevation, index) in elevations"
-        v-bind:key="index"
-        class="w-1/6 h-56 rounded mx-6 mb-16"
-        
+    <!-- <v-tabs>
+      <v-tab>Material Design</v-tab>
+      <v-tab>Tailwind</v-tab>
+      <v-tab>Item Three</v-tab>
+    </v-tabs> -->
+    <v-card>
+      <v-tabs
+        v-model="tab"
+        align-with-title
+        background-color="indigo"
+        dark
+        style="margin-bottom: 2em"
       >
-        <ShadowCard 
-          :elevation="elevation"
-        />
-       
-      </div>
-    </div>
+        <v-tabs-slider color="indigo lighten-4"></v-tabs-slider>
 
-      <div class="flex flex-wrap justify-center mt-10 mb-4 w-1/2">
-        <h2 class="text-3xl">Tailwind Shadows</h2>
-      </div>      
-      <div class="flex flex-wrap justify-center items-start mx-auto w-full mb-10">
-      
-        <div 
-          v-for="shadow in tailwindShadows"
-          v-bind:key="shadow"
-          class="w-1/6 h-56 rounded mx-6 mb-16"
+        <v-tab
+          v-for="item in tabs"
+          :key="item"
         >
+          {{ item }}
+        </v-tab>
+      </v-tabs>
+    
+    
+    <v-tabs-items v-model="tab">
+      <v-tab-item
+      >
+        <div class="flex flex-wrap justify-center mb-10">
           <div 
-            class="bg-white h-full w-full p-10 rounded" 
-            :class="shadow"
+            v-for="(elevation, index) in elevations"
+            v-bind:key="index"
+            class="w-1/6 h-56 rounded mx-6 mb-16"
+            
           >
-            <div class="mb-3 pt-0">
-              <p>{{shadow}}</p>
+            <ShadowCard 
+              :elevation="elevation"
+            />
+          
+          </div>
+        </div>
+      </v-tab-item>
+
+      <v-tab-item
+      >
+        <div class="flex flex-wrap justify-center items-start mx-auto w-full mb-10">
+          <div 
+              v-for="shadow in tailwindShadows"
+              v-bind:key="shadow"
+              class="w-1/6 h-56 rounded mx-6 mb-16"
+            >
+            <div 
+              class="bg-white h-full w-full p-10 rounded" 
+              :class="shadow"
+            >
+              <div class="mb-3 pt-0">
+                <p>{{shadow}}</p>
+              </div>
             </div>
           </div>
         </div>
-
-      </div>
+      </v-tab-item>
+    </v-tabs-items>
+    </v-card>
 
   </div>
 </template>
@@ -48,6 +73,11 @@ import { mdc } from "../utils/presets"
 export default {
   data() {
     return {
+      tab: null,
+      tabs: [
+        'Material Design',
+        'Tailwind',
+      ],
       mdcElevations: {
       
       },

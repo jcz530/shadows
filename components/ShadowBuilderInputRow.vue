@@ -1,142 +1,158 @@
 <template>
-  <div class="flex flex-wrap py-6x my-4x mb-4">
-    <div class="w-1/24 mx-4">
-      <div 
-        @click='toggleShadowVisibility' 
-        class="mt-4 mdc-elevation--z1 rounded px-1 py-1"
+  <v-container>
+    <v-card
+    elevation="0"
+    >
+    <!-- align="align" -->
+    <v-row
+        
       >
-        <IconLightBulb 
-          v-if="shadow.visible"
-          class="fill-current" 
-          :class="visibilityIconClass"
-          style="width: 2em; height: 2em" 
-        />
-        <IconLightBulbOff
-          v-else
-          class="fill-current" 
-          :class="visibilityIconClass"
-          style="width: 2em; height: 2em;" 
-        />
-      </div>
-    </div>
-    <div :class="css.input.container">
-      <label 
-        :class="css.input.label" 
-        for="angle"
+      
+      <v-col
+        align-self="center"
+        align='center'
+        style="max-width: 61px"
       >
-        Angle: <small>
-          <input
-            name="angle"
-            id="angle" 
-            v-model="angle"
-            type="number"
-            :max="360"
-            :min="0"
+        <v-btn
+          color="primary"
+          elevation="2"
+          icon
+          @click='toggleShadowVisibility' 
+        >
+          <IconLightBulb 
+            v-if="shadow.visible"
+            class="fill-current" 
+            :class="visibilityIconClass"
+            style="width: 2em; height: 2em" 
           />
-          </small>
-      </label>
-      
-      <input 
-        type="range" 
-        placeholder="Angle" 
-        name="angle"
-        id="angle"
+          <IconLightBulbOff
+            v-else
+            class="fill-current" 
+            :class="visibilityIconClass"
+            style="width: 2em; height: 2em;" 
+          />
+        </v-btn>
+      </v-col>
+
+    <v-col
+      align='center'
+      align-self="center"
+    >
+      <v-icon
+        @click="decrementField('angle')"
+      >
+        mdi-minus
+      </v-icon>
+        {{angle}}px
+      <v-icon
+        @click="incrementField('angle')"
+      >
+        mdi-plus
+      </v-icon>
+      <v-slider
+        hint="Angle"
+        max="360"
+        min="0"
+        thumb-label
+        dense
+        hide-details
+        color="indigo"
+        track-color="indigo lighten-4"
         v-model="angle"
-        :class="css.input.range"
-        :max="360"
-        :min="0"
-      />
-    </div>
-
-    <div :class="css.input.container">
-      <label
-        class="" 
-        for="distance"
       >
-        Distance 
-      </label>
-      <div class="bg-gray-200 rounded mdc-elevation--z1">
-      <small><input
-          name="distance"
-          id="distance"
-          v-model="distance"
-          class="bg-gray-200 w-full" 
-          type="number"
-        /></small>
-      <input 
-        type="range" 
-        placeholder="Distance" 
-        name="distance"
-        id="distance"
+      </v-slider>
+    </v-col>
+
+    <v-col
+      align-self="center"
+      align='center'
+    >
+      <v-icon
+        @click="decrementField('distance')"
+      >
+        mdi-minus
+      </v-icon>
+        {{distance}}px
+      <v-icon
+        @click="incrementField('distance')"
+      >
+        mdi-plus
+      </v-icon>
+      <v-slider
+        hint="Distance"
+        max="100"
+        min="-100"
+        thumb-label
+        dense
+        hide-details
+        color="indigo"
+        track-color="indigo lighten-4"
         v-model="distance"
-        :class="css.input.range"
-        :max="100"
-        :min="-100"
-      />
-      </div>
-    </div>
+      ></v-slider>
+    </v-col>
 
-    <div :class="css.input.container">
-      <label
-        :class="css.input.label" 
-        for="blur"
+    <v-col
+      align-self="center"
+      align='center'
+    >
+      <v-icon
+        @click="decrementField('blur')"
       >
-        Blur 
-        <input
-        name="blur"
-        id="blur"
+        mdi-minus
+      </v-icon>
+        {{blur}}px
+      <v-icon
+        @click="incrementField('blur')"
+      >
+        mdi-plus
+      </v-icon>
+      <v-slider
+        hint="Blur"
+        max="100"
+        min="0"
+        thumb-label
+        dense
+        hide-details
+        color="indigo"
+        track-color="indigo lighten-4"
         v-model="blur"
-        class="css.input.input" 
-        type="number"
-      />
-      </label>
-      
-      <input 
-        type="range" 
-        placeholder="Blur" 
-        name="blur"
-        id="blur"
-        v-model="blur"
-        :class="css.input.range"
-        :max="100"
-        :min="0"
-      />
-    </div>
+      ></v-slider>
+    </v-col>
 
-    <div :class="css.input.container">
-      <label
-        :class="css.input.label" 
-        for="spread"
+    <v-col
+      align-self="center"
+      align='center'
+    >
+      <v-icon
+        @click="decrementField('spread')"
       >
-        Spread:
-         <input
-          name="spread"
-          id="spread"
-          v-model="spread"
-          class="css.input.input" 
-          type="number"
-        />
-      </label>
-     
-      <input 
-        type="range" 
-        placeholder="Spread" 
-        name="spread"
-        id="spread"
+        mdi-minus
+      </v-icon>
+        {{spread}}px
+      <v-icon
+        @click="incrementField('spread')"
+      >
+        mdi-plus
+      </v-icon>
+       <v-slider
+        hint="Spread"
+        max="100"
+        min="-100"
+        color="indigo"
+        track-color="indigo"
+        thumb-label
+        dense
+        hide-details
         v-model="spread"
-        :class="css.input.range"
-        :max="100"
-        :min="-100"
-      />
-    </div>
+      ></v-slider>
 
-    <div :class="css.input.container">
-      <label
-        :class="css.input.label" 
-        for="color"
-      >
-        Color
-      </label>
+    </v-col>
+
+    <v-col
+      align-self="center"
+      align='center'
+      style="max-width: 61px"
+    >
       <input
         name="color"
         id="color"
@@ -144,64 +160,72 @@
         class="css.input.input" 
         type="color"
       />
-    </div>
+    </v-col>
 
-    <div :class="css.input.container">
-      <label
-        :class="css.input.label" 
-        for="opacity"
+    <v-col
+      align-self="center"
+      align='center'
+    >
+      <v-icon
+        @click="decrementField('opacity')"
       >
-        Opacity: 
-          <input
-            name="opacity"
-            id="opacity"
-            v-model="opacity"
-            class="css.input.input" 
-            type="number"
-            :max="100"
-            :min="0"
-          />
-      </label>
-      
-      <input 
-        type="range" 
-        placeholder="Opacity" 
-        name="opacity"
-        id="opacity"
+        mdi-minus
+      </v-icon>
+        {{opacity}}%
+      <v-icon
+        @click="incrementField('opacity')"
+      >
+        mdi-plus
+      </v-icon>
+      <v-slider
+        hint="Opacity"
+        max="100"
+        min="0"
+        thumb-label
+        dense
+        hide-details
+        color="indigo"
+        track-color="indigo lighten-4"
         v-model="opacity"
-        :class="css.input.range"
-        :max="100"
-        :min="0"
-      />
-    </div>
+      ></v-slider>
+    </v-col>
 
 
 
-    <div :class="css.input.container">
-      
-      <button
-        class="mt-4 bg-indigo-100X rounded px-1 py-1 mdc-elevation--z1" 
-        @click="duplicateShadow"
-      >
+    <v-col
+      align-self="center"
+      align='center'
+    >
+      <v-btn
+          color="primary"
+          elevation="2"
+          icon
+          @click='duplicateShadow' 
+        >
         <IconDuplicate
           class='fill-current text-indigo-600'
           style="height: 1em"
          /> 
-      </Button>
-       <button
-        class="mt-4 ml-3 bg-indigo-100X rounded px-1 py-1 mdc-elevation--z1" 
-        @click="deleteShadow"
-      >
+      </v-btn>
+
+      <v-btn
+          color="primary"
+          elevation="2"
+          icon
+          @click='deleteShadow' 
+        >
         <IconTrashCan 
           class='fill-current text-red-600'
           style="height: 1em"
           />
-      </Button>
-    </div>
+      </v-btn>
+    </v-col>
 
-
-  </div>
+  </v-row>
+  </v-card>
+</v-container>
 </template>
+
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 
@@ -314,6 +338,7 @@ export default {
 
       this.$store.commit('builder/duplicateShadow', this.shadow)
     },
+
     deleteShadow(e) {
       this.$store.commit('builder/deleteShadow', this.shadow)
     },
@@ -323,6 +348,14 @@ export default {
     addNew() {
       this.addShadow()
     },
+
+    incrementField(field) {
+      this.$store.commit('builder/updateField', {shadow:this.shadow, value:this.shadow[field] + 1, field:field})
+    },
+    
+    decrementField(field) {
+      this.$store.commit('builder/updateField', {shadow:this.shadow, value:this.shadow[field] - 1, field:field})
+    }
   },
   mounted() {
     
