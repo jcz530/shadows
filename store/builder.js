@@ -47,11 +47,10 @@ export const state = () => ({
     shadows(state) {
       return state.shadows
     },
+
     getShadowById: (state) => (id) => {
       return state.shadows.find(shadow => shadow.id === id)
     },
-
-    
 
     cssShadow(state) {
       let css = ""
@@ -119,18 +118,15 @@ export const state = () => ({
       fshadow.visible = !fshadow.visible
     },
 
-
-    updateOpacity(state, payload) {
+    updateField(state, payload) {
       const shadow = payload.shadow
-      const opacity = payload.opacity
+      const value = payload.value
+      const field = payload.field
 
       let fshadow = state.shadows.find(s => s.id == shadow.id)
       
-      fshadow.opacity = opacity
-      // console.log(getters.getShadowById(shadow.id))
+      fshadow[field] = value
     },
-
-
 
 
   }
