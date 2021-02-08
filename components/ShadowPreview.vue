@@ -1,35 +1,68 @@
 <template>
-  <div class="flex justify-center items-center mt-16">
-    <div class=" w-1/3 mx-16">
+<div>
+  
+  <v-row 
+    v-if="viewType == 'varied'"
+    class="mt-8"
+  >
+    <v-col
+      align-self="center"
+      align="center"
+      v-for="(size, i) in sizes"
+      v-bind:key="i"
+    >
       <div 
-        :style="styles"
-        class="bg-white w-16 h-8 p-10x  mx-16"
+        :style="`${styles}width:${size.width}rem;height:${size.height}rem;`"
+        class="bg-white"
       >
         <div class="mb-3 pt-0">
           
         </div>
       </div>
-    </div>
-    <div class=" w-1/3 mx-16">
+    </v-col>
+  </v-row>
+
+  <v-row 
+    v-else
+    class="mt-8"
+  >
+
+    <v-col
+      align-self="center"
+      align="center"
+      v-for="i in grid.items"
+      v-bind:key="i"
+    >
+      <div 
+        :style="styles"
+        class="bg-white"
+      >
+        <div class="mb-3 pt-0">
+          
+        </div>
+      </div>
+    </v-col>
+    <!-- <v-col>
       <div 
         :style="styles" 
-        class="bg-white w-40 h-40 mx-16"
+        class="bg-white mx-16"
       >
         <div class="mb-3 pt-0">
           
         </div>
       </div>
-    </div>
-    <div class=" w-1/3 mx-16">
+    </v-col>
+    <v-col>
       <div 
         :style="styles"
-        class="bg-white w-64 h-64 mx-16"
+        class="bg-white mx-16"
       >
         <div class="mb-3 pt-0">
           
         </div>
       </div>
-    </div>
+    </v-col> -->
+  </v-row>
   </div>
 </template>
 
@@ -39,7 +72,16 @@ import { mapMutations, mapGetters } from 'vuex'
 export default {
   data() {
     return {
-     
+      // w-16 h-8
+    //  w-40 h-40
+    // w-64 h-64
+
+    sizes: [
+      {width: '7', height: '2.5'},
+      {width: '10', height: '10'},
+      {width: '20', height: '20'},
+    ]
+
     }
   },
   computed: {
@@ -50,8 +92,22 @@ export default {
     box() {
       return this.$store.state.settings.box
     },
+    grid() {
+      return this.$store.state.settings.grid
+    },
+    viewType() {
+      return this.$store.state.settings.type
+    },
     styles() {
-      return `${this.cssShadow};border-radius:${this.box.borderRadius}rem`
+      let css = `${this.cssShadow};` 
+      css += `border-radius:${this.box.borderRadius}rem;`
+      css += `background-color:${this.box.bg.color};`
+      if (this.viewType !== 'varied') {
+        css += `height:${this.box.height}vh;`
+        css += `width:${this.box.width}vw;`
+      }
+      // ${hexToRgba(this.$store.state.settings.bg.color, this.$store.state.settings.bg.opacity)}
+      return css
     },
   },
   methods: {

@@ -217,7 +217,7 @@
         <IconTrashCan 
           class='fill-current text-red-600'
           style="height: 1em"
-          />
+        />
       </v-btn>
     </v-col>
 

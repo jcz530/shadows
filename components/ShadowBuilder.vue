@@ -22,6 +22,7 @@
     
     <v-tabs-items v-model="tab">
       <v-tab-item
+      class="mx-4 mb-4"
       >
       <div>
         <v-row
