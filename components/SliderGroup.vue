@@ -55,8 +55,6 @@ export default {
     },
 
     isMobile() {
-        console.log("screen")
-        console.log(screen)
         return screen.width <= 760
     },
   },
