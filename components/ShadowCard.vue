@@ -1,26 +1,35 @@
 <template>
-    <div 
-      class="bg-white h-full w-full p-10 rounded" 
-      :class="elevation.class"
+  <div 
+    class="rounded"
+    :class="elevation.class"
+  >
+    <v-card
+      elevation="0"
+      class="" 
     >
       <div class="mb-3 pt-0">
-        <p>Elevation {{elevation.z}}</p>
-        <textarea :id="copyId" style="visibility: visible; height: 0" :value="elevation.css" />
-        <button 
-          :class="css.button"
-          @click="copyPresetCSS"
-        >
-          Copy CSS
-        </button>
-        <button
-          class='mt-2'
-          :class="css.button"
-          @click="usePreset"
-        >
-          Use
-        </button>
+        <v-card-title>Elevation {{elevation.z}}</v-card-title>
+        <v-card-text></v-card-text>
+        <v-card-actions>
+          <v-btn 
+            elevation="0"
+            @click="copyPresetCSS"
+          >
+            Copy CSS
+          </v-btn>
+          <v-btn
+            color="indigo lighten-1"
+            dark
+            elevation="0"
+            class='mt-2'
+            @click="usePreset"
+          >
+            Use
+          </v-btn>
+        </v-card-actions>
       </div>
-    </div>
+    </v-card>
+  </div>
 </template>
 <script>
 import { copy } from "../utils/clipboard"
@@ -45,17 +54,11 @@ export default {
         "shadow-xl",
         "shadow-2xl",
       ],
-      css : {
-        button: "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-      }
-
       
     }
   },
   computed: {
-    copyId() {
-      return `copy-elevation-${this.elevation.z}`
-    },
+    
   },
   methods: {
     mdcElevation(n) {
@@ -63,23 +66,6 @@ export default {
     },
     copyPresetCSS() {
       copy(this.elevation.css)
-      // // var copyTextarea = document.querySelector("#"+this.copyId);
-      // var copyTextarea = document.getElementById(this.copyId);
-      
-      // if (copyTextarea === null || copyTextarea === undefined)
-      //   return 
-      // copyTextarea.focus();
-      // copyTextarea.select();
-      // copyTextarea.setSelectionRange(0, 99999); /* For mobile devices */
-
-      // try {
-      //   var successful = document.execCommand('copy');
-      //   var msg = successful ? 'successful' : 'unsuccessful';
-      //   // alert("You copied the text: "+this.elevation.css)
-      //   console.log('Copying text command was ' + msg);
-      // } catch (err) {
-      //   console.log('Oops, unable to copy');
-      // }
     },
     usePreset() {
       console.log("use preset called")

@@ -5,7 +5,6 @@
     >
     <!-- align="align" -->
     <v-row
-        
       >
       
       <v-col
@@ -43,7 +42,7 @@
       >
         mdi-minus
       </v-icon>
-        {{angle}}px
+        {{angle}}°
       <v-icon
         @click="incrementField('angle')"
       >
@@ -203,7 +202,7 @@
           @click='duplicateShadow' 
         >
         <IconDuplicate
-          class='fill-current text-indigo-600'
+          class='fill-current indigo--text'
           style="height: 1em"
          /> 
       </v-btn>
@@ -215,7 +214,7 @@
           @click='deleteShadow' 
         >
         <IconTrashCan 
-          class='fill-current text-red-600'
+          class='fill-current red--text text--lighten-1'
           style="height: 1em"
         />
       </v-btn>
@@ -261,9 +260,9 @@ export default {
   computed: {
     visibilityIconClass() {
       if (this.shadow.visible)
-        return "text-gray-700";
+        return "indigo--text";
       else 
-        return "text-gray-500"
+        return "indigo--text text--lighten-2"
     },
     angle: {
       get () {

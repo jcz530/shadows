@@ -1,19 +1,26 @@
 <template>
-    <div class="flex justify-center mb-10">
+    <v-card class="mb-10">
       <div :style="cssShadow" class="bg-white w-4/5 h-50 border border-solid border-red-300X rounded p-10 mt-16">
         <div class="mb-3 pt-0">
-          <p><span class="border-b-2 border-r-2 border-indigo-500 rounded pr-1 pl-1">Your CSS</span></p>
-          <p class="my-4 " style="white-space: pre;">{{cssShadow}}</p>
-          <button
-            class="mt-8 mdc-elevation--z1 border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
-            @click="copyCSS"
-          >
-            Copy
-          </button>
+          <v-card-title>
+            Your CSS
+          </v-card-title>
+          <v-card-text class="my-4 " style="white-space: pre;">{{cssShadow}}</v-card-text>
+          <v-card-actions>
+            <v-btn
+              elevation="1"
+              color="indigo"
+              dark
+              @click="copyCSS"
+            >
+              Copy
+            </v-btn>
+
+          </v-card-actions>
           
         </div>
       </div>
-    </div>
+    </v-card>
 </template>
 <script>
 import { mapMutations, mapGetters } from 'vuex'

@@ -1,11 +1,5 @@
 <template>
   <div>
-
-    <!-- <v-tabs>
-      <v-tab>Material Design</v-tab>
-      <v-tab>Tailwind</v-tab>
-      <v-tab>Item Three</v-tab>
-    </v-tabs> -->
     <v-card>
       <v-tabs
         v-model="tab"
@@ -27,20 +21,22 @@
     
     <v-tabs-items v-model="tab">
       <v-tab-item
+        class='pb-10'
       >
-        <div class="flex flex-wrap justify-center mb-10">
-          <div 
+      <!-- w-1/6 h-56 rounded mx-6 mb-16 -->
+        <v-row class="mx-4">
+          <v-col 
             v-for="(elevation, index) in elevations"
             v-bind:key="index"
-            class="w-1/6 h-56 rounded mx-6 mb-16"
+            class=""
             
           >
             <ShadowCard 
               :elevation="elevation"
             />
           
-          </div>
-        </div>
+          </v-col>
+        </v-row>
       </v-tab-item>
 
       <v-tab-item
