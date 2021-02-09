@@ -9,6 +9,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/google-gtag": "^1.0.4",
     "@nuxtjs/pwa": "^3.3.4",
     "core-js": "^3.8.2",
     "nuxt": "^2.14.12"

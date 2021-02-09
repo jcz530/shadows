@@ -26,6 +26,14 @@ export default {
   css: [
   ],
 
+  'google-gtag': {
+    id: process.env.gtag,
+    config: {
+    },
+    debug: true, // enable to track in dev mode
+    disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...).
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
   ],
@@ -45,6 +53,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/google-gtag',
   ],
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
