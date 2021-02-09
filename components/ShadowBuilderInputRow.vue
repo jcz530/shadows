@@ -35,8 +35,8 @@
           title="Angle"
           field="angle"
           units="°"
-          min="0"
-          max="360"
+          :min="0"
+          :max="360"
           :shadow="shadow"
         />
 
@@ -44,8 +44,8 @@
           title="Distance"
           field="distance"
           units="px"
-          min="-100"
-          max="100"
+          :min="-100"
+          :max="100"
           :shadow="shadow"
         />
 
@@ -53,8 +53,8 @@
           title="Blur"
           field="blur"
           units="px"
-          min="0"
-          max="100"
+          :min="0"
+          :max="100"
           :shadow="shadow"
         />
 
@@ -62,8 +62,8 @@
           title="Spread"
           field="spread"
           units="px"
-          min="-100"
-          max="100"
+          :min="-100"
+          :max="100"
           :shadow="shadow"
         />
 
@@ -84,8 +84,8 @@
           title="Opacity"
           field="opacity"
           units="%"
-          min="0"
-          max="100"
+          :min="0"
+          :max="100"
           :shadow="shadow"
         />
 
