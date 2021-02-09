@@ -17,6 +17,17 @@
       >
         {{ link }}
       </v-btn>
+      <v-btn 
+        icon
+        rounded
+        color="white"
+        href="https://github.com/jcz530/shadows"
+        rel="noopener"
+        target="_blank"
+        class="my-2 mx-3"
+      >
+        <IconGithub style="height: 2em; width: 2em;" class='white--textx' />
+      </v-btn>
       <v-btn
         color="white"
         text
@@ -38,7 +49,12 @@
   </v-footer>
 </template>
 <script>
+import IconGithub from '@/assets/icons/github.svg?inline'
+
 export default {
+  components: {
+    IconGithub,
+  },
   data() {
     return {
       links: [],
