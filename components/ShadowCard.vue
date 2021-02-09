@@ -8,7 +8,7 @@
       class="" 
     >
       <div class="mb-3 pt-0">
-        <v-card-title>Elevation {{elevation.z}}</v-card-title>
+        <v-card-title>{{elevation.title}}</v-card-title>
         <v-card-text></v-card-text>
         <v-card-actions>
           <v-btn 

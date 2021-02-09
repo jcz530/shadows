@@ -167,13 +167,38 @@ export const tailwind = () => {
         sm: {
             z: 1,
             title: "Small Shadow",
-            class: "shadow-sm",
-            css: "box-shadow:0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12)",
+            class: "tw-shadow-sm",
+            css: "box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05)",
         },
         default: {
             z: 2,
-            class: "mdc-elevation--z2",
-            css: "box-shadow:0 2px 1px -1px rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 1px 3px 0 rgba(0,0,0,.12)",
+            title: "Shadow",
+            class: "tw-shadow",
+            css: "box-shadow:0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06)",
+        },
+        md: {
+            z: 3,
+            title: "Medium Shadow",
+            class: "tw-shadow-md",
+            css: "box-shadow:0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06)",
+        },
+        lg: {
+            z: 4,
+            title: "Large Shadow",
+            class: "tw-shadow-lg",
+            css: "box-shadow:0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05)",
+        },
+        xl: {
+            z: 5,
+            title: "Extra Large Shadow",
+            class: "tw-shadow-xl",
+            css: "box-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04)",
+        },
+        xxl: {
+            z: 6,
+            title: "2xl Shadow",
+            class: "tw-shadow-2xl",
+            css: "box-shadow:0 25px 50px -12px rgba(0,0,0,0.25)",
         },
         
       }
