@@ -37,7 +37,7 @@
         target="_blank"
         rel="noopener"
       >
-        Built by JOE
+        Built by <img class='d-inline ml-1' style="height: 1em" src="https://joeczubiak.com/images/joe-czubiak-logo.svg" width="35" height="14" alt="Joe Czubiak logo" />
       </v-btn>
       <v-col
         class="indigo py-4 text-center white--text"
