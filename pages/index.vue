@@ -23,13 +23,44 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: 'It\'s a better CSS Box-Shadow Generator. Generate multi-layered CSS box shadows. It has presets for Material Design and TailwindCSS shadows.'
+          content: this.description
         }
-      ]
+      ],
+      script: [{ type: 'application/ld+json', json: this.structuredData }]
     }
   },
   data() {
     return {
+      description: "It\'s a better CSS Box-Shadow Generator. Generate multi-layered CSS box shadows. It has presets for Material Design and TailwindCSS shadows.",
+      structuredData: {
+          "@context": "https://schema.org/",
+          "@type": "WebSite",
+          "url": "https://shadows.joeczubiak.com/",
+          "image": {
+              "@type": "ImageObject",
+              "url": "https://shadows.joeczubiak.com/shadows-social-image.png",
+              "width": 1000,
+              "height": 523
+          },
+          "publisher": {
+              "@type": "Organization",
+              "name": "Joe Czubiak",
+              "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://joeczubiak.com/images/joe-czubiak-logo.png",
+                  "width": 60,
+                  "height": 60
+              }
+          },
+          "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://shadows.joeczubiak.com"
+          },
+          "sameAs": [
+            "https://github.com/jcz530/shadows"
+          ],
+          "description": this.description,
+      }
     }
   },
   computed: {
