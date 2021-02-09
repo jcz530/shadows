@@ -22,6 +22,9 @@
         text
         rounded
         class="my-2"
+        href="https://joeczubiak.com?ref=shadows"
+        target="_blank"
+        rel="noopener"
       >
         Built by JOE
       </v-btn>
@@ -34,3 +37,12 @@
     </v-row>
   </v-footer>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      links: [],
+    }
+  }
+}
+</script>
