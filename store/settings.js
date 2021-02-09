@@ -9,8 +9,8 @@ export const state = () => ({
       items: 3,
     },
     box: {
-      height: 5,
-      width: 5,
+      height: 28,
+      width: 21,
       borderRadius: 0.75,
       bg: {
         color: "#ffffff",
