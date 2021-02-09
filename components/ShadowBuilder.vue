@@ -82,14 +82,14 @@
             <ShadowBuilderInputRow :shadow="shadow"/>
            
           </div>
-<!-- class=" py-4x px-4x rounded mt-8 mdc-elevation--z1 border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline" -->
+
           <v-btn 
             color="indigo"
             elevation="1"
             @click="addNew"
             dark
           >
-            Add New
+            Add Shadow
           </v-btn>
           <v-btn 
             color="red"
@@ -106,32 +106,7 @@
       </v-tab-item>
     </v-tabs-items>
     </v-card>
-
-
-
-
-      <!-- <div class="bg-white flex-grow h-35 border border-solid border-indigo-600 rounded p-10">
-        <div 
-          v-for="shadow in shadows" 
-          v-bind:key="shadow.id"
-        >
-          <ShadowBuilderInputRow :shadow="shadow"/>
-        </div>
-
-        <button 
-          class=" py-4x px-4x rounded mt-8 mdc-elevation--z1 border border-indigo-500 bg-indigo-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-indigo-600 focus:outline-none focus:shadow-outline"
-          @click="addNew"
-        >
-          Add New
-        </button>
-        <button 
-          class=" py-4x px-4x rounded mt-8 mdc-elevation--z1 border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline"
-          @click="clear"
-        >
-          Clear
-        </button>
-      </div> -->
-    </v-container>
+  </v-container>
 </template>
 
 <script>
@@ -142,16 +117,6 @@ export default {
     return {
       tab: null,
       tabs: ['Shadows', 'Settings'],
-     css: {
-        
-        input: {
-          container: "w-1/12 mx-4",
-          label: "block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2",
-          input: "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500",
-          range: "w-full  py-1",
-        },
-        
-      },
     }
   },
   computed: {
