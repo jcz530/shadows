@@ -32,7 +32,7 @@
         class="indigo py-4 text-center white--text"
         cols="12"
       >
-        {{ new Date().getFullYear() }} — <strong>Shadows</strong>
+        {{ new Date().getFullYear() }} — <strong>Shadows: A CSS Box Shadow Generator</strong>
       </v-col>
     </v-row>
   </v-footer>
