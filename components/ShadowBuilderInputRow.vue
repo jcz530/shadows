@@ -10,25 +10,32 @@
           align='center'
           style="max-width: 61px"
         >
-          <v-btn
-            color="primary"
-            elevation="2"
-            icon
-            @click='toggleShadowVisibility' 
-          >
-            <IconLightBulb 
-              v-if="shadow.visible"
-              class="fill-current" 
-              :class="visibilityIconClass"
-              style="width: 2em; height: 2em" 
-            />
-            <IconLightBulbOff
-              v-else
-              class="fill-current" 
-              :class="visibilityIconClass"
-              style="width: 2em; height: 2em;" 
-            />
-          </v-btn>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              elevation="2"
+              icon
+              @click='toggleShadowVisibility' 
+              v-bind="attrs"
+              v-on="on"
+            >
+              <IconLightBulb 
+                v-if="shadow.visible"
+                class="fill-current" 
+                :class="visibilityIconClass"
+                style="width: 2em; height: 2em" 
+              />
+              <IconLightBulbOff
+                v-else
+                class="fill-current" 
+                :class="visibilityIconClass"
+                style="width: 2em; height: 2em;" 
+              />
+            </v-btn>
+            </template>
+            <span>Toggle shadow visibility</span>
+          </v-tooltip>
         </v-col>
 
         <SliderGroup 
@@ -94,29 +101,43 @@
           align-self="center"
           align='center'
         >
-          <v-btn
-              color="primary"
-              elevation="2"
-              icon
-              @click='duplicateShadow' 
-            >
-            <IconDuplicate
-              class='fill-current indigo--text'
-              style="height: 1em"
-            /> 
-          </v-btn>
-
-          <v-btn
-              color="primary"
-              elevation="2"
-              icon
-              @click='deleteShadow' 
-            >
-            <IconTrashCan 
-              class='fill-current red--text text--lighten-1'
-              style="height: 1em"
-            />
-          </v-btn>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                color="primary"
+                elevation="2"
+                icon
+                @click='duplicateShadow' 
+                v-bind="attrs"
+                v-on="on"
+              >
+              <IconDuplicate
+                class='fill-current indigo--text'
+                style="height: 1em"
+              /> 
+            </v-btn>
+            </template>
+            <span>Duplicate</span>
+          </v-tooltip>
+          
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+            <v-btn
+                color="primary"
+                elevation="2"
+                icon
+                @click='deleteShadow' 
+                v-bind="attrs"
+                v-on="on"
+              >
+              <IconTrashCan 
+                class='fill-current red--text text--lighten-1'
+                style="height: 1em"
+              />
+            </v-btn>
+            </template>
+            <span>Delete</span>
+          </v-tooltip>
         </v-col>
 
       </v-row>
