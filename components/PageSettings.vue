@@ -1,10 +1,11 @@
 <template>
-  <v-row class='mx-8'>
+  <v-row class='mx-8 mb-4'>
     <v-col class="">
       <p class='overline'>Page</p>
       
       <label
         for="bg-color"
+        class="theme--light v-label"
         >
         Background Color
       </label>
@@ -17,7 +18,7 @@
       />
       <br />
 
-      View 
+      <label class="theme--light v-label">View </label>
       <v-btn-toggle v-model="viewType">
         <v-btn 
           value="uniform"
@@ -55,6 +56,7 @@
         
       <label
       for="bg-color"
+      class="theme--light v-label"
       >
         Background Color
       </label>
