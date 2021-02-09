@@ -18,24 +18,21 @@
       <br />
 
       View 
-        <v-btn-toggle v-model="toggle_exclusive">
-          <v-btn 
-            @click="setType('uniform')"
-          >
-            <v-icon color="indigo">mdi-view-grid</v-icon>
-          </v-btn>
+      <v-btn-toggle v-model="viewType">
+        <v-btn 
+          value="uniform"
+          @click="setType('uniform')"
+        >
+          <v-icon color="indigo">mdi-view-grid</v-icon>
+        </v-btn>
 
-          <v-btn 
-            @click="setType('varied')"
-            
-          >
-            <IconVariedBoxes class="indigo--text" />
-          </v-btn>
-
-          <!-- <v-btn>
-            <v-icon></v-icon>
-          </v-btn> -->
-        </v-btn-toggle>
+        <v-btn 
+          value="varied"
+          @click="setType('varied')"
+        >
+          <IconVariedBoxes class="indigo--text" />
+        </v-btn>
+      </v-btn-toggle>
 
       <v-slider
         hint=""
