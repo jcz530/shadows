@@ -1,13 +1,13 @@
 <template>
   <div 
-    class="container mx-auto mb-10"
+    class="container px-0 mx-auto mb-10"
   >
+  <h1 class='h1 text-center mb-8'>CSS Box-Shadow Generator</h1>
     <BuilderCard />
     <ShadowPreview />
     <!-- <CSSValueCard /> -->
     <a id="presets"></a>
     <ExampleShadows />
-
   </div>
 </template>
 

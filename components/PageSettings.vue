@@ -1,6 +1,6 @@
 <template>
   <v-row class='mx-8 mb-4'>
-    <v-col class="">
+    <v-col cols="12" md="6" class="">
       <p class='overline'>Page</p>
       
       <label
@@ -15,11 +15,12 @@
         v-model="bg.color"
         type="color"
         @input="backgroundChange"
+        class="mb-3"
       />
       <br />
 
       <label class="theme--light v-label">View </label>
-      <v-btn-toggle v-model="viewType">
+      <v-btn-toggle v-model="viewType" class="mb-3">
         <v-btn 
           value="uniform"
           @click="setType('uniform')"
@@ -48,10 +49,15 @@
         track-color="indigo lighten-4"
         v-model="gridItems"
         step="1"
+        class="mb-3"
       ></v-slider>
     </v-col>
+    
+    <v-col cols="12" class="d-md-none">
+      <v-divider></v-divider>
+    </v-col>
 
-    <v-col>
+    <v-col cols="12" md="6">
       <p class='overline'>Preview Cards</p>
         
       <label
@@ -64,7 +70,7 @@
         name="bg-color"
         id="bg-color"
         v-model="boxColor"
-        class="" 
+        class="mb-3" 
         type="color"
       />
       <v-slider
@@ -79,6 +85,7 @@
         track-color="indigo lighten-4"
         v-model="radius"
         step="0.01"
+        class="mb-3"
       ></v-slider>
 
       <v-slider
@@ -94,6 +101,7 @@
         track-color="indigo lighten-4"
         v-model="boxHeight"
         step="0.01"
+        class="mb-3"
       ></v-slider>
 
       <v-slider
@@ -109,6 +117,7 @@
         track-color="indigo lighten-4"
         v-model="boxWidth"
         step="0.01"
+        class="mb-3"
       ></v-slider>
 
 

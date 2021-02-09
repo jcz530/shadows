@@ -11,7 +11,7 @@
         v-bind:key="i"
       >
         <div 
-          :style="`${styles}width:${size.width}rem;height:${size.height}rem;`"
+          :style="`${styles}width:${size.width}rem;height:${size.height}rem; max-width:100%;`"
           class="bg-white"
         >
           <div class="mb-3 pt-0">

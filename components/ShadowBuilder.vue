@@ -2,6 +2,8 @@
   <div>
     <v-row
       no-gutters
+      class="flex-nowrap"
+      style="overflow: scroll"
     >
       <v-col 
         style="max-width: 61px"
@@ -65,7 +67,7 @@
       elevation="1"
       @click="addNew"
       dark
-      class='mx-2'
+      class='mx-2 mt-3'
     >
       Add Shadow
     </v-btn>
@@ -74,7 +76,7 @@
       elevation="1"
       @click="clear"
       dark
-      class='mx-2'
+      class='mx-2 mt-3'
     >
       Clear
     </v-btn>
@@ -84,7 +86,7 @@
       elevation="1"
       @click="copyCSS"
       dark
-      class='mx-2'
+      class='mx-2 mt-3'
     >
       Copy CSS
     </v-btn>
@@ -118,3 +120,15 @@ export default {
   },
 }
 </script>
+<style scoped>
+  @media (max-width: 768px) {
+    .overline {
+      font-size: 0.6rem!important;
+    }
+  }
+  @media (max-width: 600px) {
+    .overline {
+      font-size: 0.52rem!important;
+    }
+  }
+</style>

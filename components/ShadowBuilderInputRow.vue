@@ -4,6 +4,8 @@
       elevation="0"
     >
       <v-row
+        class="flex-nowrap"
+        style="overflow: scroll"
       >
         <v-col
           align-self="center"
