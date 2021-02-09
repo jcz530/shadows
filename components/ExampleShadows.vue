@@ -64,18 +64,7 @@ export default {
       tabs: [
         'Material Design',
         'Tailwind',
-      ],
-      mdcElevations: {
-      
-      },
-      tailwindShadows: [
-        "shadow-sm",
-        "shadow",
-        "shadow-md",
-        "shadow-lg",
-        "shadow-xl",
-        "shadow-2xl",
-      ]      
+      ], 
     }
   },
   computed: {
@@ -86,15 +75,6 @@ export default {
       return tailwind().elevations
     }
 
-  },
-  methods: {
-    mdcElevation(n) {
-      return "mdc-elevation--z"+n;
-    },
-    
-  },
-  mounted() {
-    
   },
 }
 </script>
