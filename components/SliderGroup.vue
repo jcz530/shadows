@@ -2,7 +2,8 @@
     <v-col
         align-self="center"
         align='center'
-        >
+
+    >
         <v-icon
             @click="decrementField()"
         >
@@ -22,6 +23,7 @@
             track-color="indigo"
             thumb-label
             dense
+            :vertical="isMobile"
             hide-details
             v-model="fieldValue"
         ></v-slider>
@@ -51,6 +53,12 @@ export default {
         this.$store.commit('builder/updateField', {shadow:this.shadow, value:value, field:this.field})
       }
     },
+
+    isMobile() {
+        console.log("screen")
+        console.log(screen)
+        return screen.width <= 760
+    },
   },
   methods: {
     incrementField() {
@@ -59,7 +67,8 @@ export default {
     
     decrementField() {
       this.$store.commit('builder/updateField', {shadow:this.shadow, value:this.shadow[this.field] - 1, field:this.field})
-    }
+    },
+
   },
 
 }
