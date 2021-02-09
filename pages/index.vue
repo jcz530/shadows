@@ -2,22 +2,17 @@
   <div 
     class="container mx-auto mb-10"
   >
-    <!-- <div
-    class="w-full bg-gradient-to-r from-indigo-700 to-indigo-500 mb-8 px-8"
-    >
-      <h1 class='text-4xl text-white'>Shadows: A CSS Box-Shadow Generator</h1>
-    </div> -->
-    <ShadowBuilder />
+    <BuilderCard />
     <ShadowPreview />
-    <CSSValueCard />
-   
+    <!-- <CSSValueCard /> -->
+    <a id="presets"></a>
     <ExampleShadows />
 
   </div>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import { hexToRgba } from '../utils/colors'
 
 export default {
@@ -28,7 +23,7 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: 'Generate multi layered CSS box shadows.'
+          content: 'It\'s a better CSS Box-Shadow Generator. Generate multi-layered CSS box shadows. It has presets for Material Design and TailwindCSS shadows.'
         }
       ]
     }
@@ -49,7 +44,7 @@ export default {
   methods: {
   },
   mounted() {
-    // this.setBackground('#ff44ff')
+
   },
 }
 </script>

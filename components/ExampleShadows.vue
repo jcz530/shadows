@@ -1,12 +1,16 @@
 <template>
   <div>
-    <v-card>
+    <v-card color="indigo" dark>
+      <v-card-title
+        dark
+      >
+        Presets
+      </v-card-title>
       <v-tabs
         v-model="tab"
         align-with-title
-        background-color="indigo"
+        background-color="indigo darken-1"
         dark
-        style="margin-bottom: 2em"
       >
         <v-tabs-slider color="indigo lighten-4"></v-tabs-slider>
 
@@ -21,7 +25,7 @@
     
     <v-tabs-items v-model="tab">
       <v-tab-item
-        class='pb-10'
+        class='pb-10 pt-8'
       >
         <v-row class="mx-4">
           <v-col 
@@ -36,7 +40,7 @@
       </v-tab-item>
 
       <v-tab-item
-        class='pb-10'
+        class='pb-10 pt-8'
       >
         <v-row class="mx-4">
           <v-col 

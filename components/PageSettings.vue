@@ -68,9 +68,9 @@
         type="color"
       />
       <v-slider
-        hint="Radius"
-        label="Border Radius"
-        max="10"
+        hint=""
+        label="Border Radius (rem)"
+        max="15"
         min="0"
         thumb-label
         dense
@@ -83,7 +83,7 @@
 
       <v-slider
         hint=""
-        label="Height"
+        label="Height (vh)"
         max="100"
         min="0"
         thumb-label
@@ -98,7 +98,7 @@
 
       <v-slider
         hint=""
-        label="Width"
+        label="Width (vw)"
         max="100"
         min="0"
         thumb-label
