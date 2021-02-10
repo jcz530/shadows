@@ -53,6 +53,11 @@ export default {
     disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...).
   },
 
+  vuetify: {
+    customVariables: ['~/assets/sass/variables.scss'],
+    treeShake: true
+  },
+
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
   ],
