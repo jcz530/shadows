@@ -1,5 +1,5 @@
 <template>
-  <v-card color="indigo">
+  <v-card color="indigo" elevation="0" outlined class="mb-16">
     <v-card-title
       class="white--text"
     >

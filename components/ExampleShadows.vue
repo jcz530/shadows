@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-card color="indigo" dark>
+    <v-card 
+      color="indigo" 
+      dark 
+      elevation="0" 
+      outlined
+      shaped
+    >
       <v-card-title
         dark
       >
