@@ -48,7 +48,7 @@ var textArea = document.createElement("textarea");
   try {
     var successful = document.execCommand('copy');
     var msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Copying text command was ' + msg);
+    // console.log('Copying text command was ' + msg);
   } catch (err) {
     console.log('Oops, unable to copy');
   }

@@ -68,9 +68,6 @@ export default {
       copy(this.elevation.css)
     },
     usePreset() {
-      console.log("use preset called")
-      console.log(parseShadow(this.elevation.css))
-      console.log("parsed")
       this.$store.commit('builder/usePreset', parseShadow(this.elevation.css))
     },
   },
