@@ -4,11 +4,11 @@
   >
     <div class='prose'>
       <h1 class='h1 text-center mb-8 blue-grey--text text--darken-4' style="font-size: 3rem;">CSS Box-Shadow Generator</h1>
-      <p class='text-h4 blue-grey--text text--darken-3'>The key to a good box shadow is <strong>opacity</strong> and <strong>layers</strong></p>
+      <p class='text-h4 blue-grey--text text--darken-3'>The key to a good box-shadow is <strong>opacity</strong> and <strong>layers</strong></p>
       <p class='text-body-1'>I built this to be a better box-shadow generator. One that allows you to visualize how you'll use the shadow in your UI. This is why there are lots of settings and presets to help you.</p>
       <!-- <p class='text-subtitle-1'>page background • card color • card shapes • view a grid or variety of shapes</p> -->
       <p class='text-body-1'>This CSS generator allows you to specify multiple shadows and customize your viewing options. Customize the page background, the preview card colors, and view a grid of cards or a variety of 3 sizes.</p>
-      <p class='text-body-2'>This project is open source. Please submit issues through GitHub.</p>
+      <p class='text-body-2'>This project is open-source. Please submit issues through GitHub.</p>
       <v-divider class="mb-4 mt-8"></v-divider>
       <p class="overline text-center">Preview your box shadow</p>
     </div>
