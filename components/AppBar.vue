@@ -8,7 +8,7 @@
     class="px-md-14 px-lg-14"
     >
     <v-app-bar-title>
-      Shadows
+      <img src="@/assets/shadows-logo.svg" width="131" height="22" alt="Shadows logo" />
     </v-app-bar-title>
     
     <v-spacer></v-spacer>
