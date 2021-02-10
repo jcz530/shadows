@@ -49,7 +49,7 @@ export default {
     id: process.env.gtag,
     config: {
     },
-    debug: true, // enable to track in dev mode
+    debug: false, // enable to track in dev mode
     disableAutoPageTrack: false, // disable if you don't want to track each page route with router.afterEach(...).
   },
 
