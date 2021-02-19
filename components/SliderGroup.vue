@@ -14,6 +14,7 @@
       :vertical="isMobile"
       hide-details
       v-model="fieldValue"
+      class="slider"
     ></v-slider>
   </v-col>
 </template>
@@ -72,5 +73,8 @@ export default {
 .slider-value {
   min-width: 3em;
   display: inline-block;
+}
+.slider {
+  touch-action: pan-x;
 }
 </style>
