@@ -1,7 +1,7 @@
 <template>
   <v-col align-self="center" align="center">
     <v-icon @click="decrementField()"> mdi-minus </v-icon>
-    {{ fieldValue }}{{ units }}
+    <span class="slider-value">{{ fieldValue }}{{ units }}</span>
     <v-icon @click="incrementField()"> mdi-plus </v-icon>
     <v-slider
       :hint="title"
@@ -68,3 +68,9 @@ export default {
   },
 }
 </script>
+<style scoped>
+.slider-value {
+  min-width: 3em;
+  display: inline-block;
+}
+</style>
