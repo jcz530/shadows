@@ -27,7 +27,7 @@ export default {
       { hid: 'twitter:creator', property:'twitter:creator', content: '@joeczubiak' },
       { hid: 'twitter:card', property:'twitter:card', content: 'summary_large_image' },
       { hid: 'twitter:image', property:'twitter:image', content: 'https://shadows.joeczubiak.com/shadows-social-image.png' },
-      
+
       { hid: 'twitter:url', property:'twitter:url', content: 'https://shadows.joeczubiak.com' },
 
     ],
@@ -67,8 +67,6 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/tailwindcss
-    // '@nuxtjs/tailwindcss',
     '@nuxtjs/svg',
     '@nuxtjs/vuetify',
   ],
