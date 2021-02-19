@@ -2,7 +2,7 @@
   <v-row class='mx-8 mb-4'>
     <v-col cols="12" md="6" class="">
       <p class='overline'>Page</p>
-      
+
       <label
         for="bg-color"
         class="theme--light v-label"
@@ -21,14 +21,14 @@
 
       <label class="theme--light v-label">View </label>
       <v-btn-toggle v-model="viewType" class="mb-3">
-        <v-btn 
+        <v-btn
           value="uniform"
           @click="setType('uniform')"
         >
           <v-icon color="indigo">mdi-view-grid</v-icon>
         </v-btn>
 
-        <v-btn 
+        <v-btn
           value="varied"
           @click="setType('varied')"
         >
@@ -52,14 +52,14 @@
         class="mb-3"
       ></v-slider>
     </v-col>
-    
+
     <v-col cols="12" class="d-md-none">
       <v-divider></v-divider>
     </v-col>
 
     <v-col cols="12" md="6">
       <p class='overline'>Preview Cards</p>
-        
+
       <label
       for="bg-color"
       class="theme--light v-label"
@@ -70,7 +70,7 @@
         name="bg-color"
         id="bg-color"
         v-model="boxColor"
-        class="mb-3" 
+        class="mb-3"
         type="color"
       />
       <v-slider
@@ -186,7 +186,7 @@ export default {
         this.$store.commit('settings/updateGridItems', value)
       }
     },
-    
+
     viewType() {
       return this.$store.state.settings.type
     },
@@ -213,15 +213,14 @@ export default {
       setBackground: 'settings/setBackground',
       setType: 'settings/setType'
     }),
-    
+
     backgroundChange(e) {
       this.setBackground(e.target.value)
     },
-    
+
     boxBackgroundChange(e) {
       this.setBoxBackground(e.target.value)
     },
-    
 
   },
   mounted() {

@@ -1,19 +1,24 @@
 <template>
-  <v-app-bar 
+  <v-app-bar
     color="indigo"
     dense
     dark
     app
     elevate-on-scroll
     class="px-md-14 px-lg-14"
-    >
+  >
     <v-app-bar-title>
-      <img src="@/assets/shadows-logo.svg" width="131" height="22" alt="Shadows logo" />
+      <img
+        src="@/assets/shadows-logo.svg"
+        width="131"
+        height="22"
+        alt="Shadows logo"
+      />
     </v-app-bar-title>
-    
+
     <v-spacer></v-spacer>
     <!-- <template v-slot:extension> -->
-      <!-- <v-btn
+    <!-- <v-btn
       color="white"
       text
       rounded
@@ -33,14 +38,14 @@
       >
         Presets
       </v-btn> -->
-      <v-btn 
-        icon
-        href="https://github.com/jcz530/shadows"
-        rel="noopener"
-        target="_blank"
-      >
-        <IconGithub style="height: 2em; width: 2em;" class='text--white' />
-      </v-btn>
+    <v-btn
+      icon
+      href="https://github.com/jcz530/shadows"
+      rel="noopener"
+      target="_blank"
+    >
+      <IconGithub style="height: 2em; width: 2em" class="text--white" />
+    </v-btn>
     <!-- </template> -->
   </v-app-bar>
 </template>

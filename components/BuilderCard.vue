@@ -1,10 +1,6 @@
 <template>
   <v-card color="indigo" elevation="0" outlined class="mb-16">
-    <v-card-title
-      class="white--text"
-    >
-      Shadow Builder
-    </v-card-title>
+    <v-card-title class="white--text"> Shadow Builder </v-card-title>
 
     <v-tabs
       v-model="tab"
@@ -14,29 +10,23 @@
     >
       <v-tabs-slider color="indigo lighten-4"></v-tabs-slider>
 
-      <v-tab
-        v-for="item in tabs"
-        :key="item"
-      >
+      <v-tab v-for="item in tabs" :key="item">
         {{ item }}
       </v-tab>
     </v-tabs>
-  
+
     <v-tabs-items v-model="tab">
-      <v-tab-item
-        class="mx-0 mx-sm-4 mb-4 mt-4"
-      >
+      <v-tab-item class="mx-0 mx-sm-4 mb-4 mt-4">
         <ShadowBuilder />
       </v-tab-item>
 
       <v-tab-item class="mt-4">
         <PageSettings />
       </v-tab-item>
-      
+
       <v-tab-item class="mb-4 mt-4">
         <CSS />
       </v-tab-item>
-
     </v-tabs-items>
   </v-card>
 </template>

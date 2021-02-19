@@ -1,46 +1,37 @@
 <template>
   <v-container>
-    <v-card
-      elevation="0"
-    >
-      <v-row
-        class="flex-nowrap"
-        style="overflow: scroll"
-      >
-        <v-col
-          align-self="center"
-          align='center'
-          style="max-width: 61px"
-        >
+    <v-card elevation="0">
+      <v-row class="flex-nowrap" style="overflow: scroll">
+        <v-col align-self="center" align="center" style="max-width: 61px">
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              elevation="2"
-              icon
-              @click='toggleShadowVisibility' 
-              v-bind="attrs"
-              v-on="on"
-            >
-              <IconLightBulb 
-                v-if="shadow.visible"
-                class="fill-current" 
-                :class="visibilityIconClass"
-                style="width: 2em; height: 2em" 
-              />
-              <IconLightBulbOff
-                v-else
-                class="fill-current" 
-                :class="visibilityIconClass"
-                style="width: 2em; height: 2em;" 
-              />
-            </v-btn>
+              <v-btn
+                color="primary"
+                elevation="2"
+                icon
+                @click="toggleShadowVisibility"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <IconLightBulb
+                  v-if="shadow.visible"
+                  class="fill-current"
+                  :class="visibilityIconClass"
+                  style="width: 2em; height: 2em"
+                />
+                <IconLightBulbOff
+                  v-else
+                  class="fill-current"
+                  :class="visibilityIconClass"
+                  style="width: 2em; height: 2em"
+                />
+              </v-btn>
             </template>
             <span>Toggle shadow visibility</span>
           </v-tooltip>
         </v-col>
 
-        <SliderGroup 
+        <SliderGroup
           title="Angle"
           field="angle"
           units="°"
@@ -49,7 +40,7 @@
           :shadow="shadow"
         />
 
-        <SliderGroup 
+        <SliderGroup
           title="Distance"
           field="distance"
           units="px"
@@ -58,7 +49,7 @@
           :shadow="shadow"
         />
 
-        <SliderGroup 
+        <SliderGroup
           title="Blur"
           field="blur"
           units="px"
@@ -67,7 +58,7 @@
           :shadow="shadow"
         />
 
-        <SliderGroup 
+        <SliderGroup
           title="Spread"
           field="spread"
           units="px"
@@ -76,20 +67,11 @@
           :shadow="shadow"
         />
 
-        <v-col
-          align-self="center"
-          align='center'
-          style="max-width: 61px"
-        >
-          <input
-            name="color"
-            id="color"
-            v-model="color"
-            type="color"
-          />
+        <v-col align-self="center" align="center" style="max-width: 61px">
+          <input name="color" id="color" v-model="color" type="color" />
         </v-col>
-      
-        <SliderGroup 
+
+        <SliderGroup
           title="Opacity"
           field="opacity"
           units="%"
@@ -98,53 +80,48 @@
           :shadow="shadow"
         />
 
-
-        <v-col
-          align-self="center"
-          align='center'
-        >
+        <v-col align-self="center" align="center">
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-            <v-btn
+              <v-btn
                 color="primary"
                 elevation="2"
                 icon
-                @click='duplicateShadow' 
+                @click="duplicateShadow"
                 v-bind="attrs"
                 v-on="on"
               >
-              <IconDuplicate
-                class='fill-current indigo--text'
-                style="height: 1em"
-              /> 
-            </v-btn>
+                <IconDuplicate
+                  class="fill-current indigo--text"
+                  style="height: 1em"
+                />
+              </v-btn>
             </template>
             <span>Duplicate</span>
           </v-tooltip>
-          
+
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
-            <v-btn
+              <v-btn
                 color="primary"
                 elevation="2"
                 icon
-                @click='deleteShadow' 
+                @click="deleteShadow"
                 v-bind="attrs"
                 v-on="on"
               >
-              <IconTrashCan 
-                class='fill-current red--text text--lighten-1'
-                style="height: 1em"
-              />
-            </v-btn>
+                <IconTrashCan
+                  class="fill-current red--text text--lighten-1"
+                  style="height: 1em"
+                />
+              </v-btn>
             </template>
             <span>Delete</span>
           </v-tooltip>
         </v-col>
-
       </v-row>
     </v-card>
-</v-container>
+  </v-container>
 </template>
 
 <script>
@@ -163,27 +140,28 @@ export default {
     IconDuplicate,
   },
   props: {
-   shadow: Object,
+    shadow: Object,
   },
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
     visibilityIconClass() {
-      if (this.shadow.visible)
-        return "indigo--text";
-      else 
-        return "indigo--text text--lighten-2"
+      if (this.shadow.visible) return 'indigo--text'
+      else return 'indigo--text text--lighten-2'
     },
 
     color: {
-      get () {
+      get() {
         return this.shadow.color
       },
-      set (value) {
-        this.$store.commit('builder/updateField', {shadow:this.shadow, value:value, field:'color'})
-      }
+      set(value) {
+        this.$store.commit('builder/updateField', {
+          shadow: this.shadow,
+          value: value,
+          field: 'color',
+        })
+      },
     },
   },
   methods: {
@@ -206,10 +184,7 @@ export default {
     addNew() {
       this.addShadow()
     },
-
   },
-  mounted() {
-    
-  },
+  mounted() {},
 }
 </script>

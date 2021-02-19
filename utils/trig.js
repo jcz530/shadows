@@ -6,8 +6,8 @@ export const xAndYFromAngleDistance = (angle, distance) => {
   // this.x = Math.round(x);
   // this.y = Math.round(y);
   // this.calculateReverse();
-  return { 
-    x: Math.round(x), 
-    y: Math.round(y) 
+  return {
+    x: Math.round(x),
+    y: Math.round(y)
   }
 }

@@ -1,5 +1,5 @@
 export const copy = (text) => {
-var textArea = document.createElement("textarea");
+  var textArea = document.createElement("textarea");
 
   //
   // *** This styling is an extra step which is likely not required. ***

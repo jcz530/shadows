@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col 
+      <v-col
         class="text-center"
       >
         <p class='overline'>Your CSS</p>
@@ -11,7 +11,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col 
+      <v-col
         class="text-center"
       >
           <v-btn

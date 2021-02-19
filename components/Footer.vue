@@ -17,7 +17,7 @@
       >
         {{ link }}
       </v-btn>
-      <v-btn 
+      <v-btn
         icon
         rounded
         color="white"
