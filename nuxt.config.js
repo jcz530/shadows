@@ -81,7 +81,14 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      lang: 'en',
+      name: 'Shadows: CSS Box-Shadow Generator',
+      short_name: 'Shadows',
+      display: 'standalone',
+    },
+    meta: {
+      name: 'Shadows',
+      theme_color: '#3f51b5',
     }
   },
 
