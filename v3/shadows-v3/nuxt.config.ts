@@ -1,13 +1,26 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from "@tailwindcss/vite";
+import { defineNuxtConfig } from 'nuxt/config'
+
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   modules: [
-    '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@vueuse/nuxt'
   ],
   css: ['~/assets/css/tailwind.css'],
+  postcss: {
+    plugins: {
+      autoprefixer: {},
+    },
+  },
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
+  },
   head: {
     title: 'Shadows V3',
     meta: [

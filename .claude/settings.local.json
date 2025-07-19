@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(ls:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
