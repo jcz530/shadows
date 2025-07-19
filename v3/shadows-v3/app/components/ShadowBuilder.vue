@@ -45,7 +45,6 @@
 import { Plus, Copy, Trash2 } from 'lucide-vue-next'
 import { useShadowStore } from '~/stores/shadow'
 import { copyToClipboard } from '~/utils'
-import { useToast } from '@vueuse/core'
 
 const shadowStore = useShadowStore()
 
