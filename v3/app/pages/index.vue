@@ -4,7 +4,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '~/components/ui/tabs'
 import { Card } from '~/components/ui/card'
 import ShadowPreview from '~/components/ShadowPreview.vue'
 import ShadowBuilder from '~/components/ShadowBuilder.vue'
-import ShadowPresets from '~/components/ShadowPresets.vue'
+import PresetCard from '~/components/PresetCard.vue'
 import PageSettings from '~/components/PageSettings.vue'
 import CSSOutput from '~/components/CSSOutput.vue'
 
@@ -34,20 +34,31 @@ useHead({
 </script>
 
 <template>
-  <div class="container mx-auto px-4 py-8 max-w-7xl">
-    <!-- Header -->
-    <header class="text-center mb-12">
-      <div class="flex items-center justify-between mb-6">
-        <h1 class="text-4xl font-bold text-primary">Shadows V3</h1>
+  <div class="min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-primary px-6 py-4 shadow-lg">
+      <div class="container mx-auto max-w-7xl flex items-center justify-between">
+        <div class="flex items-center">
+          <img 
+            src="~/assets/shadows-logo.svg" 
+            alt="Shadows" 
+            class="h-8 w-auto"
+          />
+        </div>
         <a
           href="https://github.com/joeczubiak"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-muted-foreground hover:text-foreground"
+          class="text-primary-foreground hover:text-primary-foreground/80 transition-colors"
         >
           <Github class="w-6 h-6" />
         </a>
       </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+      <!-- Header -->
+      <header class="text-center mb-12">
       <h2 class="text-2xl font-semibold text-foreground mb-4">
         CSS Box-Shadow Generator
       </h2>
@@ -81,19 +92,14 @@ useHead({
         </div>
 
         <Tabs default-value="shadows" class="w-full">
-          <TabsList class="grid w-full grid-cols-4">
+          <TabsList class="grid w-full grid-cols-3">
             <TabsTrigger value="shadows">Shadows</TabsTrigger>
-            <TabsTrigger value="presets">Presets</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
             <TabsTrigger value="css">CSS</TabsTrigger>
           </TabsList>
 
           <TabsContent value="shadows" class="mt-6">
             <ShadowBuilder />
-          </TabsContent>
-
-          <TabsContent value="presets" class="mt-6">
-            <ShadowPresets />
           </TabsContent>
 
           <TabsContent value="settings" class="mt-6">
@@ -107,17 +113,23 @@ useHead({
       </Card>
     </section>
 
-    <!-- Footer -->
-    <footer class="text-center py-8 border-t">
-      <div class="flex items-center justify-center gap-4 text-muted-foreground">
-        <Github class="w-4 h-4" />
-        <span>Built by Joe Czubiak</span>
-        <span>•</span>
-        <span
-          >{{ new Date().getFullYear() }} - Shadows: A CSS Box Shadow
-          Generator</span
-        >
-      </div>
-    </footer>
+    <!-- Presets Section -->
+    <section class="mb-12">
+      <PresetCard />
+    </section>
+
+      <!-- Footer -->
+      <footer class="text-center py-8 border-t">
+        <div class="flex items-center justify-center gap-4 text-muted-foreground">
+          <Github class="w-4 h-4" />
+          <span>Built by Joe Czubiak</span>
+          <span>•</span>
+          <span
+            >{{ new Date().getFullYear() }} - Shadows: A CSS Box Shadow
+            Generator</span
+          >
+        </div>
+      </footer>
+    </div>
   </div>
 </template>
