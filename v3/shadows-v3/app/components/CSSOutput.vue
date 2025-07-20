@@ -1,3 +1,27 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Copy } from 'lucide-vue-next'
+import { useShadowStore } from '~/stores/shadow'
+import { copyToClipboard } from '~/utils'
+import { Button } from '~/components/ui/button'
+
+const shadowStore = useShadowStore()
+
+const standardCSS = computed(() => {
+  return shadowStore.cssShadow || 'box-shadow: none;'
+})
+
+const vendorPrefixCSS = computed(() => {
+  return shadowStore.cssWithVendorPrefixes || 'box-shadow: none;'
+})
+
+const copyCSS = async (css: string) => {
+  const success = await copyToClipboard(css)
+  if (success) {
+    console.log('CSS copied to clipboard!')
+  }
+}
+</script>
 <template>
   <div class="space-y-4">
     <div>
@@ -48,27 +72,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { computed } from 'vue'
-import { Copy } from 'lucide-vue-next'
-import { useShadowStore } from '~/stores/shadow'
-import { copyToClipboard } from '~/utils'
-
-const shadowStore = useShadowStore()
-
-const standardCSS = computed(() => {
-  return shadowStore.cssShadow || 'box-shadow: none;'
-})
-
-const vendorPrefixCSS = computed(() => {
-  return shadowStore.cssWithVendorPrefixes || 'box-shadow: none;'
-})
-
-const copyCSS = async (css: string) => {
-  const success = await copyToClipboard(css)
-  if (success) {
-    console.log('CSS copied to clipboard!')
-  }
-}
-</script>

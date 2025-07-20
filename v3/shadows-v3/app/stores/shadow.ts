@@ -48,11 +48,11 @@ export const useShadowStore = defineStore('shadow', {
 
   getters: {
     visibleShadows: (state) => state.shadows.filter(shadow => shadow.visible),
-    
+
     cssShadow: (state) => {
       const visibleShadows = state.shadows.filter(shadow => shadow.visible)
       if (visibleShadows.length === 0) return ''
-      
+
       let css = 'box-shadow: '
       visibleShadows.forEach((shadow, index) => {
         const xy = xAndYFromAngleDistance(shadow.angle, shadow.distance)
@@ -62,14 +62,14 @@ export const useShadowStore = defineStore('shadow', {
         }
       })
       css += ';'
-      
+
       return css
     },
 
     cssWithVendorPrefixes(): string {
       const baseCss = this.cssShadow
       if (!baseCss) return ''
-      
+
       return `${baseCss}\n-webkit-${baseCss}\n-moz-${baseCss}`
     }
   },
@@ -116,9 +116,10 @@ export const useShadowStore = defineStore('shadow', {
 
     updateShadowField(shadowId: number, field: keyof Shadow, value: any) {
       const shadow = this.shadows.find(s => s.id === shadowId)
+      console.log('value', value)
       if (shadow) {
         (shadow as any)[field] = value
-        
+
         // Update x,y coordinates when angle or distance changes
         if (field === 'angle' || field === 'distance') {
           const xy = xAndYFromAngleDistance(shadow.angle, shadow.distance)

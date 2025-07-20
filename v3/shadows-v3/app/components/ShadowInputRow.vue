@@ -1,3 +1,29 @@
+<script setup lang="ts">
+import { Copy, Trash2 } from 'lucide-vue-next'
+import type { Shadow } from '~/stores/shadow'
+import { useShadowStore } from '~/stores/shadow'
+import { Slider } from '~/components/ui/slider'
+import { Switch } from '~/components/ui/switch'
+import { Button } from '~/components/ui/button'
+
+interface ShadowInputRowProps {
+  shadow: Shadow
+}
+
+const props = defineProps<ShadowInputRowProps>()
+
+const emit = defineEmits<{
+  duplicate: []
+  delete: []
+}>()
+
+const shadowStore = useShadowStore()
+
+const updateField = (field: keyof Shadow, value: any) => {
+  shadowStore.updateShadowField(props.shadow.id, field, value)
+}
+</script>
+
 <template>
   <div class="grid grid-cols-8 gap-4 items-center p-4 border-b">
     <!-- On/Off Toggle -->
@@ -110,26 +136,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Copy, Trash2 } from 'lucide-vue-next'
-import type { Shadow } from '~/stores/shadow'
-import { useShadowStore } from '~/stores/shadow'
-
-interface ShadowInputRowProps {
-  shadow: Shadow
-}
-
-const props = defineProps<ShadowInputRowProps>()
-
-const emit = defineEmits<{
-  duplicate: []
-  delete: []
-}>()
-
-const shadowStore = useShadowStore()
-
-const updateField = (field: keyof Shadow, value: any) => {
-  shadowStore.updateShadowField(props.shadow.id, field, value)
-}
-</script>

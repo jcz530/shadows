@@ -1,3 +1,24 @@
+<script setup lang="ts">
+import { Plus, Copy, Trash2 } from 'lucide-vue-next'
+import { useShadowStore } from '~/stores/shadow'
+import { copyToClipboard } from '~/utils'
+import { Button } from '~/components/ui/button'
+import ShadowInputRow from '~/components/ShadowInputRow.vue'
+
+const shadowStore = useShadowStore()
+
+const copyCSS = async () => {
+  const css = shadowStore.cssWithVendorPrefixes
+  if (css) {
+    const success = await copyToClipboard(css)
+    if (success) {
+      // You could add a toast notification here
+      console.log('CSS copied to clipboard!')
+    }
+  }
+}
+</script>
+
 <template>
   <div class="space-y-4">
     <!-- Header row with labels -->
@@ -25,11 +46,11 @@
 
     <!-- Action buttons -->
     <div class="flex gap-3 pt-4">
-      <Button @click="shadowStore.addShadow()">
+      <Button @click="() => shadowStore.addShadow()">
         <Plus class="w-4 h-4 mr-2" />
         Add Shadow
       </Button>
-      <Button variant="destructive" @click="shadowStore.clearShadows()">
+      <Button variant="destructive" @click="() => shadowStore.clearShadows()">
         <Trash2 class="w-4 h-4 mr-2" />
         Clear
       </Button>
@@ -40,22 +61,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { Plus, Copy, Trash2 } from 'lucide-vue-next'
-import { useShadowStore } from '~/stores/shadow'
-import { copyToClipboard } from '~/utils'
-
-const shadowStore = useShadowStore()
-
-const copyCSS = async () => {
-  const css = shadowStore.cssWithVendorPrefixes
-  if (css) {
-    const success = await copyToClipboard(css)
-    if (success) {
-      // You could add a toast notification here
-      console.log('CSS copied to clipboard!')
-    }
-  }
-}
-</script>

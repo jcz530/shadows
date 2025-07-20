@@ -6,11 +6,16 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: [
-    '@pinia/nuxt',
-    '@vueuse/nuxt'
-  ],
+  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'shadcn-nuxt'],
   css: ['./assets/css/main.css'],
+  components: [
+    {
+      pathPrefix: false,
+    },
+  ],
+  imports: {
+    scan: false
+  },
   postcss: {
     plugins: {
       autoprefixer: {},
@@ -28,5 +33,5 @@ export default defineNuxtConfig({
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Modern CSS Box-Shadow Generator' }
     ]
-  }
+  },
 })
