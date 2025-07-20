@@ -20,7 +20,9 @@ const emit = defineEmits<{
 const shadowStore = useShadowStore()
 
 const updateField = (field: keyof Shadow, value: any) => {
-  shadowStore.updateShadowField(props.shadow.id, field, value)
+  // Extract single value from array if slider returns array
+  const singleValue = Array.isArray(value) ? value[0] : value
+  shadowStore.updateShadowField(props.shadow.id, field, singleValue)
 }
 </script>
 
@@ -39,7 +41,7 @@ const updateField = (field: keyof Shadow, value: any) => {
       <label class="text-xs font-medium text-muted-foreground">Angle</label>
       <div class="space-y-1">
         <Slider
-          :model-value="shadow.angle"
+          :model-value="[shadow.angle]"
           :min="0"
           :max="360"
           @update:model-value="updateField('angle', $event)"
@@ -53,7 +55,7 @@ const updateField = (field: keyof Shadow, value: any) => {
       <label class="text-xs font-medium text-muted-foreground">Distance</label>
       <div class="space-y-1">
         <Slider
-          :model-value="shadow.distance"
+          :model-value="[shadow.distance]"
           :min="0"
           :max="100"
           @update:model-value="updateField('distance', $event)"
@@ -67,7 +69,7 @@ const updateField = (field: keyof Shadow, value: any) => {
       <label class="text-xs font-medium text-muted-foreground">Blur</label>
       <div class="space-y-1">
         <Slider
-          :model-value="shadow.blur"
+          :model-value="[shadow.blur]"
           :min="0"
           :max="100"
           @update:model-value="updateField('blur', $event)"
@@ -81,7 +83,7 @@ const updateField = (field: keyof Shadow, value: any) => {
       <label class="text-xs font-medium text-muted-foreground">Spread</label>
       <div class="space-y-1">
         <Slider
-          :model-value="shadow.spread"
+          :model-value="[shadow.spread]"
           :min="-50"
           :max="50"
           @update:model-value="updateField('spread', $event)"
@@ -106,7 +108,7 @@ const updateField = (field: keyof Shadow, value: any) => {
       <label class="text-xs font-medium text-muted-foreground">Opacity</label>
       <div class="space-y-1">
         <Slider
-          :model-value="shadow.opacity"
+          :model-value="[shadow.opacity]"
           :min="0"
           :max="100"
           @update:model-value="updateField('opacity', $event)"
