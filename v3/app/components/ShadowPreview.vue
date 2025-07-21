@@ -46,7 +46,7 @@ const cardStyles = computed(() => {
   if (!props.settings) {
     return {
       backgroundColor: '#ffffff',
-      borderRadius: '8px',
+      borderRadius: '1rem',
       height: '120px',
       width: '200px',
     }
@@ -54,9 +54,9 @@ const cardStyles = computed(() => {
 
   return {
     backgroundColor: props.settings.previewCards.backgroundColor,
-    borderRadius: `${props.settings.previewCards.borderRadius}px`,
-    height: `${props.settings.previewCards.height}px`,
-    width: `${props.settings.previewCards.width}px`,
+    borderRadius: `${props.settings.previewCards.borderRadius}rem`,
+    height: `${props.settings.previewCards.height}vh`,
+    width: `${props.settings.previewCards.width}vw`,
   }
 })
 
@@ -73,28 +73,31 @@ const previewItems = computed(() => {
     return [
       { type: 'button', width: '100px', height: '40px' },
       { type: 'medium', width: '120px', height: '120px' },
-      { type: 'large', width: '160px', height: '160px' }
+      { type: 'large', width: '160px', height: '160px' },
     ]
   }
-  
+
   const count = props.settings?.numItems || 4
-  return Array.from({ length: count }, (_, i) => ({ type: 'standard', index: i }))
+  return Array.from({ length: count }, (_, i) => ({
+    type: 'standard',
+    index: i,
+  }))
 })
 
 const getItemStyles = (item: any) => {
   if (props.settings?.view === 'varied' && item.type) {
     return {
       backgroundColor: props.settings.previewCards.backgroundColor,
-      borderRadius: `${props.settings.previewCards.borderRadius}px`,
+      borderRadius: `${props.settings.previewCards.borderRadius}rem`,
       height: item.height,
       width: item.width,
-      boxShadow: shadowCSS.value
+      boxShadow: shadowCSS.value,
     }
   }
-  
+
   return {
     ...cardStyles.value,
-    boxShadow: shadowCSS.value
+    boxShadow: shadowCSS.value,
   }
 }
 </script>

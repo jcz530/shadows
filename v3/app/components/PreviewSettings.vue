@@ -18,8 +18,8 @@ const settings = reactive({
   previewCards: {
     backgroundColor: '#ffffff',
     borderRadius: 8,
-    height: 120,
-    width: 200,
+    height: 20,
+    width: 30,
   },
   view: 'grid', // 'grid' or 'varied'
   numItems: 4,
@@ -218,12 +218,12 @@ const toggleView = (view: 'grid' | 'varied') => {
                 :model-value="[settings.previewCards.borderRadius]"
                 @update:model-value="updateBorderRadius"
                 :min="0"
-                :max="20"
-                :step="1"
+                :max="15"
+                :step="0.01"
                 class="w-full"
               />
               <div class="text-xs text-muted-foreground">
-                {{ (settings.previewCards.borderRadius / 16).toFixed(2) }}rem
+                {{ settings.previewCards.borderRadius.toFixed(2) }}rem
               </div>
             </div>
 
@@ -233,19 +233,14 @@ const toggleView = (view: 'grid' | 'varied') => {
               <Slider
                 :model-value="[settings.previewCards.height]"
                 @update:model-value="updateHeight"
-                :min="50"
-                :max="300"
-                :step="10"
+                :min="0"
+                :max="100"
+                :step="0.01"
                 class="w-full"
               />
-              <!--              <div class="text-xs text-muted-foreground">-->
-              <!--                {{-->
-              <!--                  (-->
-              <!--                    (settings.previewCards.height / window.innerHeight) *-->
-              <!--                    100-->
-              <!--                  ).toFixed(1)-->
-              <!--                }}vh-->
-              <!--              </div>-->
+              <div class="text-xs text-muted-foreground">
+                {{ settings.previewCards.height }}vh
+              </div>
             </div>
 
             <!-- Width -->
@@ -254,11 +249,14 @@ const toggleView = (view: 'grid' | 'varied') => {
               <Slider
                 :model-value="[settings.previewCards.width]"
                 @update:model-value="updateWidth"
-                :min="100"
-                :max="400"
-                :step="10"
+                :min="0"
+                :max="100"
+                :step="1"
                 class="w-full"
               />
+              <div class="text-xs text-muted-foreground">
+                {{ settings.previewCards.width }}vw
+              </div>
             </div>
           </div>
         </div>
