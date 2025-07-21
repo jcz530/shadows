@@ -40,18 +40,6 @@ const handleSettingsChange = () => {
   emit('settingsChanged', settings)
 }
 
-// Handle color changes
-const updatePageColor = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  settings.page.backgroundColor = target.value
-  handleSettingsChange()
-}
-
-const updateCardColor = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  settings.previewCards.backgroundColor = target.value
-  handleSettingsChange()
-}
 
 // Handle slider changes
 const updateBorderRadius = (value: number[]) => {
@@ -109,14 +97,14 @@ const toggleView = (view: 'grid' | 'varied') => {
                     ref="pageColorInput"
                     type="color"
                     class="hover:cursor-pointer"
-                    :value="settings.page.backgroundColor"
-                    @input="updatePageColor"
+                    v-model="settings.page.backgroundColor"
+                    @change="handleSettingsChange"
                   />
                   <Input
                     placeholder="#ffffff"
                     type="text"
-                    :value="settings.page.backgroundColor"
-                    @input="updatePageColor"
+                    v-model="settings.page.backgroundColor"
+                    @input="handleSettingsChange"
                   />
                 </div>
               </div>
@@ -220,14 +208,14 @@ const toggleView = (view: 'grid' | 'varied') => {
                     ref="cardColorInput"
                     type="color"
                     class="hover:cursor-pointer"
-                    :value="settings.page.backgroundColor"
-                    @input="updatePageColor"
+                    v-model="settings.previewCards.backgroundColor"
+                    @change="handleSettingsChange"
                   />
                   <Input
                     placeholder="#ffffff"
                     type="text"
-                    :value="settings.previewCards.backgroundColor"
-                    @input="updateCardColor"
+                    v-model="settings.previewCards.backgroundColor"
+                    @input="handleSettingsChange"
                   />
                 </div>
               </div>
