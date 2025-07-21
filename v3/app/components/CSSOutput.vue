@@ -7,6 +7,15 @@ import { Button } from '~/components/ui/button'
 
 const shadowStore = useShadowStore()
 
+const shadowValue = computed(() => {
+  const css = shadowStore.cssShadow
+  if (!css || css === 'box-shadow: none;') {
+    return 'none'
+  }
+  // Extract just the value part after "box-shadow: "
+  return css.replace('box-shadow: ', '').replace(';', '')
+})
+
 const standardCSS = computed(() => {
   return shadowStore.cssShadow || 'box-shadow: none;'
 })
@@ -27,11 +36,31 @@ const copyCSS = async (css: string) => {
     <div>
       <h3 class="text-lg font-semibold mb-4">Generated CSS</h3>
       <div class="space-y-4">
+        <!-- Shadow Value Only -->
+        <div>
+          <label class="text-sm font-medium">Shadow Value:</label>
+          <div class="relative mt-2">
+            <pre
+              class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
+            ><code>{{ shadowValue }}</code></pre>
+            <Button
+              size="sm"
+              variant="outline"
+              class="absolute top-2 right-2"
+              @click="copyCSS(shadowValue)"
+            >
+              <Copy class="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
         <!-- Standard CSS -->
         <div>
           <label class="text-sm font-medium">Standard CSS:</label>
           <div class="relative mt-2">
-            <pre class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"><code>{{ standardCSS }}</code></pre>
+            <pre
+              class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
+            ><code>{{ standardCSS }}</code></pre>
             <Button
               size="sm"
               variant="outline"
@@ -47,7 +76,9 @@ const copyCSS = async (css: string) => {
         <div>
           <label class="text-sm font-medium">CSS with Vendor Prefixes:</label>
           <div class="relative mt-2">
-            <pre class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"><code>{{ vendorPrefixCSS }}</code></pre>
+            <pre
+              class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
+            ><code>{{ vendorPrefixCSS }}</code></pre>
             <Button
               size="sm"
               variant="outline"
@@ -63,11 +94,33 @@ const copyCSS = async (css: string) => {
 
     <div>
       <h3 class="text-lg font-semibold mb-4">Usage</h3>
-      <div class="text-sm text-muted-foreground space-y-2">
-        <p>Copy the CSS above and apply it to any element in your stylesheet:</p>
-        <pre class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"><code>.my-element {
+      <div class="text-sm \ space-y-4">
+        <div>
+          <p class="mb-2">
+            Copy the CSS above and apply it to any element in your stylesheet:
+          </p>
+          <pre
+            class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
+          ><code>.my-element {
   {{ standardCSS }}
 }</code></pre>
+        </div>
+
+        <div>
+          <p class="mb-2">
+            For Tailwind CSS v4, add a custom shadow to your CSS file using the
+            shadow value:
+          </p>
+          <pre
+            class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
+          ><code>@theme {
+  --shadow-custom: {{ shadowValue }};
+}</code></pre>
+          <p class="mt-2 text-xs">
+            Then use it in your HTML with the class
+            <code class="bg-muted px-1 rounded">shadow-custom</code>
+          </p>
+        </div>
       </div>
     </div>
   </div>
