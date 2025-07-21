@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import { Settings } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
-import { Label } from '~/components/ui/Label'
+import { Label } from '~/components/ui/label'
 import {
   Popover,
   PopoverContent,

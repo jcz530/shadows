@@ -5,7 +5,7 @@ import { useShadowStore } from '~/stores/shadow'
 import { Slider } from '~/components/ui/slider'
 import { Switch } from '~/components/ui/switch'
 import { Button } from '~/components/ui/button'
-import { Label } from '~/components/ui/Label'
+import { Label } from '~/components/ui/label'
 import { usePlausible } from '~/composables/usePlausible'
 
 interface ShadowInputRowProps {
@@ -31,7 +31,10 @@ const updateField = (field: keyof Shadow, value: unknown) => {
 // Track slider changes only on completion
 const trackSliderChange = (field: keyof Shadow, value: unknown) => {
   const singleValue = Array.isArray(value) ? value[0] : value
-  trackEvent('adjust_shadow_field', { field: field as string, value: singleValue })
+  trackEvent('adjust_shadow_field', {
+    field: field as string,
+    value: singleValue,
+  })
 }
 
 // Helper functions for increment/decrement with bounds checking
@@ -262,7 +265,12 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
         variant="outline"
         size="sm"
         title="Duplicate"
-        @click="() => { trackEvent('duplicate_shadow'); emit('duplicate') }"
+        @click="
+          () => {
+            trackEvent('duplicate_shadow')
+            emit('duplicate')
+          }
+        "
       >
         <Copy class="h-4 w-4" />
       </Button>
@@ -270,7 +278,12 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
         variant="destructive"
         size="sm"
         title="Delete"
-        @click="() => { trackEvent('delete_shadow'); emit('delete') }"
+        @click="
+          () => {
+            trackEvent('delete_shadow')
+            emit('delete')
+          }
+        "
       >
         <Trash2 class="h-4 w-4" />
       </Button>
