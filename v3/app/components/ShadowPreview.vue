@@ -3,6 +3,24 @@ import { computed } from 'vue'
 import { useShadowStore } from '~/stores/shadow'
 import { hexToRgba } from '~/utils'
 
+interface PreviewSettings {
+  page: {
+    backgroundColor: string
+  }
+  previewCards: {
+    backgroundColor: string
+    borderRadius: number
+    height: number
+    width: number
+  }
+  view: 'grid' | 'varied'
+  numItems: number
+}
+
+const props = defineProps<{
+  settings?: PreviewSettings
+}>()
+
 const shadowStore = useShadowStore()
 
 const shadowCSS = computed(() => {
@@ -10,7 +28,7 @@ const shadowCSS = computed(() => {
   if (visibleShadows.length === 0) return 'none'
 
   return visibleShadows
-    .map(shadow => {
+    .map((shadow) => {
       const rgba = hexToRgba(shadow.color, shadow.opacity)
       return `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${rgba}`
     })
@@ -18,37 +36,79 @@ const shadowCSS = computed(() => {
 })
 
 const backgroundColorWithOpacity = computed(() => {
+  if (props.settings?.page.backgroundColor) {
+    return props.settings.page.backgroundColor
+  }
   return hexToRgba(shadowStore.background.color, shadowStore.background.opacity)
 })
+
+const cardStyles = computed(() => {
+  if (!props.settings) {
+    return {
+      backgroundColor: '#ffffff',
+      borderRadius: '8px',
+      height: '120px',
+      width: '200px',
+    }
+  }
+
+  return {
+    backgroundColor: props.settings.previewCards.backgroundColor,
+    borderRadius: `${props.settings.previewCards.borderRadius}px`,
+    height: `${props.settings.previewCards.height}px`,
+    width: `${props.settings.previewCards.width}px`,
+  }
+})
+
+const containerClass = computed(() => {
+  if (props.settings?.view === 'varied') {
+    return 'flex gap-8 items-center justify-center'
+  }
+  return 'flex flex-wrap gap-8 items-center justify-center'
+})
+
+const previewItems = computed(() => {
+  if (props.settings?.view === 'varied') {
+    // For varied view, return specific items with their sizes
+    return [
+      { type: 'button', width: '100px', height: '40px' },
+      { type: 'medium', width: '120px', height: '120px' },
+      { type: 'large', width: '160px', height: '160px' }
+    ]
+  }
+  
+  const count = props.settings?.numItems || 4
+  return Array.from({ length: count }, (_, i) => ({ type: 'standard', index: i }))
+})
+
+const getItemStyles = (item: any) => {
+  if (props.settings?.view === 'varied' && item.type) {
+    return {
+      backgroundColor: props.settings.previewCards.backgroundColor,
+      borderRadius: `${props.settings.previewCards.borderRadius}px`,
+      height: item.height,
+      width: item.width,
+      boxShadow: shadowCSS.value
+    }
+  }
+  
+  return {
+    ...cardStyles.value,
+    boxShadow: shadowCSS.value
+  }
+}
 </script>
 <template>
-  <div class="w-full min-h-[400px] p-8 rounded-lg" :style="{ backgroundColor: backgroundColorWithOpacity }">
-    <div class="flex flex-wrap gap-8 items-center justify-center">
-      <!-- Small preview box -->
+  <div
+    class="w-full min-h-[400px] p-8 rounded-lg"
+    :style="{ backgroundColor: backgroundColorWithOpacity }"
+  >
+    <div :class="containerClass">
       <div
-        class="w-24 h-24 bg-white rounded-lg"
-        :style="{ boxShadow: shadowCSS }"
+        v-for="(item, index) in previewItems"
+        :key="index"
+        :style="getItemStyles(item)"
       />
-
-      <!-- Medium preview box -->
-      <div
-        class="w-32 h-32 bg-white rounded-lg"
-        :style="{ boxShadow: shadowCSS }"
-      />
-
-      <!-- Large preview box -->
-      <div
-        class="w-40 h-40 bg-white rounded-lg"
-        :style="{ boxShadow: shadowCSS }"
-      />
-
-      <!-- Card-like preview -->
-      <div
-        class="w-48 h-32 bg-white rounded-lg flex items-center justify-center text-gray-600"
-        :style="{ boxShadow: shadowCSS }"
-      >
-        <span class="text-sm">Preview Card</span>
-      </div>
     </div>
   </div>
 </template>

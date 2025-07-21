@@ -1,9 +1,30 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { Github } from 'lucide-vue-next'
-import { Card } from '~/components/ui/card'
 import ShadowPreview from '~/components/ShadowPreview.vue'
+import PreviewSettings from '~/components/PreviewSettings.vue'
 import PresetCard from '~/components/PresetCard.vue'
 import BuilderCard from '~/components/BuilderCard.vue'
+
+// Preview settings state
+const previewSettings = ref({
+  page: {
+    backgroundColor: '#ffffff',
+  },
+  previewCards: {
+    backgroundColor: '#ffffff',
+    borderRadius: 8,
+    height: 120,
+    width: 200,
+  },
+  view: 'grid' as 'grid' | 'varied',
+  numItems: 4,
+})
+
+// Handle settings changes
+const handleSettingsChange = (settings: typeof previewSettings.value) => {
+  previewSettings.value = { ...settings }
+}
 
 useHead({
   title: 'Shadows V3 - CSS Box-Shadow Generator',
@@ -34,11 +55,13 @@ useHead({
   <div class="min-h-screen">
     <!-- Navigation Bar -->
     <nav class="bg-primary px-6 py-4 shadow-lg">
-      <div class="container mx-auto max-w-7xl flex items-center justify-between">
+      <div
+        class="container mx-auto max-w-7xl flex items-center justify-between"
+      >
         <div class="flex items-center">
-          <img 
-            src="~/assets/shadows-logo.svg" 
-            alt="Shadows" 
+          <img
+            src="~/assets/shadows-logo.svg"
+            alt="Shadows"
             class="h-8 w-auto"
           />
         </div>
@@ -56,42 +79,46 @@ useHead({
     <div class="container mx-auto px-4 py-8 max-w-7xl">
       <!-- Header -->
       <header class="text-center mb-12">
-      <h2 class="text-2xl font-semibold text-foreground mb-4">
-        CSS Box-Shadow Generator
-      </h2>
-      <p class="text-lg text-muted-foreground max-w-3xl mx-auto">
-        The key to a good box-shadow is <strong>opacity</strong> and
-        <strong>layers</strong>. This modern CSS generator allows you to
-        visualize and create multiple shadow layers with real-time preview.
-      </p>
-    </header>
-
-    <!-- Preview Section -->
-    <section class="mb-12">
-      <div class="text-center mb-6">
-        <h3 class="text-xl font-semibold mb-2">Preview Your Box Shadow</h3>
-        <p class="text-muted-foreground">
-          See how your shadows look on different elements
+        <h2 class="text-2xl font-semibold text-foreground mb-4">
+          CSS Box-Shadow Generator
+        </h2>
+        <p class="text-lg text-muted-foreground max-w-3xl mx-auto">
+          The key to a good box-shadow is <strong>opacity</strong> and
+          <strong>layers</strong>. This modern CSS generator allows you to
+          visualize and create multiple shadow layers with real-time preview.
         </p>
-      </div>
-      <Card class="p-6">
-        <ShadowPreview />
-      </Card>
-    </section>
+      </header>
 
-    <!-- Main Builder Section -->
-    <section class="mb-12">
-      <BuilderCard />
-    </section>
+      <!-- Preview Section -->
+      <section class="mb-12">
+        <div class="text-center mb-6">
+          <h3 class="text-xl font-semibold mb-2">Preview Your Box Shadow</h3>
+          <p class="text-muted-foreground">
+            See how your shadows look on different elements
+          </p>
+        </div>
+        <div class="mb-4">
+          <PreviewSettings @settings-changed="handleSettingsChange" />
+        </div>
+        <hr />
+        <ShadowPreview :settings="previewSettings" />
+      </section>
 
-    <!-- Presets Section -->
-    <section class="mb-12">
-      <PresetCard />
-    </section>
+      <!-- Main Builder Section -->
+      <section class="mb-12">
+        <BuilderCard />
+      </section>
+
+      <!-- Presets Section -->
+      <section class="mb-12">
+        <PresetCard />
+      </section>
 
       <!-- Footer -->
       <footer class="text-center py-8 border-t">
-        <div class="flex items-center justify-center gap-4 text-muted-foreground">
+        <div
+          class="flex items-center justify-center gap-4 text-muted-foreground"
+        >
           <Github class="w-4 h-4" />
           <span>Built by Joe Czubiak</span>
           <span>•</span>
