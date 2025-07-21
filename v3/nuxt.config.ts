@@ -34,7 +34,7 @@ export default defineNuxtConfig({
         name: 'msapplication-TileColor',
         content: '#da532c',
       },
-      { hid: 'theme-color', name: 'theme-color', content: '#ffffff' },
+      { hid: 'theme-color', name: 'theme-color', content: '#4963c7' },
 
       { hid: 'og:site-name', property: 'og:site_name', content: 'Shadows' },
       { hid: 'og:type', property: 'og:type', content: 'Website' },
