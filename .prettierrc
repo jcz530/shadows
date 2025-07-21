@@ -1,4 +1,10 @@
 {
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "plugins": ["prettier-plugin-tailwindcss"],
   "semi": false,
-  "singleQuote": true
+  "singleQuote": true,
+  "tabWidth": 2,
+  "tailwindStylesheet": "./assets/css/main.css",
+  "useTabs": false
 }

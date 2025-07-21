@@ -1,10 +1,14 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --shadow-sm:   0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  --font-sans:
+    Roboto, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --shadow-sm:
+    0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 
   --color-purple-50: #f2f5fc;
   --color-purple-100: #e1e8f8;
@@ -137,5 +141,5 @@
 }
 
 .page-width {
-  @apply w-[90vw] md:w-[70vw] mx-auto;
+  @apply mx-auto w-[90vw] md:w-[70vw];
 }

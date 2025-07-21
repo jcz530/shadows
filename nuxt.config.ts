@@ -5,7 +5,7 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'shadcn-nuxt'],
+  modules: ['@pinia/nuxt', '@nuxt/eslint', '@vueuse/nuxt', 'shadcn-nuxt'],
   css: ['./assets/css/main.css'],
   components: [
     {
