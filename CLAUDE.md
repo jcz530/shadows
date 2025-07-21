@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Shadows is a CSS box-shadow generator built with Nuxt.js 2 and Vuetify. It allows users to create multi-layered CSS box shadows with a visual interface and includes presets for Material Design and TailwindCSS shadows.
+Shadows is a modern CSS box-shadow generator built with Nuxt 4, Vue 3, and shadcn-vue components. It allows users to create multi-layered CSS box shadows with a visual interface and includes presets for Material Design and TailwindCSS shadows.
 
 ## Development Commands
 
@@ -18,65 +18,106 @@ npm run dev
 # Build for production
 npm run build
 
-# Start production server
-npm run start
+# Preview production build
+npm run preview
 
 # Generate static project
 npm run generate
 
-# Lint JavaScript and Vue files
+# Lint code
 npm run lint
-npm run lint:js
+
+# Format code with Prettier
+npm run format
+
+# Lint and fix issues
+npm run lint:fix
 ```
 
 ## Architecture
 
-### State Management (Vuex)
+### State Management (Pinia)
 
-- **store/builder.js**: Core shadow management state
+- **stores/shadow.ts**: Core shadow management state using Pinia
   - Manages shadow objects with properties: id, visible, angle, distance, x, y, blur, spread, color, opacity
   - Generates CSS output via `cssShadow` getter that converts shadow objects to CSS box-shadow strings
+  - Provides `cssWithVendorPrefixes` getter for compatibility
   - Handles multi-layer shadows with visibility toggles
-  - Mutations for add/duplicate/delete shadows and field updates
+  - Actions for add/duplicate/delete shadows and field updates
+  - Automatically updates x,y coordinates when angle or distance changes
 
 ### Key Components
 
 - **ShadowBuilder.vue**: Main interface with controls for all shadow layers
-- **ShadowBuilderInputRow.vue**: Individual shadow layer controls
-- **ShadowPreview.vue**: Real-time visual preview of shadows
+- **ShadowInputRow.vue**: Individual shadow layer controls with sliders and increment/decrement buttons
+- **ShadowPreview.vue**: Real-time visual preview of shadows with customizable background and card settings
 - **BuilderCard.vue**: Container for the shadow builder interface
+- **PresetCard.vue**: Interface for loading Material Design and TailwindCSS presets
+- **PreviewSettings.vue**: Controls for customizing preview appearance
+
+### UI Components (shadcn-vue)
+
+- Uses shadcn-vue components with Tailwind CSS for modern, accessible UI
+- Key UI components: Button, Card, Input, Label, Slider, Switch, Tabs, Tooltip
+- Components located in `components/ui/` with proper TypeScript definitions
 
 ### Utilities
 
-- **utils/colors.js**: Color conversion functions (hex to rgba, rgba to hex)
-- **utils/trig.js**: Angle/distance to x/y coordinate conversion
-- **utils/presets.js**: Material Design and TailwindCSS shadow presets
-- **utils/css.js**: CSS parsing utilities
-- **utils/clipboard.js**: Copy to clipboard functionality
+- **utils/index.ts**: Consolidated utility functions
+  - `hexToRgba()`: Color conversion from hex to rgba with opacity
+  - `xAndYFromAngleDistance()`: Trigonometry for angle/distance to x/y coordinate conversion
+  - `copyToClipboard()`: Async clipboard functionality
+  - `cn()`: Tailwind class name merging utility
+
+- **utils/presets.ts**: Comprehensive shadow presets
+  - Material Design elevation levels (1-24) with accurate shadow combinations
+  - TailwindCSS shadow presets (Small, Default, Medium, Large, Extra Large, 2XL)
+  - Each preset includes multiple shadow layers for realistic depth
+
+### Composables
+
+- **composables/usePreviewDefaults.ts**: Preview configuration management
+  - Defines default settings for preview cards and page background
+  - Handles responsive sizing with configurable units (px, rem, vh, vw)
+  - Supports both grid and varied view modes
+  - Provides helper functions for formatting style values
+
+- **composables/usePlausible.ts**: Analytics tracking for user interactions
 
 ### Configuration
 
-- Uses Nuxt.js 2 with Vuetify for UI components
-- PWA enabled with manifest configuration
-- Google Analytics integration via @nuxtjs/google-gtag
-- Static site generation target
-- SVG support via @nuxtjs/svg
+- **Nuxt 4** with Vue 3 composition API
+- **Pinia** for state management
+- **shadcn-vue** + **Tailwind CSS** for UI components and styling
+- **Plausible Analytics** for privacy-focused analytics
+- **ESLint** and **Prettier** for code quality
+- TypeScript support throughout
+- Auto-imports disabled for explicit imports
 
 ### Shadow Object Structure
 
-```javascript
-{
-  id: number,
-  visible: boolean,
-  angle: number (degrees),
-  distance: number (pixels),
-  x: number (calculated from angle/distance),
-  y: number (calculated from angle/distance),
-  blur: number (pixels),
-  spread: number (pixels),
-  color: string (hex),
-  opacity: number (0-100)
+```typescript
+interface Shadow {
+  id: number
+  visible: boolean
+  angle: number        // degrees (0-360)
+  distance: number     // pixels
+  x: number           // calculated from angle/distance
+  y: number           // calculated from angle/distance  
+  blur: number        // pixels
+  spread: number      // pixels (-50 to 50)
+  color: string       // hex color
+  opacity: number     // percentage (0-100)
 }
 ```
 
-The app converts angle/distance inputs to x/y coordinates and generates vendor-prefixed CSS output for maximum compatibility.
+### Data Flow
+
+1. **Shadow Creation**: Default shadows created in Pinia store
+2. **User Input**: Sliders and controls in ShadowInputRow update store via actions
+3. **Coordinate Calculation**: Store automatically converts angle/distance to x/y coordinates
+4. **CSS Generation**: Store getters convert shadow objects to CSS strings
+5. **Preview Rendering**: ShadowPreview applies computed CSS to preview elements
+6. **Export**: Users can copy CSS with vendor prefixes for compatibility
+
+The app emphasizes real-time preview with customizable viewing options, making it easier to visualize shadows in different contexts.
