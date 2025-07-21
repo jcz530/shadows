@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue'
 import { Settings } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
-import { Label } from '~/components/ui/label'
+import { Label } from '~/components/ui/Label'
 import {
   Popover,
   PopoverContent,
@@ -103,7 +103,7 @@ const toggleView = (view: 'grid' | 'varied') => {
 
               <!-- Background Color -->
               <div class="space-y-2">
-                <label class="text-sm font-medium">Background Color</label>
+                <Label class="text-sm font-medium">Background Color</Label>
                 <div class="flex items-center gap-2">
                   <Input
                     ref="pageColorInput"
@@ -123,7 +123,7 @@ const toggleView = (view: 'grid' | 'varied') => {
 
               <!-- View Toggle -->
               <div class="space-y-2">
-                <label class="text-sm font-medium">View</label>
+                <Label class="text-sm font-medium">View</Label>
                 <div class="flex gap-1">
                   <Button
                     variant="outline"
@@ -168,7 +168,7 @@ const toggleView = (view: 'grid' | 'varied') => {
                 class="space-y-3"
                 :class="{ 'opacity-50': settings.view === 'varied' }"
               >
-                <label class="text-sm font-medium">Num Items</label>
+                <Label class="text-sm font-medium">Num Items</Label>
                 <Tooltip v-if="settings.view === 'varied'">
                   <TooltipTrigger as-child>
                     <div>
@@ -214,7 +214,7 @@ const toggleView = (view: 'grid' | 'varied') => {
 
               <!-- Background Color -->
               <div class="space-y-2">
-                <label class="text-sm font-medium">Background Color</label>
+                <Label class="text-sm font-medium">Background Color</Label>
                 <div class="flex items-center gap-2">
                   <Input
                     ref="cardColorInput"
@@ -234,10 +234,10 @@ const toggleView = (view: 'grid' | 'varied') => {
 
               <!-- Border Radius -->
               <div class="space-y-3">
-                <label class="text-sm font-medium"
+                <Label class="text-sm font-medium"
                   >Border Radius ({{
                     getSliderConfig('borderRadius').unit
-                  }})</label
+                  }})</Label
                 >
                 <Slider
                   :model-value="[settings.previewCards.borderRadius]"
