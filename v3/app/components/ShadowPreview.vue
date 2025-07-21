@@ -7,7 +7,7 @@ import { usePreviewDefaults, type PreviewSettings } from '~/composables/usePrevi
 const { formatStyleValue, PREVIEW_DEFAULTS, VARIED_VIEW_ITEMS } = usePreviewDefaults()
 
 const props = defineProps<{
-  settings?: PreviewSettings
+  settings: PreviewSettings
 }>()
 
 const shadowStore = useShadowStore()
@@ -34,20 +34,11 @@ const backgroundColorWithOpacity = computed(() => {
 const cardStyles = computed(() => {
   const currentView = props.settings?.view || 'varied'
 
-  if (!props.settings) {
-    return {
-      backgroundColor: PREVIEW_DEFAULTS.previewCards.backgroundColor,
-      borderRadius: formatStyleValue('borderRadius', PREVIEW_DEFAULTS.previewCards.borderRadius.value),
-      height: formatStyleValue('height', PREVIEW_DEFAULTS.previewCards.height.varied.value, 'varied'),
-      width: formatStyleValue('width', PREVIEW_DEFAULTS.previewCards.width.varied.value, 'varied'),
-    }
-  }
-
   return {
     backgroundColor: props.settings.previewCards.backgroundColor,
     borderRadius: formatStyleValue('borderRadius', props.settings.previewCards.borderRadius),
-    height: formatStyleValue('height', props.settings.previewCards.height, currentView),
-    width: formatStyleValue('width', props.settings.previewCards.width, currentView),
+    height: formatStyleValue('height', props.settings.previewCards.height),
+    width: formatStyleValue('width', props.settings.previewCards.width),
   }
 })
 

@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 import { Settings } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
+import { Label } from '~/components/ui/label'
 import {
   Popover,
   PopoverContent,
@@ -11,7 +12,11 @@ import {
 import { Slider } from '~/components/ui/slider'
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
 
-const { getDefaultSettings, formatStyleValue, getSliderConfig, getViewSpecificDefaults } = usePreviewDefaults()
+const {
+  getDefaultSettings,
+  formatStyleValue,
+  getSliderConfig,
+} = usePreviewDefaults()
 
 // Preview settings state
 const settings = reactive(getDefaultSettings())
@@ -66,12 +71,6 @@ const updateNumItems = (value: number[]) => {
 // View toggle
 const toggleView = (view: 'grid' | 'varied') => {
   settings.view = view
-  
-  // Update height and width to view-specific defaults
-  const viewDefaults = getViewSpecificDefaults(view)
-  settings.previewCards.height = viewDefaults.height
-  settings.previewCards.width = viewDefaults.width
-  
   handleSettingsChange()
 }
 </script>
@@ -210,7 +209,11 @@ const toggleView = (view: 'grid' | 'varied') => {
 
             <!-- Border Radius -->
             <div class="space-y-3">
-              <label class="text-sm font-medium">Border Radius ({{ getSliderConfig('borderRadius').unit }})</label>
+              <label class="text-sm font-medium"
+                >Border Radius ({{
+                  getSliderConfig('borderRadius').unit
+                }})</label
+              >
               <Slider
                 :model-value="[settings.previewCards.borderRadius]"
                 @update:model-value="updateBorderRadius"
@@ -220,19 +223,28 @@ const toggleView = (view: 'grid' | 'varied') => {
                 class="w-full"
               />
               <div class="text-xs text-muted-foreground">
-                {{ formatStyleValue('borderRadius', settings.previewCards.borderRadius) }}
+                {{
+                  formatStyleValue(
+                    'borderRadius',
+                    settings.previewCards.borderRadius
+                  )
+                }}
               </div>
             </div>
 
             <!-- Height -->
             <div class="space-y-3">
-              <label class="text-sm font-medium">Height ({{ getSliderConfig('height').unit }})</label>
+              <Label class="text-sm font-medium" for="height"
+                >Height ({{ getSliderConfig('height').unit }})
+              </Label>
               <Slider
+                id="height"
                 :model-value="[settings.previewCards.height]"
                 @update:model-value="updateHeight"
                 :min="getSliderConfig('height').min"
                 :max="getSliderConfig('height').max"
                 :step="getSliderConfig('height').step"
+                :disabled="settings.view === 'varied'"
                 class="w-full"
               />
               <div class="text-xs text-muted-foreground">
@@ -242,13 +254,17 @@ const toggleView = (view: 'grid' | 'varied') => {
 
             <!-- Width -->
             <div class="space-y-3">
-              <label class="text-sm font-medium">Width ({{ getSliderConfig('width').unit }})</label>
+              <Label class="text-sm font-medium" for="width"
+                >Width ({{ getSliderConfig('width').unit }})</Label
+              >
               <Slider
+                id="width"
                 :model-value="[settings.previewCards.width]"
                 @update:model-value="updateWidth"
                 :min="getSliderConfig('width').min"
                 :max="getSliderConfig('width').max"
                 :step="getSliderConfig('width').step"
+                :disabled="settings.view === 'varied'"
                 class="w-full"
               />
               <div class="text-xs text-muted-foreground">

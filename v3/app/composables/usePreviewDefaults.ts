@@ -12,27 +12,15 @@ export interface PreviewCardDefaults {
       step: number
     }
     height: {
-      grid: {
-        value: number
-        unit: 'vh' | 'px' | 'rem'
-      }
-      varied: {
-        value: number
-        unit: 'vh' | 'px' | 'rem'
-      }
+      value: number
+      unit: 'vh' | 'px' | 'rem'
       min: number
       max: number
       step: number
     }
     width: {
-      grid: {
-        value: number
-        unit: 'vw' | 'px' | 'rem'
-      }
-      varied: {
-        value: number
-        unit: 'vw' | 'px' | 'rem'
-      }
+      value: number
+      unit: 'vw' | 'px' | 'rem'
       min: number
       max: number
       step: number
@@ -52,31 +40,19 @@ export const PREVIEW_DEFAULTS: PreviewCardDefaults = {
       value: 0.5,
       unit: 'rem',
       min: 0,
-      max: 2,
+      max: 15,
       step: 0.01,
     },
     height: {
-      grid: {
-        value: 18,
-        unit: 'vh',
-      },
-      varied: {
-        value: 25,
-        unit: 'vh',
-      },
+      value: 28,
+      unit: 'vh',
       min: 0,
       max: 100,
       step: 0.01,
     },
     width: {
-      grid: {
-        value: 18,
-        unit: 'vw',
-      },
-      varied: {
-        value: 25,
-        unit: 'vw',
-      },
+      value: 21,
+      unit: 'vw',
       min: 0,
       max: 100,
       step: 1,
@@ -108,7 +84,6 @@ export interface PreviewSettings {
 
 export function usePreviewDefaults() {
   const getDefaultSettings = (): PreviewSettings => {
-    const defaultView = PREVIEW_DEFAULTS.view
     return {
       page: {
         backgroundColor: PREVIEW_DEFAULTS.page.backgroundColor,
@@ -116,51 +91,31 @@ export function usePreviewDefaults() {
       previewCards: {
         backgroundColor: PREVIEW_DEFAULTS.previewCards.backgroundColor,
         borderRadius: PREVIEW_DEFAULTS.previewCards.borderRadius.value,
-        height: PREVIEW_DEFAULTS.previewCards.height[defaultView].value,
-        width: PREVIEW_DEFAULTS.previewCards.width[defaultView].value,
+        height: PREVIEW_DEFAULTS.previewCards.height.value,
+        width: PREVIEW_DEFAULTS.previewCards.width.value,
       },
-      view: defaultView,
+      view: PREVIEW_DEFAULTS.view,
       numItems: PREVIEW_DEFAULTS.numItems,
     }
   }
 
   const formatStyleValue = (
     property: 'borderRadius' | 'height' | 'width',
-    value: number,
-    view: 'grid' | 'varied' = 'varied'
+    value: number
   ): string => {
-    if (property === 'borderRadius') {
-      const config = PREVIEW_DEFAULTS.previewCards.borderRadius
-      return `${value}${config.unit}`
-    }
-
-    const config = PREVIEW_DEFAULTS.previewCards[property][view]
+    const config = PREVIEW_DEFAULTS.previewCards[property]
     return `${value}${config.unit}`
   }
 
   const getSliderConfig = (property: 'borderRadius' | 'height' | 'width') => {
     const config = PREVIEW_DEFAULTS.previewCards[property]
-    if (property === 'borderRadius') {
-      return {
-        min: config.min,
-        max: config.max,
-        step: config.step,
-        unit: config.unit,
-      }
-    }
-
     return {
       min: config.min,
       max: config.max,
       step: config.step,
-      unit: config.grid.unit, // Use grid unit as default for sliders
+      unit: config.unit,
     }
   }
-
-  const getViewSpecificDefaults = (view: 'grid' | 'varied') => ({
-    height: PREVIEW_DEFAULTS.previewCards.height[view].value,
-    width: PREVIEW_DEFAULTS.previewCards.width[view].value,
-  })
 
   return {
     PREVIEW_DEFAULTS,
@@ -168,6 +123,5 @@ export function usePreviewDefaults() {
     formatStyleValue,
     getDefaultSettings,
     getSliderConfig,
-    getViewSpecificDefaults,
   }
 }
