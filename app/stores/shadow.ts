@@ -37,19 +37,19 @@ export const useShadowStore = defineStore('shadow', {
         spread: 3,
         color: '#000000',
         opacity: 20,
-      }
+      },
     ],
     nextId: 2,
     background: {
       color: '#ffffff',
       opacity: 100,
-    }
+    },
   }),
 
   getters: {
-    visibleShadows: (state) => state.shadows.filter(shadow => shadow.visible),
+    visibleShadows: state => state.shadows.filter(shadow => shadow.visible),
 
-    cssShadow: (state) => {
+    cssShadow: state => {
       const visibleShadows = state.shadows.filter(shadow => shadow.visible)
       if (visibleShadows.length === 0) return ''
 
@@ -71,7 +71,7 @@ export const useShadowStore = defineStore('shadow', {
       if (!baseCss) return ''
 
       return `${baseCss}\n-webkit-${baseCss}\n-moz-${baseCss}`
-    }
+    },
   },
 
   actions: {
@@ -94,7 +94,7 @@ export const useShadowStore = defineStore('shadow', {
     duplicateShadow(shadow: Shadow) {
       const duplicated: Shadow = {
         ...shadow,
-        id: this.nextId++
+        id: this.nextId++,
       }
       this.shadows.push(duplicated)
     },
@@ -118,7 +118,7 @@ export const useShadowStore = defineStore('shadow', {
       const shadow = this.shadows.find(s => s.id === shadowId)
       console.log('value', value)
       if (shadow) {
-        (shadow as any)[field] = value
+        ;(shadow as any)[field] = value
 
         // Update x,y coordinates when angle or distance changes
         if (field === 'angle' || field === 'distance') {
@@ -137,8 +137,8 @@ export const useShadowStore = defineStore('shadow', {
     loadPreset(shadows: Omit<Shadow, 'id'>[]) {
       this.shadows = shadows.map(shadow => ({
         ...shadow,
-        id: this.nextId++
+        id: this.nextId++,
       }))
-    }
-  }
+    },
+  },
 })

@@ -18,11 +18,8 @@ import {
 } from '~/components/ui/tooltip'
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
 
-const {
-  getDefaultSettings,
-  formatStyleValue,
-  getSliderConfig,
-} = usePreviewDefaults()
+const { getDefaultSettings, formatStyleValue, getSliderConfig } =
+  usePreviewDefaults()
 
 // Preview settings state
 const settings = reactive(getDefaultSettings())
@@ -39,7 +36,6 @@ const emit = defineEmits<{
 const handleSettingsChange = () => {
   emit('settingsChanged', settings)
 }
-
 
 // Handle slider changes
 const updateBorderRadius = (value: number[]) => {
@@ -75,7 +71,7 @@ const toggleView = (view: 'grid' | 'varied') => {
       <Popover>
         <PopoverTrigger as-child>
           <Button variant="outline" size="sm">
-            <Settings class="w-4 h-4 mr-2" />
+            <Settings class="mr-2 h-4 w-4" />
             Adjust Preview Cards
           </Button>
         </PopoverTrigger>
@@ -84,7 +80,7 @@ const toggleView = (view: 'grid' | 'varied') => {
             <!-- PAGE Column -->
             <div class="space-y-4">
               <h4
-                class="font-semibold text-sm uppercase tracking-wide text-muted-foreground"
+                class="text-sm font-semibold uppercase tracking-wide text-muted-foreground"
               >
                 PAGE
               </h4>
@@ -95,15 +91,15 @@ const toggleView = (view: 'grid' | 'varied') => {
                 <div class="flex items-center gap-2">
                   <Input
                     ref="pageColorInput"
+                    v-model="settings.page.backgroundColor"
                     type="color"
                     class="hover:cursor-pointer"
-                    v-model="settings.page.backgroundColor"
                     @change="handleSettingsChange"
                   />
                   <Input
+                    v-model="settings.page.backgroundColor"
                     placeholder="#ffffff"
                     type="text"
-                    v-model="settings.page.backgroundColor"
                     @input="handleSettingsChange"
                   />
                 </div>
@@ -115,37 +111,37 @@ const toggleView = (view: 'grid' | 'varied') => {
                 <div class="flex gap-1">
                   <Button
                     variant="outline"
-                    @click="toggleView('grid')"
                     :class="[
-                      'p-2 rounded border',
+                      'rounded border p-2',
                       settings.view === 'grid'
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-background hover:bg-accent',
                     ]"
+                    @click="toggleView('grid')"
                   >
-                    <div class="grid grid-cols-2 gap-1 w-8 h-4">
-                      <div class="bg-current rounded-[2px]"></div>
-                      <div class="bg-current rounded-[2px]"></div>
-                      <div class="bg-current rounded-[2px]"></div>
-                      <div class="bg-current rounded-[2px]"></div>
+                    <div class="grid h-4 w-8 grid-cols-2 gap-1">
+                      <div class="rounded-[2px] bg-current"></div>
+                      <div class="rounded-[2px] bg-current"></div>
+                      <div class="rounded-[2px] bg-current"></div>
+                      <div class="rounded-[2px] bg-current"></div>
                     </div>
                   </Button>
                   <Button
-                    @click="toggleView('varied')"
                     variant="outline"
                     :class="[
-                      'p-2 rounded border',
+                      'rounded border p-2',
                       settings.view === 'varied'
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-background hover:bg-accent',
                     ]"
+                    @click="toggleView('varied')"
                   >
                     <div
-                      class="space-x-1 w-8 h-4 flex justify-center items-center"
+                      class="flex h-4 w-8 items-center justify-center space-x-1"
                     >
-                      <div class="bg-current w-2 h-1 rounded-[2px]"></div>
-                      <div class="bg-current w-3 h-3 rounded-[2px]"></div>
-                      <div class="bg-current w-4 h-4 rounded-[2px]"></div>
+                      <div class="h-1 w-2 rounded-[2px] bg-current"></div>
+                      <div class="h-3 w-3 rounded-[2px] bg-current"></div>
+                      <div class="h-4 w-4 rounded-[2px] bg-current"></div>
                     </div>
                   </Button>
                 </div>
@@ -162,12 +158,12 @@ const toggleView = (view: 'grid' | 'varied') => {
                     <div>
                       <Slider
                         :model-value="[settings.numItems]"
-                        @update:model-value="updateNumItems"
                         :min="1"
                         :max="24"
                         :step="1"
                         :disabled="settings.view === 'varied'"
                         class="w-full"
+                        @update:model-value="updateNumItems"
                       />
                     </div>
                   </TooltipTrigger>
@@ -178,11 +174,11 @@ const toggleView = (view: 'grid' | 'varied') => {
                 <Slider
                   v-else
                   :model-value="[settings.numItems]"
-                  @update:model-value="updateNumItems"
                   :min="1"
                   :max="24"
                   :step="1"
                   class="w-full"
+                  @update:model-value="updateNumItems"
                 />
                 <div class="text-xs text-muted-foreground">
                   {{
@@ -195,7 +191,7 @@ const toggleView = (view: 'grid' | 'varied') => {
             <!-- PREVIEW CARDS Column -->
             <div class="space-y-4">
               <h4
-                class="font-semibold text-sm uppercase tracking-wide text-muted-foreground"
+                class="text-sm font-semibold uppercase tracking-wide text-muted-foreground"
               >
                 PREVIEW CARDS
               </h4>
@@ -206,15 +202,15 @@ const toggleView = (view: 'grid' | 'varied') => {
                 <div class="flex items-center gap-2">
                   <Input
                     ref="cardColorInput"
+                    v-model="settings.previewCards.backgroundColor"
                     type="color"
                     class="hover:cursor-pointer"
-                    v-model="settings.previewCards.backgroundColor"
                     @change="handleSettingsChange"
                   />
                   <Input
+                    v-model="settings.previewCards.backgroundColor"
                     placeholder="#ffffff"
                     type="text"
-                    v-model="settings.previewCards.backgroundColor"
                     @input="handleSettingsChange"
                   />
                 </div>
@@ -229,17 +225,17 @@ const toggleView = (view: 'grid' | 'varied') => {
                 >
                 <Slider
                   :model-value="[settings.previewCards.borderRadius]"
-                  @update:model-value="updateBorderRadius"
                   :min="getSliderConfig('borderRadius').min"
                   :max="getSliderConfig('borderRadius').max"
                   :step="getSliderConfig('borderRadius').step"
                   class="w-full"
+                  @update:model-value="updateBorderRadius"
                 />
                 <div class="text-xs text-muted-foreground">
                   {{
                     formatStyleValue(
                       'borderRadius',
-                      settings.previewCards.borderRadius
+                      settings.previewCards.borderRadius,
                     )
                   }}
                 </div>
@@ -256,12 +252,12 @@ const toggleView = (view: 'grid' | 'varied') => {
                       <Slider
                         id="height"
                         :model-value="[settings.previewCards.height]"
-                        @update:model-value="updateHeight"
                         :min="getSliderConfig('height').min"
                         :max="getSliderConfig('height').max"
                         :step="getSliderConfig('height').step"
                         :disabled="settings.view === 'varied'"
                         class="w-full"
+                        @update:model-value="updateHeight"
                       />
                     </div>
                   </TooltipTrigger>
@@ -273,11 +269,11 @@ const toggleView = (view: 'grid' | 'varied') => {
                   v-else
                   id="height"
                   :model-value="[settings.previewCards.height]"
-                  @update:model-value="updateHeight"
                   :min="getSliderConfig('height').min"
                   :max="getSliderConfig('height').max"
                   :step="getSliderConfig('height').step"
                   class="w-full"
+                  @update:model-value="updateHeight"
                 />
                 <div class="text-xs text-muted-foreground">
                   {{ formatStyleValue('height', settings.previewCards.height) }}
@@ -295,12 +291,12 @@ const toggleView = (view: 'grid' | 'varied') => {
                       <Slider
                         id="width"
                         :model-value="[settings.previewCards.width]"
-                        @update:model-value="updateWidth"
                         :min="getSliderConfig('width').min"
                         :max="getSliderConfig('width').max"
                         :step="getSliderConfig('width').step"
                         :disabled="settings.view === 'varied'"
                         class="w-full"
+                        @update:model-value="updateWidth"
                       />
                     </div>
                   </TooltipTrigger>
@@ -312,11 +308,11 @@ const toggleView = (view: 'grid' | 'varied') => {
                   v-else
                   id="width"
                   :model-value="[settings.previewCards.width]"
-                  @update:model-value="updateWidth"
                   :min="getSliderConfig('width').min"
                   :max="getSliderConfig('width').max"
                   :step="getSliderConfig('width').step"
                   class="w-full"
+                  @update:model-value="updateWidth"
                 />
                 <div class="text-xs text-muted-foreground">
                   {{ formatStyleValue('width', settings.previewCards.width) }}

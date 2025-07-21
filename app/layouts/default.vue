@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
     <!-- Navigation Bar -->
     <nav class="bg-primary px-6 py-4 shadow-lg">
       <div
-        class="container mx-auto max-w-7xl flex items-center justify-between"
+        class="container mx-auto flex max-w-7xl items-center justify-between"
       >
         <div class="flex items-center">
           <img
@@ -22,14 +22,14 @@ import { Button } from '@/components/ui/button'
           title="View on Github"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-primary-foreground hover:text-primary-foreground/80 transition-colors"
+          class="text-primary-foreground transition-colors hover:text-primary-foreground/80"
         >
-          <Github class="w-6 h-6" />
+          <Github class="h-6 w-6" />
         </a>
       </div>
     </nav>
 
-    <div class="container mx-auto px-4 py-8 max-w-7xl">
+    <div class="container mx-auto max-w-7xl px-4 py-8">
       <!-- Page Content -->
       <slot />
     </div>
@@ -45,7 +45,7 @@ import { Button } from '@/components/ui/button'
             target="_blank"
             rel="noopener"
           >
-            <Github class="w-4 h-4" />
+            <Github class="h-4 w-4" />
           </Button>
           <Button
             class="hover:bg-purple-700 hover:text-white"
@@ -54,7 +54,7 @@ import { Button } from '@/components/ui/button'
             target="_blank"
             rel="noopener"
           >
-            <span class="uppercase text-xs">Built by</span>
+            <span class="text-xs uppercase">Built by</span>
             <img
               class="d-inline"
               style="height: 1em"
@@ -67,7 +67,7 @@ import { Button } from '@/components/ui/button'
         </div>
       </div>
       <div class="bg-purple-700 py-4">
-        <div class="flex items-center justify-center text-white gap-1">
+        <div class="flex items-center justify-center gap-1 text-white">
           <span class="font-light"
             >2021 - {{ new Date().getFullYear() }} —
           </span>

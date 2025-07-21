@@ -6,13 +6,13 @@ import CSSOutput from '~/components/CSSOutput.vue'
 </script>
 
 <template>
-  <Card class="overflow-hidden pt-0 gap-0">
+  <Card class="gap-0 overflow-hidden pt-0">
     <CardHeader class="bg-purple-700">
-      <h3 class="text-xl py-2 text-primary-foreground">Shadow Builder</h3>
+      <h3 class="py-2 text-xl text-primary-foreground">Shadow Builder</h3>
     </CardHeader>
-    <Tabs default-value="shadows" class="w-full pt-0 mt-0">
+    <Tabs default-value="shadows" class="mt-0 w-full pt-0">
       <div class="bg-purple-600">
-        <TabsList class="rounded-none h-12 p-0 z-20 bg-purple-600">
+        <TabsList class="z-20 h-12 rounded-none bg-purple-600 p-0">
           <TabsTrigger value="shadows">Shadows</TabsTrigger>
           <TabsTrigger value="css">CSS</TabsTrigger>
         </TabsList>

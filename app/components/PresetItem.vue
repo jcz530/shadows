@@ -56,19 +56,17 @@ const copyPresetCSS = async () => {
 
 <template>
   <div
-    class="bg-white rounded-lg p-4 space-y-3 transition-all"
+    class="space-y-3 rounded-lg bg-white p-4 transition-all"
     :style="{ boxShadow: getPresetShadowCSS(preset.shadows) }"
     @click="applyPreset"
   >
     <div class="text-sm font-medium">{{ preset.title }}</div>
     <div class="flex gap-2">
       <Button size="sm" variant="secondary" @click.stop="copyPresetCSS">
-        <Copy class="w-3 h-3" />
+        <Copy class="h-3 w-3" />
         Copy CSS
       </Button>
-      <Button size="sm" @click.stop="applyPreset">
-        Use
-      </Button>
+      <Button size="sm" @click.stop="applyPreset"> Use </Button>
     </div>
   </div>
 </template>

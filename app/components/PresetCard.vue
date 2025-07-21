@@ -6,21 +6,21 @@ import { materialDesignPresets, tailwindPresets } from '~/utils/presets'
 </script>
 
 <template>
-  <Card class="overflow-hidden pt-0 gap-0">
+  <Card class="gap-0 overflow-hidden pt-0">
     <CardHeader class="bg-purple-700">
-      <h3 class="text-xl py-2 text-primary-foreground">Shadow Presets</h3>
+      <h3 class="py-2 text-xl text-primary-foreground">Shadow Presets</h3>
     </CardHeader>
 
     <Tabs default-value="material" class="w-full">
       <div class="bg-purple-600">
-        <TabsList class="rounded-none h-12 p-0 z-20 bg-purple-600">
+        <TabsList class="z-20 h-12 rounded-none bg-purple-600 p-0">
           <TabsTrigger value="material">Material Design</TabsTrigger>
           <TabsTrigger value="tailwind">Tailwind</TabsTrigger>
         </TabsList>
       </div>
 
       <TabsContent value="material" class="mt-6 p-6 pt-0">
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
           <PresetItem
             v-for="preset in materialDesignPresets"
             :key="preset.title"
@@ -30,7 +30,7 @@ import { materialDesignPresets, tailwindPresets } from '~/utils/presets'
       </TabsContent>
 
       <TabsContent value="tailwind" class="mt-6 p-6 pt-0">
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
           <PresetItem
             v-for="preset in tailwindPresets"
             :key="preset.title"

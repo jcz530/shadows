@@ -101,7 +101,7 @@ export function usePreviewDefaults() {
 
   const formatStyleValue = (
     property: 'borderRadius' | 'height' | 'width',
-    value: number
+    value: number,
   ): string => {
     const config = PREVIEW_DEFAULTS.previewCards[property]
     return `${value}${config.unit}`

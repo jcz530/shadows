@@ -2,9 +2,13 @@
 import { computed } from 'vue'
 import { useShadowStore } from '~/stores/shadow'
 import { hexToRgba } from '~/utils'
-import { usePreviewDefaults, type PreviewSettings } from '~/composables/usePreviewDefaults'
+import {
+  usePreviewDefaults,
+  type PreviewSettings,
+} from '~/composables/usePreviewDefaults'
 
-const { formatStyleValue, PREVIEW_DEFAULTS, VARIED_VIEW_ITEMS } = usePreviewDefaults()
+const { formatStyleValue, PREVIEW_DEFAULTS, VARIED_VIEW_ITEMS } =
+  usePreviewDefaults()
 
 const props = defineProps<{
   settings: PreviewSettings
@@ -17,7 +21,7 @@ const shadowCSS = computed(() => {
   if (visibleShadows.length === 0) return 'none'
 
   return visibleShadows
-    .map((shadow) => {
+    .map(shadow => {
       const rgba = hexToRgba(shadow.color, shadow.opacity)
       return `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${rgba}`
     })
@@ -34,7 +38,10 @@ const backgroundColorWithOpacity = computed(() => {
 const cardStyles = computed(() => {
   return {
     backgroundColor: props.settings.previewCards.backgroundColor,
-    borderRadius: formatStyleValue('borderRadius', props.settings.previewCards.borderRadius),
+    borderRadius: formatStyleValue(
+      'borderRadius',
+      props.settings.previewCards.borderRadius,
+    ),
     height: formatStyleValue('height', props.settings.previewCards.height),
     width: formatStyleValue('width', props.settings.previewCards.width),
   }
@@ -60,11 +67,18 @@ const previewItems = computed(() => {
   }))
 })
 
-const getItemStyles = (item: any) => {
-  if (props.settings?.view === 'varied' && item.type) {
+type PreviewItem = 
+  | { type: 'small' | 'medium' | 'large'; width: string; height: string }
+  | { type: 'standard'; index: number }
+
+const getItemStyles = (item: PreviewItem) => {
+  if (props.settings?.view === 'varied' && item.type !== 'standard') {
     return {
       backgroundColor: props.settings.previewCards.backgroundColor,
-      borderRadius: formatStyleValue('borderRadius', props.settings.previewCards.borderRadius),
+      borderRadius: formatStyleValue(
+        'borderRadius',
+        props.settings.previewCards.borderRadius,
+      ),
       height: item.height,
       width: item.width,
       boxShadow: shadowCSS.value,
@@ -79,7 +93,7 @@ const getItemStyles = (item: any) => {
 </script>
 <template>
   <div
-    class="w-full min-h-24 px-0 sm:px-8 p-8 rounded-lg"
+    class="min-h-24 w-full rounded-lg p-8 px-0 sm:px-8"
     :style="{ backgroundColor: backgroundColorWithOpacity }"
   >
     <div :class="containerClass">

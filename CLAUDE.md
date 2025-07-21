@@ -32,6 +32,7 @@ npm run lint:js
 ## Architecture
 
 ### State Management (Vuex)
+
 - **store/builder.js**: Core shadow management state
   - Manages shadow objects with properties: id, visible, angle, distance, x, y, blur, spread, color, opacity
   - Generates CSS output via `cssShadow` getter that converts shadow objects to CSS box-shadow strings
@@ -39,12 +40,14 @@ npm run lint:js
   - Mutations for add/duplicate/delete shadows and field updates
 
 ### Key Components
+
 - **ShadowBuilder.vue**: Main interface with controls for all shadow layers
 - **ShadowBuilderInputRow.vue**: Individual shadow layer controls
 - **ShadowPreview.vue**: Real-time visual preview of shadows
 - **BuilderCard.vue**: Container for the shadow builder interface
 
 ### Utilities
+
 - **utils/colors.js**: Color conversion functions (hex to rgba, rgba to hex)
 - **utils/trig.js**: Angle/distance to x/y coordinate conversion
 - **utils/presets.js**: Material Design and TailwindCSS shadow presets
@@ -52,6 +55,7 @@ npm run lint:js
 - **utils/clipboard.js**: Copy to clipboard functionality
 
 ### Configuration
+
 - Uses Nuxt.js 2 with Vuetify for UI components
 - PWA enabled with manifest configuration
 - Google Analytics integration via @nuxtjs/google-gtag
@@ -59,6 +63,7 @@ npm run lint:js
 - SVG support via @nuxtjs/svg
 
 ### Shadow Object Structure
+
 ```javascript
 {
   id: number,

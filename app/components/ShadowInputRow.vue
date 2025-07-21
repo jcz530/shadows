@@ -41,7 +41,7 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
 </script>
 
 <template>
-  <div class="grid grid-cols-8 gap-4 items-center p-4 border-b">
+  <div class="grid grid-cols-8 items-center gap-4 border-b p-4">
     <!-- On/Off Toggle -->
     <div class="flex justify-center">
       <Switch
@@ -61,26 +61,26 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           @update:model-value="updateField('angle', $event)"
         />
         <div
-          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+          class="flex flex-col items-center justify-center gap-2 sm:flex-row"
         >
           <Button
             variant="ghost"
             size="sm"
-            @click="decrementValue('angle', 0, 360)"
             class="h-6 w-6 p-0"
+            @click="decrementValue('angle', 0, 360)"
           >
-            <Minus class="w-3 h-3" />
+            <Minus class="h-3 w-3" />
           </Button>
-          <div class="text-xs min-w-[30px] text-center">
+          <div class="min-w-[30px] text-center text-xs">
             {{ shadow.angle }}°
           </div>
           <Button
             variant="ghost"
             size="sm"
-            @click="incrementValue('angle', 0, 360)"
             class="h-6 w-6 p-0"
+            @click="incrementValue('angle', 0, 360)"
           >
-            <Plus class="w-3 h-3" />
+            <Plus class="h-3 w-3" />
           </Button>
         </div>
       </div>
@@ -97,26 +97,26 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           @update:model-value="updateField('distance', $event)"
         />
         <div
-          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+          class="flex flex-col items-center justify-center gap-2 sm:flex-row"
         >
           <Button
             variant="ghost"
             size="sm"
-            @click="decrementValue('distance', 0, 100)"
             class="h-6 w-6 p-0"
+            @click="decrementValue('distance', 0, 100)"
           >
-            <Minus class="w-3 h-3" />
+            <Minus class="h-3 w-3" />
           </Button>
-          <div class="text-xs min-w-[30px] text-center">
+          <div class="min-w-[30px] text-center text-xs">
             {{ shadow.distance }}px
           </div>
           <Button
             variant="ghost"
             size="sm"
-            @click="incrementValue('distance', 0, 100)"
             class="h-6 w-6 p-0"
+            @click="incrementValue('distance', 0, 100)"
           >
-            <Plus class="w-3 h-3" />
+            <Plus class="h-3 w-3" />
           </Button>
         </div>
       </div>
@@ -133,26 +133,26 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           @update:model-value="updateField('blur', $event)"
         />
         <div
-          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+          class="flex flex-col items-center justify-center gap-2 sm:flex-row"
         >
           <Button
             variant="ghost"
             size="sm"
-            @click="decrementValue('blur', 0, 100)"
             class="h-6 w-6 p-0"
+            @click="decrementValue('blur', 0, 100)"
           >
-            <Minus class="w-3 h-3" />
+            <Minus class="h-3 w-3" />
           </Button>
-          <div class="text-xs min-w-[30px] text-center">
+          <div class="min-w-[30px] text-center text-xs">
             {{ shadow.blur }}px
           </div>
           <Button
             variant="ghost"
             size="sm"
-            @click="incrementValue('blur', 0, 100)"
             class="h-6 w-6 p-0"
+            @click="incrementValue('blur', 0, 100)"
           >
-            <Plus class="w-3 h-3" />
+            <Plus class="h-3 w-3" />
           </Button>
         </div>
       </div>
@@ -169,26 +169,26 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           @update:model-value="updateField('spread', $event)"
         />
         <div
-          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+          class="flex flex-col items-center justify-center gap-2 sm:flex-row"
         >
           <Button
             variant="ghost"
             size="sm"
-            @click="decrementValue('spread', -50, 50)"
             class="h-6 w-6 p-0"
+            @click="decrementValue('spread', -50, 50)"
           >
-            <Minus class="w-3 h-3" />
+            <Minus class="h-3 w-3" />
           </Button>
-          <div class="text-xs min-w-[30px] text-center">
+          <div class="min-w-[30px] text-center text-xs">
             {{ shadow.spread }}px
           </div>
           <Button
             variant="ghost"
             size="sm"
-            @click="incrementValue('spread', -50, 50)"
             class="h-6 w-6 p-0"
+            @click="incrementValue('spread', -50, 50)"
           >
-            <Plus class="w-3 h-3" />
+            <Plus class="h-3 w-3" />
           </Button>
         </div>
       </div>
@@ -200,8 +200,8 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
       <input
         type="color"
         :value="shadow.color"
+        class="h-8 w-12 cursor-pointer rounded border"
         @input="updateField('color', ($event.target as HTMLInputElement).value)"
-        class="w-12 h-8 rounded border cursor-pointer"
       />
     </div>
 
@@ -216,48 +216,48 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           @update:model-value="updateField('opacity', $event)"
         />
         <div
-          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+          class="flex flex-col items-center justify-center gap-2 sm:flex-row"
         >
           <Button
             variant="ghost"
             size="sm"
-            @click="decrementValue('opacity', 0, 100)"
             class="h-6 w-6 p-0"
+            @click="decrementValue('opacity', 0, 100)"
           >
-            <Minus class="w-3 h-3" />
+            <Minus class="h-3 w-3" />
           </Button>
-          <div class="text-xs min-w-[30px] text-center">
+          <div class="min-w-[30px] text-center text-xs">
             {{ shadow.opacity }}%
           </div>
           <Button
             variant="ghost"
             size="sm"
-            @click="incrementValue('opacity', 0, 100)"
             class="h-6 w-6 p-0"
+            @click="incrementValue('opacity', 0, 100)"
           >
-            <Plus class="w-3 h-3" />
+            <Plus class="h-3 w-3" />
           </Button>
         </div>
       </div>
     </div>
 
     <!-- Actions -->
-    <div class="flex flex-col sm:flex-row gap-2">
+    <div class="flex flex-col gap-2 sm:flex-row">
       <Button
         variant="outline"
         size="sm"
-        @click="$emit('duplicate')"
         title="Duplicate"
+        @click="emit('duplicate')"
       >
-        <Copy class="w-4 h-4" />
+        <Copy class="h-4 w-4" />
       </Button>
       <Button
         variant="destructive"
         size="sm"
-        @click="$emit('delete')"
         title="Delete"
+        @click="emit('delete')"
       >
-        <Trash2 class="w-4 h-4" />
+        <Trash2 class="h-4 w-4" />
       </Button>
     </div>
   </div>
