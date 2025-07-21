@@ -11,7 +11,7 @@ import {
 import { Slider } from '~/components/ui/slider'
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
 
-const { getDefaultSettings, formatStyleValue, getSliderConfig } = usePreviewDefaults()
+const { getDefaultSettings, formatStyleValue, getSliderConfig, getViewSpecificDefaults } = usePreviewDefaults()
 
 // Preview settings state
 const settings = reactive(getDefaultSettings())
@@ -66,6 +66,12 @@ const updateNumItems = (value: number[]) => {
 // View toggle
 const toggleView = (view: 'grid' | 'varied') => {
   settings.view = view
+  
+  // Update height and width to view-specific defaults
+  const viewDefaults = getViewSpecificDefaults(view)
+  settings.previewCards.height = viewDefaults.height
+  settings.previewCards.width = viewDefaults.width
+  
   handleSettingsChange()
 }
 </script>

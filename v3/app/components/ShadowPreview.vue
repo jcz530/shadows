@@ -4,7 +4,7 @@ import { useShadowStore } from '~/stores/shadow'
 import { hexToRgba } from '~/utils'
 import { usePreviewDefaults, type PreviewSettings } from '~/composables/usePreviewDefaults'
 
-const { formatStyleValue } = usePreviewDefaults()
+const { formatStyleValue, PREVIEW_DEFAULTS, VARIED_VIEW_ITEMS } = usePreviewDefaults()
 
 const props = defineProps<{
   settings?: PreviewSettings
@@ -32,41 +32,39 @@ const backgroundColorWithOpacity = computed(() => {
 })
 
 const cardStyles = computed(() => {
+  const currentView = props.settings?.view || 'varied'
+
   if (!props.settings) {
     return {
-      backgroundColor: '#ffffff',
-      borderRadius: formatStyleValue('borderRadius', 0.5),
-      height: formatStyleValue('height', 21),
-      width: formatStyleValue('width', 28),
+      backgroundColor: PREVIEW_DEFAULTS.previewCards.backgroundColor,
+      borderRadius: formatStyleValue('borderRadius', PREVIEW_DEFAULTS.previewCards.borderRadius.value),
+      height: formatStyleValue('height', PREVIEW_DEFAULTS.previewCards.height.varied.value, 'varied'),
+      width: formatStyleValue('width', PREVIEW_DEFAULTS.previewCards.width.varied.value, 'varied'),
     }
   }
 
   return {
     backgroundColor: props.settings.previewCards.backgroundColor,
     borderRadius: formatStyleValue('borderRadius', props.settings.previewCards.borderRadius),
-    height: formatStyleValue('height', props.settings.previewCards.height),
-    width: formatStyleValue('width', props.settings.previewCards.width),
+    height: formatStyleValue('height', props.settings.previewCards.height, currentView),
+    width: formatStyleValue('width', props.settings.previewCards.width, currentView),
   }
 })
 
 const containerClass = computed(() => {
   if (props.settings?.view === 'varied') {
-    return 'flex gap-8 items-center justify-center'
+    return 'flex justify-evenly items-center'
   }
   return 'flex flex-wrap gap-8 items-center justify-center'
 })
 
 const previewItems = computed(() => {
   if (props.settings?.view === 'varied') {
-    // For varied view, return specific items with their sizes
-    return [
-      { type: 'button', width: '100px', height: '40px' },
-      { type: 'medium', width: '120px', height: '120px' },
-      { type: 'large', width: '160px', height: '160px' },
-    ]
+    // For varied view, return configurable items with their sizes
+    return VARIED_VIEW_ITEMS
   }
 
-  const count = props.settings?.numItems || 4
+  const count = props.settings?.numItems || PREVIEW_DEFAULTS.numItems
   return Array.from({ length: count }, (_, i) => ({
     type: 'standard',
     index: i,
@@ -92,7 +90,7 @@ const getItemStyles = (item: any) => {
 </script>
 <template>
   <div
-    class="w-full min-h-[400px] p-8 rounded-lg"
+    class="w-full min-h-24 p-8 rounded-lg"
     :style="{ backgroundColor: backgroundColorWithOpacity }"
   >
     <div :class="containerClass">

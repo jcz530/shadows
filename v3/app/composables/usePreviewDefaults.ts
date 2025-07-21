@@ -12,15 +12,27 @@ export interface PreviewCardDefaults {
       step: number
     }
     height: {
-      value: number
-      unit: 'vh' | 'px' | 'rem'
+      grid: {
+        value: number
+        unit: 'vh' | 'px' | 'rem'
+      }
+      varied: {
+        value: number
+        unit: 'vh' | 'px' | 'rem'
+      }
       min: number
       max: number
       step: number
     }
     width: {
-      value: number
-      unit: 'vw' | 'px' | 'rem'
+      grid: {
+        value: number
+        unit: 'vw' | 'px' | 'rem'
+      }
+      varied: {
+        value: number
+        unit: 'vw' | 'px' | 'rem'
+      }
       min: number
       max: number
       step: number
@@ -44,23 +56,41 @@ export const PREVIEW_DEFAULTS: PreviewCardDefaults = {
       step: 0.01,
     },
     height: {
-      value: 21,
-      unit: 'vh',
+      grid: {
+        value: 18,
+        unit: 'vh',
+      },
+      varied: {
+        value: 25,
+        unit: 'vh',
+      },
       min: 0,
       max: 100,
       step: 0.01,
     },
     width: {
-      value: 21,
-      unit: 'vw',
+      grid: {
+        value: 18,
+        unit: 'vw',
+      },
+      varied: {
+        value: 25,
+        unit: 'vw',
+      },
       min: 0,
       max: 100,
       step: 1,
     },
   },
-  view: 'grid',
+  view: 'varied',
   numItems: 3,
 }
+
+export const VARIED_VIEW_ITEMS = [
+  { type: 'small', width: '6rem', height: '2.5rem' },
+  { type: 'medium', width: '10rem', height: '10rem' },
+  { type: 'large', width: '20rem', height: '20rem' },
+]
 
 export interface PreviewSettings {
   page: {
@@ -77,42 +107,67 @@ export interface PreviewSettings {
 }
 
 export function usePreviewDefaults() {
-  const getDefaultSettings = (): PreviewSettings => ({
-    page: {
-      backgroundColor: PREVIEW_DEFAULTS.page.backgroundColor,
-    },
-    previewCards: {
-      backgroundColor: PREVIEW_DEFAULTS.previewCards.backgroundColor,
-      borderRadius: PREVIEW_DEFAULTS.previewCards.borderRadius.value,
-      height: PREVIEW_DEFAULTS.previewCards.height.value,
-      width: PREVIEW_DEFAULTS.previewCards.width.value,
-    },
-    view: PREVIEW_DEFAULTS.view,
-    numItems: PREVIEW_DEFAULTS.numItems,
-  })
+  const getDefaultSettings = (): PreviewSettings => {
+    const defaultView = PREVIEW_DEFAULTS.view
+    return {
+      page: {
+        backgroundColor: PREVIEW_DEFAULTS.page.backgroundColor,
+      },
+      previewCards: {
+        backgroundColor: PREVIEW_DEFAULTS.previewCards.backgroundColor,
+        borderRadius: PREVIEW_DEFAULTS.previewCards.borderRadius.value,
+        height: PREVIEW_DEFAULTS.previewCards.height[defaultView].value,
+        width: PREVIEW_DEFAULTS.previewCards.width[defaultView].value,
+      },
+      view: defaultView,
+      numItems: PREVIEW_DEFAULTS.numItems,
+    }
+  }
 
   const formatStyleValue = (
     property: 'borderRadius' | 'height' | 'width',
-    value: number
+    value: number,
+    view: 'grid' | 'varied' = 'varied'
   ): string => {
-    const config = PREVIEW_DEFAULTS.previewCards[property]
+    if (property === 'borderRadius') {
+      const config = PREVIEW_DEFAULTS.previewCards.borderRadius
+      return `${value}${config.unit}`
+    }
+
+    const config = PREVIEW_DEFAULTS.previewCards[property][view]
     return `${value}${config.unit}`
   }
 
   const getSliderConfig = (property: 'borderRadius' | 'height' | 'width') => {
     const config = PREVIEW_DEFAULTS.previewCards[property]
+    if (property === 'borderRadius') {
+      return {
+        min: config.min,
+        max: config.max,
+        step: config.step,
+        unit: config.unit,
+      }
+    }
+
     return {
       min: config.min,
       max: config.max,
       step: config.step,
-      unit: config.unit,
+      unit: config.grid.unit, // Use grid unit as default for sliders
     }
   }
 
+  const getViewSpecificDefaults = (view: 'grid' | 'varied') => ({
+    height: PREVIEW_DEFAULTS.previewCards.height[view].value,
+    width: PREVIEW_DEFAULTS.previewCards.width[view].value,
+  })
+
   return {
     PREVIEW_DEFAULTS,
+    VARIED_VIEW_ITEMS,
     formatStyleValue,
     getDefaultSettings,
     getSliderConfig,
+    getViewSpecificDefaults,
   }
 }

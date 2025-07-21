@@ -81,7 +81,7 @@ useHead({
       </header>
 
       <!-- Preview Section -->
-      <section class="mb-12">
+      <section class="mb-4">
         <div class="text-center mb-6">
           <h3 class="text-xl font-semibold mb-2">Preview Your Box Shadow</h3>
           <p class="text-muted-foreground">
