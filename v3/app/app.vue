@@ -1,6 +1,8 @@
 <template>
   <div class="min-h-screen bg-background">
     <NuxtRouteAnnouncer />
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>
