@@ -18,11 +18,11 @@ const settings = reactive({
   previewCards: {
     backgroundColor: '#ffffff',
     borderRadius: 8,
-    height: 20,
-    width: 30,
+    height: 21,
+    width: 28,
   },
   view: 'grid', // 'grid' or 'varied'
-  numItems: 4,
+  numItems: 3,
 })
 
 // Color picker refs

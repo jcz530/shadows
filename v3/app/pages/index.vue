@@ -14,8 +14,8 @@ const previewSettings = ref({
   previewCards: {
     backgroundColor: '#ffffff',
     borderRadius: 8,
-    height: 120,
-    width: 200,
+    height: 16,
+    width: 16,
   },
   view: 'grid' as 'grid' | 'varied',
   numItems: 4,
@@ -115,7 +115,7 @@ useHead({
       </section>
 
       <!-- Footer -->
-      <footer class="text-center py-8 border-t">
+      <footer class="text-center py-8 border-t bg-purple-600">
         <div
           class="flex items-center justify-center gap-4 text-muted-foreground"
         >

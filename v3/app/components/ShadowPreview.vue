@@ -47,8 +47,8 @@ const cardStyles = computed(() => {
     return {
       backgroundColor: '#ffffff',
       borderRadius: '1rem',
-      height: '120px',
-      width: '200px',
+      height: '21vh',
+      width: '28vw',
     }
   }
 
