@@ -47,7 +47,7 @@ const handleSettingsChange = (settings: typeof previewSettings.value) => {
     <h2 class="text-4xl font-semibold text-foreground mb-12 text-center">
       CSS Box-Shadow Generator
     </h2>
-    <p class="text-3xl text-muted-foreground max-w-3xl">
+    <p class="text-3xl text-slate-600 max-w-3xl">
       The key to a good box-shadow is <strong>opacity</strong> and
       <strong>layers</strong>.
     </p>

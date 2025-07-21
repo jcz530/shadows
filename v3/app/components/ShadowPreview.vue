@@ -32,8 +32,6 @@ const backgroundColorWithOpacity = computed(() => {
 })
 
 const cardStyles = computed(() => {
-  const currentView = props.settings?.view || 'varied'
-
   return {
     backgroundColor: props.settings.previewCards.backgroundColor,
     borderRadius: formatStyleValue('borderRadius', props.settings.previewCards.borderRadius),
@@ -81,7 +79,7 @@ const getItemStyles = (item: any) => {
 </script>
 <template>
   <div
-    class="w-full min-h-24 p-8 rounded-lg"
+    class="w-full min-h-24 px-0 sm:px-8 p-8 rounded-lg"
     :style="{ backgroundColor: backgroundColorWithOpacity }"
   >
     <div :class="containerClass">

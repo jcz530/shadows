@@ -63,9 +63,9 @@ export const PREVIEW_DEFAULTS: PreviewCardDefaults = {
 }
 
 export const VARIED_VIEW_ITEMS = [
-  { type: 'small', width: '6rem', height: '2.5rem' },
-  { type: 'medium', width: '10rem', height: '10rem' },
-  { type: 'large', width: '20rem', height: '20rem' },
+  { type: 'small', width: '10vw', height: '2.5rem' },
+  { type: 'medium', width: '10vw', height: '10vw' },
+  { type: 'large', width: '20vw', height: '20vw' },
 ]
 
 export interface PreviewSettings {

@@ -60,7 +60,9 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           :max="360"
           @update:model-value="updateField('angle', $event)"
         />
-        <div class="flex items-center justify-center gap-2">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+        >
           <Button
             variant="ghost"
             size="sm"
@@ -94,7 +96,9 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           :max="100"
           @update:model-value="updateField('distance', $event)"
         />
-        <div class="flex items-center justify-center gap-2">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+        >
           <Button
             variant="ghost"
             size="sm"
@@ -128,7 +132,9 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           :max="100"
           @update:model-value="updateField('blur', $event)"
         />
-        <div class="flex items-center justify-center gap-2">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+        >
           <Button
             variant="ghost"
             size="sm"
@@ -162,7 +168,9 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           :max="50"
           @update:model-value="updateField('spread', $event)"
         />
-        <div class="flex items-center justify-center gap-2">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+        >
           <Button
             variant="ghost"
             size="sm"
@@ -207,7 +215,9 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
           :max="100"
           @update:model-value="updateField('opacity', $event)"
         />
-        <div class="flex items-center justify-center gap-2">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-2"
+        >
           <Button
             variant="ghost"
             size="sm"
@@ -232,7 +242,7 @@ const decrementValue = (field: keyof Shadow, min: number, max: number) => {
     </div>
 
     <!-- Actions -->
-    <div class="flex gap-2">
+    <div class="flex flex-col sm:flex-row gap-2">
       <Button
         variant="outline"
         size="sm"
