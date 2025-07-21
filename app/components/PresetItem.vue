@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { useShadowStore } from '~/stores/shadow'
 import type { Shadow } from '~/stores/shadow'
 import { hexToRgba, copyToClipboard } from '~/utils'
+import { toast } from 'vue-sonner'
 
 type PresetShadow = Omit<Shadow, 'id'>
 
@@ -48,7 +49,7 @@ const copyPresetCSS = async () => {
   if (css) {
     const success = await copyToClipboard(css)
     if (success) {
-      console.log(`${props.preset.title} CSS copied to clipboard!`)
+      toast.success(`${props.preset.title} CSS copied to clipboard!`)
     }
   }
 }

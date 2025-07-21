@@ -7,6 +7,7 @@ import { Button } from '~/components/ui/button'
 import hljs from 'highlight.js/lib/core'
 import css from 'highlight.js/lib/languages/css'
 import { usePlausible } from '~/composables/usePlausible'
+import { toast } from 'vue-sonner'
 import '~/assets/css/highlight-purple-theme.css'
 
 // Register CSS language
@@ -59,12 +60,12 @@ const copyCSS = async (css: string) => {
   if (css === shadowValue.value) cssType = 'shadow_value'
   else if (css === standardCSS.value) cssType = 'standard_css'
   else if (css === vendorPrefixCSS.value) cssType = 'vendor_prefix_css'
-  
+
   trackEvent('copy_css', { location: 'css_output', css_type: cssType })
-  
+
   const success = await copyToClipboard(css)
   if (success) {
-    console.log('CSS copied to clipboard!')
+    toast.success('CSS copied to clipboard!')
   }
 }
 </script>

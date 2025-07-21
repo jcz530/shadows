@@ -6,6 +6,7 @@ import { Button } from '~/components/ui/button'
 import ShadowInputRow from '~/components/ShadowInputRow.vue'
 import { CardFooter } from '~/components/ui/card'
 import { usePlausible } from '~/composables/usePlausible'
+import { toast } from 'vue-sonner'
 
 const shadowStore = useShadowStore()
 const { trackEvent } = usePlausible()
@@ -16,7 +17,7 @@ const copyCSS = async () => {
   if (css) {
     const success = await copyToClipboard(css)
     if (success) {
-      console.log('CSS copied to clipboard!')
+      toast.success('CSS copied to clipboard!')
     }
   }
 }

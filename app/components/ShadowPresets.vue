@@ -5,6 +5,7 @@ import { materialDesignPresets, tailwindPresets } from '~/utils/presets'
 import type { Shadow } from '~/stores/shadow'
 import { hexToRgba, copyToClipboard } from '~/utils'
 import { usePlausible } from '~/composables/usePlausible'
+import { toast } from 'vue-sonner'
 
 const shadowStore = useShadowStore()
 const { trackEvent } = usePlausible()
@@ -49,7 +50,7 @@ const copyPresetCSS = async (preset: Preset) => {
   if (css) {
     const success = await copyToClipboard(css)
     if (success) {
-      console.log(`${preset.title} CSS copied to clipboard!`)
+      toast.success(`${preset.title} CSS copied to clipboard!`)
     }
   }
 }
