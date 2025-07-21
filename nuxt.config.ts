@@ -5,7 +5,13 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt', '@nuxt/eslint', '@vueuse/nuxt', 'shadcn-nuxt'],
+  modules: [
+    '@pinia/nuxt',
+    '@nuxt/eslint',
+    '@vueuse/nuxt',
+    'shadcn-nuxt',
+    '@nuxtjs/plausible',
+  ],
   css: ['./assets/css/main.css'],
   components: [
     {
@@ -22,6 +28,12 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+  },
+  plausible: {
+    domain: 'shadows.joeczubiak.com',
+    ignoredHostnames: ['localhost'],
+    apiHost: 'https://plausible.io',
+    autoOutboundTracking: true,
   },
   head: {
     title: 'Shadows',

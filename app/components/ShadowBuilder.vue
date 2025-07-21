@@ -5,18 +5,30 @@ import { copyToClipboard } from '~/utils'
 import { Button } from '~/components/ui/button'
 import ShadowInputRow from '~/components/ShadowInputRow.vue'
 import { CardFooter } from '~/components/ui/card'
+import { usePlausible } from '~/composables/usePlausible'
 
 const shadowStore = useShadowStore()
+const { trackEvent } = usePlausible()
 
 const copyCSS = async () => {
+  trackEvent('copy_css', { location: 'shadow_builder' })
   const css = shadowStore.cssWithVendorPrefixes
   if (css) {
     const success = await copyToClipboard(css)
     if (success) {
-      // You could add a toast notification here
       console.log('CSS copied to clipboard!')
     }
   }
+}
+
+const addShadow = () => {
+  trackEvent('add_shadow')
+  shadowStore.addShadow()
+}
+
+const clearShadows = () => {
+  trackEvent('clear_shadows')
+  shadowStore.clearShadows()
 }
 </script>
 
@@ -50,11 +62,11 @@ const copyCSS = async () => {
     <!-- Action buttons -->
     <CardFooter>
       <div class="flex gap-3 pt-4">
-        <Button @click="() => shadowStore.addShadow()">
+        <Button @click="addShadow">
           <Plus class="mr-2 h-4 w-4" />
           Add Shadow
         </Button>
-        <Button variant="destructive" @click="() => shadowStore.clearShadows()">
+        <Button variant="destructive" @click="clearShadows">
           <Trash2 class="mr-2 h-4 w-4" />
           Clear
         </Button>

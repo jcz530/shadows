@@ -6,6 +6,7 @@ import { Slider } from '~/components/ui/slider'
 import { Switch } from '~/components/ui/switch'
 import { Button } from '~/components/ui/button'
 import { Label } from '~/components/ui/Label'
+import { usePlausible } from '~/composables/usePlausible'
 
 interface ShadowInputRowProps {
   shadow: Shadow
@@ -19,6 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const shadowStore = useShadowStore()
+const { trackEvent } = usePlausible()
 
 const updateField = (field: keyof Shadow, value: unknown) => {
   // Extract single value from array if slider returns array
@@ -26,14 +28,22 @@ const updateField = (field: keyof Shadow, value: unknown) => {
   shadowStore.updateShadowField(props.shadow.id, field, singleValue)
 }
 
+// Track slider changes only on completion
+const trackSliderChange = (field: keyof Shadow, value: unknown) => {
+  const singleValue = Array.isArray(value) ? value[0] : value
+  trackEvent('adjust_shadow_field', { field: field as string, value: singleValue })
+}
+
 // Helper functions for increment/decrement with bounds checking
 const incrementValue = (field: keyof Shadow, min: number, max: number) => {
+  trackEvent('increment_field', { field: field as string })
   const currentValue = props.shadow[field] as number
   const newValue = Math.min(currentValue + 1, max)
   updateField(field, newValue)
 }
 
 const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
+  trackEvent('decrement_field', { field: field as string })
   const currentValue = props.shadow[field] as number
   const newValue = Math.max(currentValue - 1, min)
   updateField(field, newValue)
@@ -59,6 +69,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="0"
           :max="360"
           @update:model-value="updateField('angle', $event)"
+          @value-commit="trackSliderChange('angle', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"
@@ -95,6 +106,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="0"
           :max="100"
           @update:model-value="updateField('distance', $event)"
+          @value-commit="trackSliderChange('distance', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"
@@ -131,6 +143,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="0"
           :max="100"
           @update:model-value="updateField('blur', $event)"
+          @value-commit="trackSliderChange('blur', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"
@@ -167,6 +180,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="-50"
           :max="50"
           @update:model-value="updateField('spread', $event)"
+          @value-commit="trackSliderChange('spread', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"
@@ -214,6 +228,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="0"
           :max="100"
           @update:model-value="updateField('opacity', $event)"
+          @value-commit="trackSliderChange('opacity', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"
@@ -247,7 +262,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
         variant="outline"
         size="sm"
         title="Duplicate"
-        @click="emit('duplicate')"
+        @click="() => { trackEvent('duplicate_shadow'); emit('duplicate') }"
       >
         <Copy class="h-4 w-4" />
       </Button>
@@ -255,7 +270,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
         variant="destructive"
         size="sm"
         title="Delete"
-        @click="emit('delete')"
+        @click="() => { trackEvent('delete_shadow'); emit('delete') }"
       >
         <Trash2 class="h-4 w-4" />
       </Button>

@@ -17,9 +17,11 @@ import {
   TooltipTrigger,
 } from '~/components/ui/tooltip'
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
+import { usePlausible } from '~/composables/usePlausible'
 
 const { getDefaultSettings, formatStyleValue, getSliderConfig } =
   usePreviewDefaults()
+const { trackEvent } = usePlausible()
 
 // Preview settings state
 const settings = reactive(getDefaultSettings())
@@ -37,7 +39,7 @@ const handleSettingsChange = () => {
   emit('settingsChanged', settings)
 }
 
-// Handle slider changes
+// Handle slider changes - without tracking (tracking happens on end)
 const updateBorderRadius = (value: number[]) => {
   settings.previewCards.borderRadius = value[0]
   handleSettingsChange()
@@ -58,10 +60,50 @@ const updateNumItems = (value: number[]) => {
   handleSettingsChange()
 }
 
+// Track slider changes only on completion
+const trackBorderRadiusChange = (value: number[]) => {
+  trackEvent('adjust_preview_setting', {
+    setting: 'border_radius',
+    value: value[0],
+  })
+}
+
+const trackHeightChange = (value: number[]) => {
+  trackEvent('adjust_preview_setting', { setting: 'height', value: value[0] })
+}
+
+const trackWidthChange = (value: number[]) => {
+  trackEvent('adjust_preview_setting', { setting: 'width', value: value[0] })
+}
+
+const trackNumItemsChange = (value: number[]) => {
+  trackEvent('adjust_preview_setting', {
+    setting: 'num_items',
+    value: value[0],
+  })
+}
+
 // View toggle
 const toggleView = (view: 'grid' | 'varied') => {
+  trackEvent('change_preview_view', { view })
   settings.view = view
   handleSettingsChange()
+}
+
+// Track color changes
+const handlePageColorChange = () => {
+  trackEvent('adjust_preview_setting', { setting: 'page_background_color' })
+  handleSettingsChange()
+}
+
+const handleCardColorChange = () => {
+  trackEvent('adjust_preview_setting', { setting: 'card_background_color' })
+  handleSettingsChange()
+}
+
+// Track opening the settings popover
+const handleOpenSettings = () => {
+  trackEvent('open_preview_settings')
 }
 </script>
 
@@ -70,7 +112,7 @@ const toggleView = (view: 'grid' | 'varied') => {
     <TooltipProvider>
       <Popover>
         <PopoverTrigger as-child>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" @click="handleOpenSettings">
             <Settings class="mr-2 h-4 w-4" />
             Adjust Preview Cards
           </Button>
@@ -94,13 +136,13 @@ const toggleView = (view: 'grid' | 'varied') => {
                     v-model="settings.page.backgroundColor"
                     type="color"
                     class="hover:cursor-pointer"
-                    @change="handleSettingsChange"
+                    @change="handlePageColorChange"
                   />
                   <Input
                     v-model="settings.page.backgroundColor"
                     placeholder="#ffffff"
                     type="text"
-                    @input="handleSettingsChange"
+                    @input="handlePageColorChange"
                   />
                 </div>
               </div>
@@ -164,6 +206,7 @@ const toggleView = (view: 'grid' | 'varied') => {
                         :disabled="settings.view === 'varied'"
                         class="w-full"
                         @update:model-value="updateNumItems"
+                        @value-commit="trackNumItemsChange"
                       />
                     </div>
                   </TooltipTrigger>
@@ -179,6 +222,7 @@ const toggleView = (view: 'grid' | 'varied') => {
                   :step="1"
                   class="w-full"
                   @update:model-value="updateNumItems"
+                  @value-commit="trackNumItemsChange"
                 />
                 <div class="text-xs text-muted-foreground">
                   {{
@@ -205,13 +249,13 @@ const toggleView = (view: 'grid' | 'varied') => {
                     v-model="settings.previewCards.backgroundColor"
                     type="color"
                     class="hover:cursor-pointer"
-                    @change="handleSettingsChange"
+                    @change="handleCardColorChange"
                   />
                   <Input
                     v-model="settings.previewCards.backgroundColor"
                     placeholder="#ffffff"
                     type="text"
-                    @input="handleSettingsChange"
+                    @input="handleCardColorChange"
                   />
                 </div>
               </div>
@@ -230,6 +274,7 @@ const toggleView = (view: 'grid' | 'varied') => {
                   :step="getSliderConfig('borderRadius').step"
                   class="w-full"
                   @update:model-value="updateBorderRadius"
+                  @value-commit="trackBorderRadiusChange"
                 />
                 <div class="text-xs text-muted-foreground">
                   {{
@@ -258,6 +303,7 @@ const toggleView = (view: 'grid' | 'varied') => {
                         :disabled="settings.view === 'varied'"
                         class="w-full"
                         @update:model-value="updateHeight"
+                        @value-commit="trackHeightChange"
                       />
                     </div>
                   </TooltipTrigger>
@@ -274,6 +320,7 @@ const toggleView = (view: 'grid' | 'varied') => {
                   :step="getSliderConfig('height').step"
                   class="w-full"
                   @update:model-value="updateHeight"
+                  @value-commit="trackHeightChange"
                 />
                 <div class="text-xs text-muted-foreground">
                   {{ formatStyleValue('height', settings.previewCards.height) }}
@@ -297,6 +344,7 @@ const toggleView = (view: 'grid' | 'varied') => {
                         :disabled="settings.view === 'varied'"
                         class="w-full"
                         @update:model-value="updateWidth"
+                        @value-commit="trackWidthChange"
                       />
                     </div>
                   </TooltipTrigger>
@@ -313,6 +361,7 @@ const toggleView = (view: 'grid' | 'varied') => {
                   :step="getSliderConfig('width').step"
                   class="w-full"
                   @update:model-value="updateWidth"
+                  @value-commit="trackWidthChange"
                 />
                 <div class="text-xs text-muted-foreground">
                   {{ formatStyleValue('width', settings.previewCards.width) }}
