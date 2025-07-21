@@ -10,6 +10,12 @@ import {
   PopoverTrigger,
 } from '~/components/ui/popover'
 import { Slider } from '~/components/ui/slider'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '~/components/ui/tooltip'
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
 
 const {
@@ -77,203 +83,261 @@ const toggleView = (view: 'grid' | 'varied') => {
 
 <template>
   <div class="flex justify-center">
-    <Popover>
-      <PopoverTrigger as-child>
-        <Button variant="outline" size="sm">
-          <Settings class="w-4 h-4 mr-2" />
-          Adjust Preview Cards
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent class="w-96 p-6" side="bottom" align="center">
-        <div class="grid grid-cols-2 gap-6">
-          <!-- PAGE Column -->
-          <div class="space-y-4">
-            <h4
-              class="font-semibold text-sm uppercase tracking-wide text-muted-foreground"
-            >
-              PAGE
-            </h4>
+    <TooltipProvider>
+      <Popover>
+        <PopoverTrigger as-child>
+          <Button variant="outline" size="sm">
+            <Settings class="w-4 h-4 mr-2" />
+            Adjust Preview Cards
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent class="w-96 p-6" side="bottom" align="center">
+          <div class="grid grid-cols-2 gap-6">
+            <!-- PAGE Column -->
+            <div class="space-y-4">
+              <h4
+                class="font-semibold text-sm uppercase tracking-wide text-muted-foreground"
+              >
+                PAGE
+              </h4>
 
-            <!-- Background Color -->
-            <div class="space-y-2">
-              <label class="text-sm font-medium">Background Color</label>
-              <div class="flex items-center gap-2">
-                <Input
-                  ref="pageColorInput"
-                  type="color"
-                  class="hover:cursor-pointer"
-                  :value="settings.page.backgroundColor"
-                  @input="updatePageColor"
-                />
-                <Input
-                  placeholder="#ffffff"
-                  type="text"
-                  :value="settings.page.backgroundColor"
-                  @input="updatePageColor"
-                />
+              <!-- Background Color -->
+              <div class="space-y-2">
+                <label class="text-sm font-medium">Background Color</label>
+                <div class="flex items-center gap-2">
+                  <Input
+                    ref="pageColorInput"
+                    type="color"
+                    class="hover:cursor-pointer"
+                    :value="settings.page.backgroundColor"
+                    @input="updatePageColor"
+                  />
+                  <Input
+                    placeholder="#ffffff"
+                    type="text"
+                    :value="settings.page.backgroundColor"
+                    @input="updatePageColor"
+                  />
+                </div>
               </div>
-            </div>
 
-            <!-- View Toggle -->
-            <div class="space-y-2">
-              <label class="text-sm font-medium">View</label>
-              <div class="flex gap-1">
-                <Button
-                  variant="outline"
-                  @click="toggleView('grid')"
-                  :class="[
-                    'p-2 rounded border',
-                    settings.view === 'grid'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-background hover:bg-accent',
-                  ]"
-                >
-                  <div class="grid grid-cols-2 gap-1 w-8 h-4">
-                    <div class="bg-current rounded-[2px]"></div>
-                    <div class="bg-current rounded-[2px]"></div>
-                    <div class="bg-current rounded-[2px]"></div>
-                    <div class="bg-current rounded-[2px]"></div>
-                  </div>
-                </Button>
-                <Button
-                  @click="toggleView('varied')"
-                  variant="outline"
-                  :class="[
-                    'p-2 rounded border',
-                    settings.view === 'varied'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-background hover:bg-accent',
-                  ]"
-                >
-                  <div
-                    class="space-x-1 w-8 h-4 flex justify-center items-center"
+              <!-- View Toggle -->
+              <div class="space-y-2">
+                <label class="text-sm font-medium">View</label>
+                <div class="flex gap-1">
+                  <Button
+                    variant="outline"
+                    @click="toggleView('grid')"
+                    :class="[
+                      'p-2 rounded border',
+                      settings.view === 'grid'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-background hover:bg-accent',
+                    ]"
                   >
-                    <div class="bg-current w-2 h-1 rounded-[2px]"></div>
-                    <div class="bg-current w-3 h-3 rounded-[2px]"></div>
-                    <div class="bg-current w-4 h-4 rounded-[2px]"></div>
-                  </div>
-                </Button>
+                    <div class="grid grid-cols-2 gap-1 w-8 h-4">
+                      <div class="bg-current rounded-[2px]"></div>
+                      <div class="bg-current rounded-[2px]"></div>
+                      <div class="bg-current rounded-[2px]"></div>
+                      <div class="bg-current rounded-[2px]"></div>
+                    </div>
+                  </Button>
+                  <Button
+                    @click="toggleView('varied')"
+                    variant="outline"
+                    :class="[
+                      'p-2 rounded border',
+                      settings.view === 'varied'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-background hover:bg-accent',
+                    ]"
+                  >
+                    <div
+                      class="space-x-1 w-8 h-4 flex justify-center items-center"
+                    >
+                      <div class="bg-current w-2 h-1 rounded-[2px]"></div>
+                      <div class="bg-current w-3 h-3 rounded-[2px]"></div>
+                      <div class="bg-current w-4 h-4 rounded-[2px]"></div>
+                    </div>
+                  </Button>
+                </div>
+              </div>
+
+              <!-- Num Items -->
+              <div
+                class="space-y-3"
+                :class="{ 'opacity-50': settings.view === 'varied' }"
+              >
+                <label class="text-sm font-medium">Num Items</label>
+                <Tooltip v-if="settings.view === 'varied'">
+                  <TooltipTrigger as-child>
+                    <div>
+                      <Slider
+                        :model-value="[settings.numItems]"
+                        @update:model-value="updateNumItems"
+                        :min="1"
+                        :max="24"
+                        :step="1"
+                        :disabled="settings.view === 'varied'"
+                        class="w-full"
+                      />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Set view to Grid to adjust the number of items</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Slider
+                  v-else
+                  :model-value="[settings.numItems]"
+                  @update:model-value="updateNumItems"
+                  :min="1"
+                  :max="24"
+                  :step="1"
+                  class="w-full"
+                />
+                <div class="text-xs text-muted-foreground">
+                  {{
+                    settings.view === 'varied' ? '3 (fixed)' : settings.numItems
+                  }}
+                </div>
               </div>
             </div>
 
-            <!-- Num Items -->
-            <div
-              class="space-y-3"
-              :class="{ 'opacity-50': settings.view === 'varied' }"
-            >
-              <label class="text-sm font-medium">Num Items</label>
-              <Slider
-                :model-value="[settings.numItems]"
-                @update:model-value="updateNumItems"
-                :min="1"
-                :max="24"
-                :step="1"
-                :disabled="settings.view === 'varied'"
-                class="w-full"
-              />
-              <div class="text-xs text-muted-foreground">
-                {{
-                  settings.view === 'varied' ? '3 (fixed)' : settings.numItems
-                }}
+            <!-- PREVIEW CARDS Column -->
+            <div class="space-y-4">
+              <h4
+                class="font-semibold text-sm uppercase tracking-wide text-muted-foreground"
+              >
+                PREVIEW CARDS
+              </h4>
+
+              <!-- Background Color -->
+              <div class="space-y-2">
+                <label class="text-sm font-medium">Background Color</label>
+                <div class="flex items-center gap-2">
+                  <Input
+                    ref="cardColorInput"
+                    type="color"
+                    class="hover:cursor-pointer"
+                    :value="settings.page.backgroundColor"
+                    @input="updatePageColor"
+                  />
+                  <Input
+                    placeholder="#ffffff"
+                    type="text"
+                    :value="settings.previewCards.backgroundColor"
+                    @input="updateCardColor"
+                  />
+                </div>
+              </div>
+
+              <!-- Border Radius -->
+              <div class="space-y-3">
+                <label class="text-sm font-medium"
+                  >Border Radius ({{
+                    getSliderConfig('borderRadius').unit
+                  }})</label
+                >
+                <Slider
+                  :model-value="[settings.previewCards.borderRadius]"
+                  @update:model-value="updateBorderRadius"
+                  :min="getSliderConfig('borderRadius').min"
+                  :max="getSliderConfig('borderRadius').max"
+                  :step="getSliderConfig('borderRadius').step"
+                  class="w-full"
+                />
+                <div class="text-xs text-muted-foreground">
+                  {{
+                    formatStyleValue(
+                      'borderRadius',
+                      settings.previewCards.borderRadius
+                    )
+                  }}
+                </div>
+              </div>
+
+              <!-- Height -->
+              <div class="space-y-3">
+                <Label class="text-sm font-medium" for="height"
+                  >Height ({{ getSliderConfig('height').unit }})
+                </Label>
+                <Tooltip v-if="settings.view === 'varied'">
+                  <TooltipTrigger as-child>
+                    <div>
+                      <Slider
+                        id="height"
+                        :model-value="[settings.previewCards.height]"
+                        @update:model-value="updateHeight"
+                        :min="getSliderConfig('height').min"
+                        :max="getSliderConfig('height').max"
+                        :step="getSliderConfig('height').step"
+                        :disabled="settings.view === 'varied'"
+                        class="w-full"
+                      />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Set view to Grid to adjust height</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Slider
+                  v-else
+                  id="height"
+                  :model-value="[settings.previewCards.height]"
+                  @update:model-value="updateHeight"
+                  :min="getSliderConfig('height').min"
+                  :max="getSliderConfig('height').max"
+                  :step="getSliderConfig('height').step"
+                  class="w-full"
+                />
+                <div class="text-xs text-muted-foreground">
+                  {{ formatStyleValue('height', settings.previewCards.height) }}
+                </div>
+              </div>
+
+              <!-- Width -->
+              <div class="space-y-3">
+                <Label class="text-sm font-medium" for="width"
+                  >Width ({{ getSliderConfig('width').unit }})</Label
+                >
+                <Tooltip v-if="settings.view === 'varied'">
+                  <TooltipTrigger as-child>
+                    <div>
+                      <Slider
+                        id="width"
+                        :model-value="[settings.previewCards.width]"
+                        @update:model-value="updateWidth"
+                        :min="getSliderConfig('width').min"
+                        :max="getSliderConfig('width').max"
+                        :step="getSliderConfig('width').step"
+                        :disabled="settings.view === 'varied'"
+                        class="w-full"
+                      />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Set view to Grid to adjust width</p>
+                  </TooltipContent>
+                </Tooltip>
+                <Slider
+                  v-else
+                  id="width"
+                  :model-value="[settings.previewCards.width]"
+                  @update:model-value="updateWidth"
+                  :min="getSliderConfig('width').min"
+                  :max="getSliderConfig('width').max"
+                  :step="getSliderConfig('width').step"
+                  class="w-full"
+                />
+                <div class="text-xs text-muted-foreground">
+                  {{ formatStyleValue('width', settings.previewCards.width) }}
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- PREVIEW CARDS Column -->
-          <div class="space-y-4">
-            <h4
-              class="font-semibold text-sm uppercase tracking-wide text-muted-foreground"
-            >
-              PREVIEW CARDS
-            </h4>
-
-            <!-- Background Color -->
-            <div class="space-y-2">
-              <label class="text-sm font-medium">Background Color</label>
-              <div class="flex items-center gap-2">
-                <Input
-                  ref="cardColorInput"
-                  type="color"
-                  class="hover:cursor-pointer"
-                  :value="settings.page.backgroundColor"
-                  @input="updatePageColor"
-                />
-                <Input
-                  placeholder="#ffffff"
-                  type="text"
-                  :value="settings.previewCards.backgroundColor"
-                  @input="updateCardColor"
-                />
-              </div>
-            </div>
-
-            <!-- Border Radius -->
-            <div class="space-y-3">
-              <label class="text-sm font-medium"
-                >Border Radius ({{
-                  getSliderConfig('borderRadius').unit
-                }})</label
-              >
-              <Slider
-                :model-value="[settings.previewCards.borderRadius]"
-                @update:model-value="updateBorderRadius"
-                :min="getSliderConfig('borderRadius').min"
-                :max="getSliderConfig('borderRadius').max"
-                :step="getSliderConfig('borderRadius').step"
-                class="w-full"
-              />
-              <div class="text-xs text-muted-foreground">
-                {{
-                  formatStyleValue(
-                    'borderRadius',
-                    settings.previewCards.borderRadius
-                  )
-                }}
-              </div>
-            </div>
-
-            <!-- Height -->
-            <div class="space-y-3">
-              <Label class="text-sm font-medium" for="height"
-                >Height ({{ getSliderConfig('height').unit }})
-              </Label>
-              <Slider
-                id="height"
-                :model-value="[settings.previewCards.height]"
-                @update:model-value="updateHeight"
-                :min="getSliderConfig('height').min"
-                :max="getSliderConfig('height').max"
-                :step="getSliderConfig('height').step"
-                :disabled="settings.view === 'varied'"
-                class="w-full"
-              />
-              <div class="text-xs text-muted-foreground">
-                {{ formatStyleValue('height', settings.previewCards.height) }}
-              </div>
-            </div>
-
-            <!-- Width -->
-            <div class="space-y-3">
-              <Label class="text-sm font-medium" for="width"
-                >Width ({{ getSliderConfig('width').unit }})</Label
-              >
-              <Slider
-                id="width"
-                :model-value="[settings.previewCards.width]"
-                @update:model-value="updateWidth"
-                :min="getSliderConfig('width').min"
-                :max="getSliderConfig('width').max"
-                :step="getSliderConfig('width').step"
-                :disabled="settings.view === 'varied'"
-                class="w-full"
-              />
-              <div class="text-xs text-muted-foreground">
-                {{ formatStyleValue('width', settings.previewCards.width) }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
+        </PopoverContent>
+      </Popover>
+    </TooltipProvider>
   </div>
 </template>
