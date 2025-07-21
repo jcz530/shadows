@@ -114,11 +114,11 @@ export const useShadowStore = defineStore('shadow', {
       }
     },
 
-    updateShadowField(shadowId: number, field: keyof Shadow, value: any) {
+    updateShadowField(shadowId: number, field: keyof Shadow, value: unknown) {
       const shadow = this.shadows.find(s => s.id === shadowId)
       console.log('value', value)
       if (shadow) {
-        ;(shadow as any)[field] = value
+        ;(shadow as Record<string, unknown>)[field] = value
 
         // Update x,y coordinates when angle or distance changes
         if (field === 'angle' || field === 'distance') {

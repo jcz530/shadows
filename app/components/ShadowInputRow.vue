@@ -20,7 +20,7 @@ const emit = defineEmits<{
 
 const shadowStore = useShadowStore()
 
-const updateField = (field: keyof Shadow, value: any) => {
+const updateField = (field: keyof Shadow, value: unknown) => {
   // Extract single value from array if slider returns array
   const singleValue = Array.isArray(value) ? value[0] : value
   shadowStore.updateShadowField(props.shadow.id, field, singleValue)
@@ -33,7 +33,7 @@ const incrementValue = (field: keyof Shadow, min: number, max: number) => {
   updateField(field, newValue)
 }
 
-const decrementValue = (field: keyof Shadow, min: number, max: number) => {
+const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
   const currentValue = props.shadow[field] as number
   const newValue = Math.max(currentValue - 1, min)
   updateField(field, newValue)
