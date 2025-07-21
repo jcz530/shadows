@@ -8,9 +8,7 @@ import CSSOutput from '~/components/CSSOutput.vue'
 <template>
   <Card class="overflow-hidden pt-0 gap-0">
     <CardHeader class="bg-purple-700">
-      <h3 class="text-xl font-semibold py-6 text-primary-foreground">
-        Shadow Builder
-      </h3>
+      <h3 class="text-xl py-2 text-primary-foreground">Shadow Builder</h3>
     </CardHeader>
     <Tabs default-value="shadows" class="w-full pt-0 mt-0">
       <div class="bg-purple-600">

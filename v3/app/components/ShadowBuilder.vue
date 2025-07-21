@@ -23,7 +23,9 @@ const copyCSS = async () => {
 <template>
   <div class="space-y-4">
     <!-- Header row with labels -->
-    <div class="grid grid-cols-8 gap-4 items-center p-4 text-sm font-medium text-muted-foreground border-b bg-muted/50">
+    <div
+      class="grid grid-cols-8 gap-4 items-center p-4 text-sm font-medium text-muted-foreground border-b bg-muted/50"
+    >
       <div class="text-center">On/Off</div>
       <div class="text-center">Angle</div>
       <div class="text-center">Distance</div>
@@ -47,20 +49,20 @@ const copyCSS = async () => {
 
     <!-- Action buttons -->
     <CardFooter>
-    <div class="flex gap-3 pt-4">
-      <Button @click="() => shadowStore.addShadow()">
-        <Plus class="w-4 h-4 mr-2" />
-        Add Shadow
-      </Button>
-      <Button variant="destructive" @click="() => shadowStore.clearShadows()">
-        <Trash2 class="w-4 h-4 mr-2" />
-        Clear
-      </Button>
-      <Button variant="outline" @click="copyCSS">
-        <Copy class="w-4 h-4 mr-2" />
-        Copy CSS
-      </Button>
-    </div>
+      <div class="flex gap-3 pt-4">
+        <Button @click="() => shadowStore.addShadow()">
+          <Plus class="w-4 h-4 mr-2" />
+          Add Shadow
+        </Button>
+        <Button variant="destructive" @click="() => shadowStore.clearShadows()">
+          <Trash2 class="w-4 h-4 mr-2" />
+          Clear
+        </Button>
+        <Button variant="outline" @click="copyCSS">
+          <Copy class="w-4 h-4 mr-2" />
+          Copy CSS
+        </Button>
+      </div>
     </CardFooter>
   </div>
 </template>

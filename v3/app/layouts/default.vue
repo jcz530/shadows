@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Github } from 'lucide-vue-next'
+import { Button } from '@/components/ui/button'
 </script>
 
 <template>
@@ -13,11 +14,12 @@ import { Github } from 'lucide-vue-next'
           <img
             src="~/assets/shadows-logo.svg"
             alt="Shadows"
-            class="h-8 w-auto"
+            class="h-6 w-auto"
           />
         </div>
         <a
-          href="https://github.com/joeczubiak"
+          href="https://github.com/jcz530/shadows"
+          title="View on Github"
           target="_blank"
           rel="noopener noreferrer"
           class="text-primary-foreground hover:text-primary-foreground/80 transition-colors"
@@ -28,35 +30,48 @@ import { Github } from 'lucide-vue-next'
     </nav>
 
     <div class="container mx-auto px-4 py-8 max-w-7xl">
-      <!-- Header -->
-      <header class="text-center mb-12">
-        <h2 class="text-2xl font-semibold text-foreground mb-4">
-          CSS Box-Shadow Generator
-        </h2>
-        <p class="text-lg text-muted-foreground max-w-3xl mx-auto">
-          The key to a good box-shadow is <strong>opacity</strong> and
-          <strong>layers</strong>. This modern CSS generator allows you to
-          visualize and create multiple shadow layers with real-time preview.
-        </p>
-      </header>
-
       <!-- Page Content -->
       <slot />
-
-      <!-- Footer -->
-      <footer class="text-center py-8 border-t bg-purple-600">
-        <div
-          class="flex items-center justify-center gap-4 text-muted-foreground"
-        >
-          <Github class="w-4 h-4" />
-          <span>Built by Joe Czubiak</span>
-          <span>•</span>
-          <span
-            >{{ new Date().getFullYear() }} - Shadows: A CSS Box Shadow
-            Generator</span
-          >
-        </div>
-      </footer>
     </div>
+
+    <!-- Footer -->
+    <footer class="w-full">
+      <div class="bg-purple-600 py-4">
+        <div class="flex items-center justify-center gap-4 text-white">
+          <Button
+            class="hover:bg-purple-700 hover:text-white"
+            variant="ghost"
+            href="https://github.com/jcz530/shadows"
+            target="_blank"
+            rel="noopener"
+          >
+            <Github class="w-4 h-4" />
+          </Button>
+          <Button
+            class="hover:bg-purple-700 hover:text-white"
+            variant="ghost"
+            href="https://joeczubiak.com?ref=shadows"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="uppercase text-xs">Built by</span>
+            <img
+              class="d-inline"
+              style="height: 1em"
+              src="https://joeczubiak.com/images/joe-czubiak-logo.svg"
+              width="35"
+              height="14"
+              alt="Joe Czubiak logo"
+            />
+          </Button>
+        </div>
+      </div>
+      <div class="bg-purple-700 py-4">
+        <div class="flex items-center justify-center text-white gap-1">
+          <span class="font-light">{{ new Date().getFullYear() }} — </span>
+          Shadows: A CSS Box Shadow Generator
+        </div>
+      </div>
+    </footer>
   </div>
 </template>

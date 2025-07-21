@@ -3,6 +3,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: Roboto, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --shadow-sm:   0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+
   --color-purple-50: #f2f5fc;
   --color-purple-100: #e1e8f8;
   --color-purple-200: #cbd8f2;
@@ -55,11 +58,11 @@
 
 :root {
   --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.271 0.032 256.848);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --card-foreground: oklch(0.271 0.032 256.848);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
+  --popover-foreground: oklch(0.271 0.032 256.848);
   --primary: #3f51b5;
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.968 0.007 247.896);
@@ -133,3 +136,6 @@
   }
 }
 
+.page-width {
+  @apply w-[90vw] md:w-[70vw] mx-auto;
+}
