@@ -1,37 +1,38 @@
 <script setup lang="ts">
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '~/components/ui/tabs'
-import { Card } from '~/components/ui/card'
+import { Card, CardContent, CardHeader } from '~/components/ui/card'
 import ShadowBuilder from '~/components/ShadowBuilder.vue'
 import PageSettings from '~/components/PageSettings.vue'
 import CSSOutput from '~/components/CSSOutput.vue'
 </script>
 
 <template>
-  <Card class="p-6">
-    <div class="mb-6">
-      <h3 class="text-xl font-semibold text-primary mb-2">
+  <Card class="overflow-hidden pt-0 gap-0">
+    <CardHeader class="bg-purple-700">
+      <h3 class="text-xl font-semibold py-6 text-primary-foreground">
         Shadow Builder
       </h3>
-    </div>
+    </CardHeader>
+      <Tabs default-value="shadows" class="w-full pt-0 mt-0">
+        <div class="bg-purple-600">
+          <TabsList class=" rounded-none h-12 p-0 z-20 bg-purple-600">
+            <TabsTrigger value="shadows">Shadows</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
+            <TabsTrigger value="css">CSS</TabsTrigger>
+          </TabsList>
+        </div>
 
-    <Tabs default-value="shadows" class="w-full">
-      <TabsList class="grid w-full grid-cols-3">
-        <TabsTrigger value="shadows">Shadows</TabsTrigger>
-        <TabsTrigger value="settings">Settings</TabsTrigger>
-        <TabsTrigger value="css">CSS</TabsTrigger>
-      </TabsList>
+        <TabsContent value="shadows" class="-mt-2">
+          <ShadowBuilder />
+        </TabsContent>
 
-      <TabsContent value="shadows" class="mt-6">
-        <ShadowBuilder />
-      </TabsContent>
+        <TabsContent value="settings" class="mt-6 p-6 pt-0">
+          <PageSettings />
+        </TabsContent>
 
-      <TabsContent value="settings" class="mt-6">
-        <PageSettings />
-      </TabsContent>
-
-      <TabsContent value="css" class="mt-6">
-        <CSSOutput />
-      </TabsContent>
-    </Tabs>
+        <TabsContent value="css" class="mt-6 p-6 pt-0">
+          <CSSOutput />
+        </TabsContent>
+      </Tabs>
   </Card>
 </template>

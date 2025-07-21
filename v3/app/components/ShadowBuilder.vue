@@ -4,6 +4,7 @@ import { useShadowStore } from '~/stores/shadow'
 import { copyToClipboard } from '~/utils'
 import { Button } from '~/components/ui/button'
 import ShadowInputRow from '~/components/ShadowInputRow.vue'
+import { CardFooter } from '~/components/ui/card'
 
 const shadowStore = useShadowStore()
 
@@ -45,6 +46,7 @@ const copyCSS = async () => {
     </div>
 
     <!-- Action buttons -->
+    <CardFooter>
     <div class="flex gap-3 pt-4">
       <Button @click="() => shadowStore.addShadow()">
         <Plus class="w-4 h-4 mr-2" />
@@ -59,5 +61,6 @@ const copyCSS = async () => {
         Copy CSS
       </Button>
     </div>
+    </CardFooter>
   </div>
 </template>
