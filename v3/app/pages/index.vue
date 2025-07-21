@@ -5,21 +5,12 @@ import ShadowPreview from '~/components/ShadowPreview.vue'
 import PreviewSettings from '~/components/PreviewSettings.vue'
 import PresetCard from '~/components/PresetCard.vue'
 import BuilderCard from '~/components/BuilderCard.vue'
+import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
+
+const { getDefaultSettings } = usePreviewDefaults()
 
 // Preview settings state
-const previewSettings = ref({
-  page: {
-    backgroundColor: '#ffffff',
-  },
-  previewCards: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-    height: 16,
-    width: 16,
-  },
-  view: 'grid' as 'grid' | 'varied',
-  numItems: 4,
-})
+const previewSettings = ref(getDefaultSettings())
 
 // Handle settings changes
 const handleSettingsChange = (settings: typeof previewSettings.value) => {

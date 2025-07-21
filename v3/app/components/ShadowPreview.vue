@@ -2,20 +2,9 @@
 import { computed } from 'vue'
 import { useShadowStore } from '~/stores/shadow'
 import { hexToRgba } from '~/utils'
+import { usePreviewDefaults, type PreviewSettings } from '~/composables/usePreviewDefaults'
 
-interface PreviewSettings {
-  page: {
-    backgroundColor: string
-  }
-  previewCards: {
-    backgroundColor: string
-    borderRadius: number
-    height: number
-    width: number
-  }
-  view: 'grid' | 'varied'
-  numItems: number
-}
+const { formatStyleValue } = usePreviewDefaults()
 
 const props = defineProps<{
   settings?: PreviewSettings
@@ -46,17 +35,17 @@ const cardStyles = computed(() => {
   if (!props.settings) {
     return {
       backgroundColor: '#ffffff',
-      borderRadius: '1rem',
-      height: '21vh',
-      width: '28vw',
+      borderRadius: formatStyleValue('borderRadius', 0.5),
+      height: formatStyleValue('height', 21),
+      width: formatStyleValue('width', 28),
     }
   }
 
   return {
     backgroundColor: props.settings.previewCards.backgroundColor,
-    borderRadius: `${props.settings.previewCards.borderRadius}rem`,
-    height: `${props.settings.previewCards.height}vh`,
-    width: `${props.settings.previewCards.width}vw`,
+    borderRadius: formatStyleValue('borderRadius', props.settings.previewCards.borderRadius),
+    height: formatStyleValue('height', props.settings.previewCards.height),
+    width: formatStyleValue('width', props.settings.previewCards.width),
   }
 })
 
@@ -88,7 +77,7 @@ const getItemStyles = (item: any) => {
   if (props.settings?.view === 'varied' && item.type) {
     return {
       backgroundColor: props.settings.previewCards.backgroundColor,
-      borderRadius: `${props.settings.previewCards.borderRadius}rem`,
+      borderRadius: formatStyleValue('borderRadius', props.settings.previewCards.borderRadius),
       height: item.height,
       width: item.width,
       boxShadow: shadowCSS.value,

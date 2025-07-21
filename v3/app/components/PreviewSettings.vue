@@ -9,21 +9,12 @@ import {
   PopoverTrigger,
 } from '~/components/ui/popover'
 import { Slider } from '~/components/ui/slider'
+import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
+
+const { getDefaultSettings, formatStyleValue, getSliderConfig } = usePreviewDefaults()
 
 // Preview settings state
-const settings = reactive({
-  page: {
-    backgroundColor: '#ffffff',
-  },
-  previewCards: {
-    backgroundColor: '#ffffff',
-    borderRadius: 8,
-    height: 21,
-    width: 28,
-  },
-  view: 'grid', // 'grid' or 'varied'
-  numItems: 3,
-})
+const settings = reactive(getDefaultSettings())
 
 // Color picker refs
 const pageColorInput = ref<HTMLInputElement>()
@@ -213,49 +204,49 @@ const toggleView = (view: 'grid' | 'varied') => {
 
             <!-- Border Radius -->
             <div class="space-y-3">
-              <label class="text-sm font-medium">Border Radius (rem)</label>
+              <label class="text-sm font-medium">Border Radius ({{ getSliderConfig('borderRadius').unit }})</label>
               <Slider
                 :model-value="[settings.previewCards.borderRadius]"
                 @update:model-value="updateBorderRadius"
-                :min="0"
-                :max="15"
-                :step="0.01"
+                :min="getSliderConfig('borderRadius').min"
+                :max="getSliderConfig('borderRadius').max"
+                :step="getSliderConfig('borderRadius').step"
                 class="w-full"
               />
               <div class="text-xs text-muted-foreground">
-                {{ settings.previewCards.borderRadius.toFixed(2) }}rem
+                {{ formatStyleValue('borderRadius', settings.previewCards.borderRadius) }}
               </div>
             </div>
 
             <!-- Height -->
             <div class="space-y-3">
-              <label class="text-sm font-medium">Height (vh)</label>
+              <label class="text-sm font-medium">Height ({{ getSliderConfig('height').unit }})</label>
               <Slider
                 :model-value="[settings.previewCards.height]"
                 @update:model-value="updateHeight"
-                :min="0"
-                :max="100"
-                :step="0.01"
+                :min="getSliderConfig('height').min"
+                :max="getSliderConfig('height').max"
+                :step="getSliderConfig('height').step"
                 class="w-full"
               />
               <div class="text-xs text-muted-foreground">
-                {{ settings.previewCards.height }}vh
+                {{ formatStyleValue('height', settings.previewCards.height) }}
               </div>
             </div>
 
             <!-- Width -->
             <div class="space-y-3">
-              <label class="text-sm font-medium">Width (vw)</label>
+              <label class="text-sm font-medium">Width ({{ getSliderConfig('width').unit }})</label>
               <Slider
                 :model-value="[settings.previewCards.width]"
                 @update:model-value="updateWidth"
-                :min="0"
-                :max="100"
-                :step="1"
+                :min="getSliderConfig('width').min"
+                :max="getSliderConfig('width').max"
+                :step="getSliderConfig('width').step"
                 class="w-full"
               />
               <div class="text-xs text-muted-foreground">
-                {{ settings.previewCards.width }}vw
+                {{ formatStyleValue('width', settings.previewCards.width) }}
               </div>
             </div>
           </div>
