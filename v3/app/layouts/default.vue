@@ -68,7 +68,9 @@ import { Button } from '@/components/ui/button'
       </div>
       <div class="bg-purple-700 py-4">
         <div class="flex items-center justify-center text-white gap-1">
-          <span class="font-light">{{ new Date().getFullYear() }} — </span>
+          <span class="font-light"
+            >2021 - {{ new Date().getFullYear() }} —
+          </span>
           Shadows: A CSS Box Shadow Generator
         </div>
       </div>
