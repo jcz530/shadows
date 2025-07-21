@@ -4,6 +4,12 @@ import { Copy } from 'lucide-vue-next'
 import { useShadowStore } from '~/stores/shadow'
 import { copyToClipboard } from '~/utils'
 import { Button } from '~/components/ui/button'
+import hljs from 'highlight.js/lib/core'
+import css from 'highlight.js/lib/languages/css'
+import '~/assets/css/highlight-purple-theme.css'
+
+// Register CSS language
+hljs.registerLanguage('css', css)
 
 const shadowStore = useShadowStore()
 
@@ -24,6 +30,27 @@ const vendorPrefixCSS = computed(() => {
   return shadowStore.cssWithVendorPrefixes || 'box-shadow: none;'
 })
 
+// Highlighted CSS computeds
+const highlightedStandardCSS = computed(() => {
+  const css = standardCSS.value
+  return hljs.highlight(css, { language: 'css' }).value
+})
+
+const highlightedVendorPrefixCSS = computed(() => {
+  const css = vendorPrefixCSS.value
+  return hljs.highlight(css, { language: 'css' }).value
+})
+
+const highlightedUsageExample = computed(() => {
+  const css = `.my-element {\n  ${standardCSS.value}\n}`
+  return hljs.highlight(css, { language: 'css' }).value
+})
+
+const highlightedTailwindExample = computed(() => {
+  const css = `@theme {\n  --shadow-custom: ${shadowValue.value};\n}`
+  return hljs.highlight(css, { language: 'css' }).value
+})
+
 const copyCSS = async (css: string) => {
   const success = await copyToClipboard(css)
   if (success) {
@@ -42,7 +69,7 @@ const copyCSS = async (css: string) => {
           <div class="relative mt-2">
             <pre
               class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
-            ><code>{{ shadowValue }}</code></pre>
+            ><code class="text-purple-500">{{ shadowValue }}</code></pre>
             <Button
               size="sm"
               variant="outline"
@@ -60,7 +87,7 @@ const copyCSS = async (css: string) => {
           <div class="relative mt-2">
             <pre
               class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
-            ><code>{{ standardCSS }}</code></pre>
+            ><code v-html="highlightedStandardCSS"></code></pre>
             <Button
               size="sm"
               variant="outline"
@@ -78,7 +105,7 @@ const copyCSS = async (css: string) => {
           <div class="relative mt-2">
             <pre
               class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
-            ><code>{{ vendorPrefixCSS }}</code></pre>
+            ><code v-html="highlightedVendorPrefixCSS"></code></pre>
             <Button
               size="sm"
               variant="outline"
@@ -94,16 +121,14 @@ const copyCSS = async (css: string) => {
 
     <div>
       <h3 class="text-lg font-semibold mb-4">Usage</h3>
-      <div class="text-sm \ space-y-4">
+      <div class="text-sm space-y-4">
         <div>
           <p class="mb-2">
             Copy the CSS above and apply it to any element in your stylesheet:
           </p>
           <pre
             class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
-          ><code>.my-element {
-  {{ standardCSS }}
-}</code></pre>
+          ><code v-html="highlightedUsageExample"></code></pre>
         </div>
 
         <div>
@@ -113,10 +138,8 @@ const copyCSS = async (css: string) => {
           </p>
           <pre
             class="bg-muted p-4 rounded-lg text-sm overflow-x-auto"
-          ><code>@theme {
-  --shadow-custom: {{ shadowValue }};
-}</code></pre>
-          <p class="mt-2 text-xs">
+          ><code v-html="highlightedTailwindExample"></code></pre>
+          <p class="mt-2">
             Then use it in your HTML with the class
             <code class="bg-muted px-1 rounded">shadow-custom</code>
           </p>

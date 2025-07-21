@@ -1,0 +1,79 @@
+/*
+Custom Purple Highlight.js Theme
+Based on the project's purple color palette (#3f51b5)
+*/
+
+.hljs {
+  color: var(--color-purple-100); /* purple-100 for main text */
+  background: var(--color-purple-950); /* purple-950 for background */
+}
+
+/* CSS properties and selectors */
+.hljs-attribute,
+.hljs-selector-class,
+.hljs-selector-id,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: var(--color-purple-500); /* Primary purple for CSS selectors */
+  font-weight: bolder;
+}
+.hljs-attr {
+  color: var(--color-purple-600); /* CSS Variables */
+}
+
+/* CSS property values */
+.hljs-string,
+.hljs-number {
+  color: var(--color-purple-400); /* purple-400 for values */
+}
+
+/* CSS keywords and units */
+.hljs-keyword,
+.hljs-built_in {
+  color: var(--color-purple-500);
+  font-style: italic;
+}
+
+/* Comments */
+.hljs-comment {
+  color: var(--color-purple-300); /* purple-300 for comments */
+  font-style: italic;
+}
+
+/* Brackets, colons, semicolons */
+.hljs-punctuation {
+  color: var(--color-purple-200); /* purple-200 */
+}
+
+/* Property names in CSS */
+.hljs-property {
+  color: var(--color-purple-600); /* purple-600 for property names */
+}
+
+/* Functions like rgba(), calc() */
+.hljs-function,
+.hljs-params {
+  color: var(--color-purple-400); /* purple-400 for functions */
+}
+
+/* Units like px, %, em */
+.hljs-literal {
+  color: var(--color-purple-300); /* purple-300 for units */
+}
+
+/* Special highlighting for important/priority */
+.hljs-meta {
+  color: var(--color-purple-700); /* Primary purple */
+  font-weight: bold;
+}
+
+/* Variables and custom properties */
+.hljs-variable {
+  color: var(--color-purple-500); /* purple-500 */
+}
+
+/* At-rules like @media, @keyframes */
+.hljs-at_rule {
+  color: var(--color-purple-600); /* purple-600 */
+  font-weight: bold;
+}
