@@ -168,12 +168,12 @@ export const useShadowStore = defineStore('shadow', {
       }
 
       this._hasBeenInitializedFromHistory = true
-      
+
       // If we didn't load from history, save initial state as baseline for undo
       nextTick(() => {
         this._saveInitialState()
       })
-      
+
       return false
     },
 
@@ -231,22 +231,148 @@ export const useShadowStore = defineStore('shadow', {
       this.isUndoRedo = false
     },
 
+    _describeStateChange(
+      oldState: { shadows: Shadow[]; background: any },
+      newState: { shadows: Shadow[]; background: any },
+    ): { title: string; description: string } {
+      const oldShadowCount = oldState.shadows.length
+      const newShadowCount = newState.shadows.length
+
+      // Check for shadow count changes
+      if (oldShadowCount !== newShadowCount) {
+        if (newShadowCount > oldShadowCount) {
+          const added = newShadowCount - oldShadowCount
+          return {
+            title: `Added ${added} shadow${added === 1 ? '' : 's'}`,
+            description: `${oldShadowCount} → ${newShadowCount} layers`
+          }
+        } else {
+          const removed = oldShadowCount - newShadowCount
+          return {
+            title: `Removed ${removed} shadow${removed === 1 ? '' : 's'}`,
+            description: `${oldShadowCount} → ${newShadowCount} layers`
+          }
+        }
+      }
+
+      // Check for background changes
+      if (oldState.background.color !== newState.background.color) {
+        return {
+          title: 'Changed background color',
+          description: `${oldState.background.color} → ${newState.background.color}`
+        }
+      }
+
+      if (oldState.background.opacity !== newState.background.opacity) {
+        return {
+          title: 'Changed background opacity',
+          description: `${oldState.background.opacity}% → ${newState.background.opacity}%`
+        }
+      }
+
+      // Check for shadow visibility changes
+      const oldVisibleCount = oldState.shadows.filter(s => s.visible).length
+      const newVisibleCount = newState.shadows.filter(s => s.visible).length
+      if (oldVisibleCount !== newVisibleCount) {
+        if (newVisibleCount > oldVisibleCount) {
+          return {
+            title: 'Showed shadow layer',
+            description: `${oldVisibleCount} → ${newVisibleCount} visible`
+          }
+        } else {
+          return {
+            title: 'Hidden shadow layer',
+            description: `${oldVisibleCount} → ${newVisibleCount} visible`
+          }
+        }
+      }
+
+      // Check for shadow property changes
+      for (
+        let i = 0;
+        i < Math.min(oldState.shadows.length, newState.shadows.length);
+        i++
+      ) {
+        const oldShadow = oldState.shadows[i]
+        const newShadow = newState.shadows[i]
+
+        if (oldShadow.color !== newShadow.color) {
+          return {
+            title: 'Changed shadow color',
+            description: `${oldShadow.color} → ${newShadow.color}`
+          }
+        }
+        if (oldShadow.blur !== newShadow.blur) {
+          return {
+            title: 'Changed shadow blur',
+            description: `${oldShadow.blur}px → ${newShadow.blur}px`
+          }
+        }
+        if (oldShadow.spread !== newShadow.spread) {
+          return {
+            title: 'Changed shadow spread',
+            description: `${oldShadow.spread}px → ${newShadow.spread}px`
+          }
+        }
+        if (oldShadow.opacity !== newShadow.opacity) {
+          return {
+            title: 'Changed shadow opacity',
+            description: `${oldShadow.opacity}% → ${newShadow.opacity}%`
+          }
+        }
+        if (
+          oldShadow.angle !== newShadow.angle ||
+          oldShadow.distance !== newShadow.distance
+        ) {
+          return {
+            title: 'Changed shadow position',
+            description: `${oldShadow.angle}°/${oldShadow.distance}px → ${newShadow.angle}°/${newShadow.distance}px`
+          }
+        }
+      }
+
+      return {
+        title: 'Changed shadow properties',
+        description: ''
+      }
+    },
+
     undo() {
+      const currentState = {
+        shadows: this.shadows,
+        background: this.background,
+      }
+
       const state = this._getHistory().undo()
       if (state) {
+        const changeInfo = this._describeStateChange(currentState, state)
         this._restoreFromHistory(state)
-        return true
+        return { 
+          success: true, 
+          title: changeInfo.title,
+          description: changeInfo.description 
+        }
       }
-      return false
+      return { success: false }
     },
 
     redo() {
+      const currentState = {
+        shadows: this.shadows,
+        background: this.background,
+      }
+
       const state = this._getHistory().redo()
       if (state) {
+        const changeInfo = this._describeStateChange(currentState, state)
         this._restoreFromHistory(state)
-        return true
+        return { 
+          success: true, 
+          title: changeInfo.title,
+          description: changeInfo.description 
+        }
       }
-      return false
+      return { success: false }
     },
 
     clearHistory() {

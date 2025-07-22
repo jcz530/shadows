@@ -3,7 +3,7 @@ import { useShadowStore } from '~/stores/shadow'
 export function useKeyboardShortcuts() {
   const shadowStore = useShadowStore()
 
-  const handleKeyDown = (event: KeyboardEvent) => {
+  const handleKeyDown = async (event: KeyboardEvent) => {
     // Handle Ctrl+Z (or Cmd+Z on Mac)
     if (
       (event.ctrlKey || event.metaKey) &&
@@ -11,7 +11,13 @@ export function useKeyboardShortcuts() {
       !event.shiftKey
     ) {
       event.preventDefault()
-      shadowStore.undo()
+      const result = shadowStore.undo()
+      if (result.success) {
+        const { toast } = await import('vue-sonner')
+        toast.success('Undone: ' + result.title, {
+          description: result.description,
+        })
+      }
       return
     }
 
@@ -22,7 +28,13 @@ export function useKeyboardShortcuts() {
       event.key === 'z'
     ) {
       event.preventDefault()
-      shadowStore.redo()
+      const result = shadowStore.redo()
+      if (result.success) {
+        const { toast } = await import('vue-sonner')
+        toast.success('Redone: ' + result.title, {
+          description: result.description,
+        })
+      }
       return
     }
   }

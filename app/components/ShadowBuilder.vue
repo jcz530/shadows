@@ -49,15 +49,21 @@ const copyShareableURL = async () => {
 
 const handleUndo = () => {
   trackEvent('undo')
-  if (shadowStore.undo()) {
-    toast.success('Action undone')
+  const result = shadowStore.undo()
+  if (result.success) {
+    toast.success('Undone: ' + result.title, {
+      description: result.description,
+    })
   }
 }
 
 const handleRedo = () => {
   trackEvent('redo')
-  if (shadowStore.redo()) {
-    toast.success('Action redone')
+  const result = shadowStore.redo()
+  if (result.success) {
+    toast.success('Redone: ' + result.title, {
+      description: result.description,
+    })
   }
 }
 </script>
