@@ -1,5 +1,10 @@
 import { defineStore } from 'pinia'
-import { hexToRgba, xAndYFromAngleDistance } from '~/utils'
+import {
+  hexToRgba,
+  xAndYFromAngleDistance,
+  encodeShadowsToUrl,
+  decodeShadowsFromUrl,
+} from '~/utils'
 
 export interface Shadow {
   id: number
@@ -89,6 +94,7 @@ export const useShadowStore = defineStore('shadow', {
         opacity: 20,
       }
       this.shadows.push(newShadow)
+      this.syncToUrl()
     },
 
     duplicateShadow(shadow: Shadow) {
@@ -97,20 +103,24 @@ export const useShadowStore = defineStore('shadow', {
         id: this.nextId++,
       }
       this.shadows.push(duplicated)
+      this.syncToUrl()
     },
 
     deleteShadow(shadowId: number) {
       this.shadows = this.shadows.filter(s => s.id !== shadowId)
+      this.syncToUrl()
     },
 
     clearShadows() {
       this.shadows = []
+      this.syncToUrl()
     },
 
     toggleShadowVisibility(shadowId: number) {
       const shadow = this.shadows.find(s => s.id === shadowId)
       if (shadow) {
         shadow.visible = !shadow.visible
+        this.syncToUrl()
       }
     },
 
@@ -125,12 +135,14 @@ export const useShadowStore = defineStore('shadow', {
           shadow.x = xy.x
           shadow.y = xy.y
         }
+        this.syncToUrl()
       }
     },
 
     setBackground(color: string, opacity: number = 100) {
       this.background.color = color
       this.background.opacity = opacity
+      this.syncToUrl()
     },
 
     loadPreset(shadows: Omit<Shadow, 'id'>[]) {
@@ -138,6 +150,54 @@ export const useShadowStore = defineStore('shadow', {
         ...shadow,
         id: this.nextId++,
       }))
+      this.syncToUrl()
+    },
+
+    syncToUrl() {
+      if (import.meta.client) {
+        const encoded = encodeShadowsToUrl(this.shadows, this.background)
+        const url = new URL(window.location.href)
+
+        if (encoded) {
+          // Replace the entire query string with our encoded parameters
+          url.search = encoded
+        } else {
+          // Clear parameters if no shadows
+          url.search = ''
+        }
+
+        window.history.replaceState({}, '', url.toString())
+      }
+    },
+
+    async loadFromUrl() {
+      if (import.meta.client) {
+        const queryString = window.location.search.substring(1) // Remove the '?'
+        if (queryString) {
+          const result = decodeShadowsFromUrl(queryString)
+          if (result.success && result.data) {
+            this.shadows = result.data.shadows.map(shadow => ({
+              ...shadow,
+              id: this.nextId++,
+            }))
+            this.background = result.data.background
+
+            // Show success toast
+            const { toast } = await import('vue-sonner')
+            toast.success('Loaded shadows from URL', {
+              description: `Successfully loaded ${result.data.shadows.length} shadow${result.data.shadows.length === 1 ? '' : 's'} from URL`,
+            })
+            return true
+          } else if (result.error) {
+            // Show error toast
+            const { toast } = await import('vue-sonner')
+            toast.error('Failed to load shadows from URL', {
+              description: result.error,
+            })
+          }
+        }
+      }
+      return false
     },
   },
 })

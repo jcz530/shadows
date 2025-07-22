@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { Plus, Copy, Trash2 } from 'lucide-vue-next'
+import { Copy, Plus, Share, Trash2 } from 'lucide-vue-next'
 import { useShadowStore } from '~/stores/shadow'
 import { copyToClipboard } from '~/utils'
 import { Button } from '~/components/ui/button'
 import ShadowInputRow from '~/components/ShadowInputRow.vue'
 import { CardFooter } from '~/components/ui/card'
-import { usePlausible } from '~/composables/usePlausible'
+import { useEventTracking } from '~/composables/useEventTracking'
 import { toast } from 'vue-sonner'
 
 const shadowStore = useShadowStore()
-const { trackEvent } = usePlausible()
+const { trackEvent } = useEventTracking()
 
 const copyCSS = async () => {
   trackEvent('copy_css', { location: 'shadow_builder' })
-  const css = shadowStore.cssWithVendorPrefixes
+  const css = shadowStore.cssShadow
   if (css) {
     const success = await copyToClipboard(css)
     if (success) {
@@ -30,6 +30,15 @@ const addShadow = () => {
 const clearShadows = () => {
   trackEvent('clear_shadows')
   shadowStore.clearShadows()
+}
+
+const copyShareableURL = async () => {
+  trackEvent('copy_shareable_url', { location: 'shadow_builder' })
+  const currentURL = window.location.href
+  const success = await copyToClipboard(currentURL)
+  if (success) {
+    toast.success('Shareable URL copied to clipboard!')
+  }
 }
 </script>
 
@@ -74,6 +83,10 @@ const clearShadows = () => {
         <Button variant="outline" @click="copyCSS">
           <Copy class="mr-2 h-4 w-4" />
           Copy CSS
+        </Button>
+        <Button variant="outline" @click="copyShareableURL">
+          <Share class="mr-2 h-4 w-4" />
+          Copy shareable URL
         </Button>
       </div>
     </CardFooter>

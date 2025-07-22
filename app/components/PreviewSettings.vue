@@ -17,11 +17,11 @@ import {
   TooltipTrigger,
 } from '~/components/ui/tooltip'
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
-import { usePlausible } from '~/composables/usePlausible'
+import { useEventTracking } from '~/composables/useEventTracking'
 
 const { getDefaultSettings, formatStyleValue, getSliderConfig } =
   usePreviewDefaults()
-const { trackEvent } = usePlausible()
+const { trackEvent } = useEventTracking()
 
 // Preview settings state
 const settings = reactive(getDefaultSettings())
@@ -156,7 +156,7 @@ const handleOpenSettings = () => {
                     :class="[
                       'rounded border p-2',
                       settings.view === 'grid'
-                        ? 'bg-primary text-primary-foreground'
+                        ? 'border-none bg-primary text-primary-foreground'
                         : 'bg-background hover:bg-accent',
                     ]"
                     @click="toggleView('grid')"
@@ -173,7 +173,7 @@ const handleOpenSettings = () => {
                     :class="[
                       'rounded border p-2',
                       settings.view === 'varied'
-                        ? 'bg-primary text-primary-foreground'
+                        ? 'border-none bg-primary text-primary-foreground'
                         : 'bg-background hover:bg-accent',
                     ]"
                     @click="toggleView('varied')"

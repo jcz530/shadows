@@ -82,14 +82,14 @@ npm run lint:fix
   - Supports both grid and varied view modes
   - Provides helper functions for formatting style values
 
-- **composables/usePlausible.ts**: Analytics tracking for user interactions
+- **composables/useEventTracking.ts**: Google Analytics tracking for user interactions
 
 ### Configuration
 
 - **Nuxt 4** with Vue 3 composition API
 - **Pinia** for state management
 - **shadcn-vue** + **Tailwind CSS** for UI components and styling
-- **Plausible Analytics** for privacy-focused analytics
+- **Google Analytics** via @nuxtjs/google-gtag for user behavior tracking
 - **ESLint** and **Prettier** for code quality
 - TypeScript support throughout
 - Auto-imports disabled for explicit imports
@@ -100,14 +100,14 @@ npm run lint:fix
 interface Shadow {
   id: number
   visible: boolean
-  angle: number        // degrees (0-360)
-  distance: number     // pixels
-  x: number           // calculated from angle/distance
-  y: number           // calculated from angle/distance  
-  blur: number        // pixels
-  spread: number      // pixels (-50 to 50)
-  color: string       // hex color
-  opacity: number     // percentage (0-100)
+  angle: number // degrees (0-360)
+  distance: number // pixels
+  x: number // calculated from angle/distance
+  y: number // calculated from angle/distance
+  blur: number // pixels
+  spread: number // pixels (-50 to 50)
+  color: string // hex color
+  opacity: number // percentage (0-100)
 }
 ```
 

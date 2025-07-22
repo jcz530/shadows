@@ -6,7 +6,7 @@ import { copyToClipboard } from '~/utils'
 import { Button } from '~/components/ui/button'
 import hljs from 'highlight.js/lib/core'
 import css from 'highlight.js/lib/languages/css'
-import { usePlausible } from '~/composables/usePlausible'
+import { useEventTracking } from '~/composables/useEventTracking'
 import { toast } from 'vue-sonner'
 import '~/assets/css/highlight-purple-theme.css'
 
@@ -53,7 +53,7 @@ const highlightedTailwindExample = computed(() => {
   return hljs.highlight(css, { language: 'css' }).value
 })
 
-const { trackEvent } = usePlausible()
+const { trackEvent } = useEventTracking()
 
 const copyCSS = async (css: string) => {
   let cssType = 'unknown'

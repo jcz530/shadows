@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import * as pako from 'pako'
+import type { Shadow } from '~/stores/shadow'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -42,5 +44,120 @@ export async function copyToClipboard(text: string): Promise<boolean> {
   } catch (err) {
     console.error('Failed to copy: ', err)
     return false
+  }
+}
+
+interface ShadowData {
+  shadows: Shadow[]
+  background: {
+    color: string
+    opacity: number
+  }
+}
+
+// Base64 + Pako compression URL encoding
+export function encodeShadowsToUrl(
+  shadows: Shadow[],
+  background: { color: string; opacity: number },
+): string {
+  try {
+    const visibleShadows = shadows.filter(shadow => shadow.visible)
+    if (visibleShadows.length === 0) return ''
+
+    // Create data object to compress
+    const data = {
+      shadows: visibleShadows.map(shadow => ({
+        id: shadow.id,
+        visible: shadow.visible,
+        angle: shadow.angle,
+        distance: shadow.distance,
+        x: shadow.x,
+        y: shadow.y,
+        blur: shadow.blur,
+        spread: shadow.spread,
+        color: shadow.color,
+        opacity: shadow.opacity,
+      })),
+      background,
+    }
+
+    // Convert to JSON string
+    const jsonString = JSON.stringify(data)
+
+    // Compress using Pako
+    const compressed = pako.deflate(jsonString, { level: 9 })
+
+    // Convert to base64
+    const base64 = btoa(String.fromCharCode.apply(null, Array.from(compressed)))
+
+    // Make base64 URL-safe by replacing characters
+    const urlSafe = base64
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '')
+
+    return `s=${urlSafe}`
+  } catch (err) {
+    console.error('Failed to encode shadows to URL:', err)
+    return ''
+  }
+}
+
+interface DecodeResult {
+  success: boolean
+  data?: ShadowData
+  error?: string
+}
+
+export function decodeShadowsFromUrl(encoded: string): DecodeResult {
+  try {
+    const params = new URLSearchParams(encoded)
+    const shadowParam = params.get('s')
+
+    if (!shadowParam) {
+      return { success: false, error: 'No shadow data found in URL' }
+    }
+
+    // Restore base64 from URL-safe format
+    let base64 = shadowParam.replace(/-/g, '+').replace(/_/g, '/')
+
+    // Add padding if needed
+    while (base64.length % 4) {
+      base64 += '='
+    }
+
+    // Convert from base64 to binary
+    const binary = atob(base64)
+    const bytes = new Uint8Array(binary.length)
+    for (let i = 0; i < binary.length; i++) {
+      bytes[i] = binary.charCodeAt(i)
+    }
+
+    // Decompress using Pako
+    const decompressed = pako.inflate(bytes, { to: 'string' })
+
+    // Parse JSON
+    const data: ShadowData = JSON.parse(decompressed)
+
+    // Assign new IDs to avoid conflicts
+    let nextId = 1
+    const shadows = data.shadows.map(shadow => ({
+      ...shadow,
+      id: nextId++,
+      visible: true,
+    }))
+
+    return {
+      success: true,
+      data: {
+        shadows,
+        background: data.background || { color: '#ffffff', opacity: 100 },
+      },
+    }
+  } catch (err) {
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : 'Unknown error occurred',
+    }
   }
 }

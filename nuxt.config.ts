@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@vueuse/nuxt',
     'shadcn-nuxt',
-    '@nuxtjs/plausible',
+    'nuxt-gtag',
   ],
   css: ['./assets/css/main.css'],
   components: [
@@ -30,11 +30,8 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  plausible: {
-    domain: 'shadows.joeczubiak.com',
-    ignoredHostnames: ['localhost'],
-    apiHost: 'https://plausible.io',
-    autoOutboundTracking: true,
+  gtag: {
+    id: process.env.gtag || '',
   },
   head: {
     title: 'Shadows',

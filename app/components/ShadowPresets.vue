@@ -4,11 +4,11 @@ import { useShadowStore } from '~/stores/shadow'
 import { materialDesignPresets, tailwindPresets } from '~/utils/presets'
 import type { Shadow } from '~/stores/shadow'
 import { hexToRgba, copyToClipboard } from '~/utils'
-import { usePlausible } from '~/composables/usePlausible'
+import { useEventTracking } from '~/composables/useEventTracking'
 import { toast } from 'vue-sonner'
 
 const shadowStore = useShadowStore()
-const { trackEvent } = usePlausible()
+const { trackEvent } = useEventTracking()
 
 type PresetShadow = Omit<Shadow, 'id'>
 
@@ -40,12 +40,18 @@ const generatePresetCSS = (shadows: PresetShadow[]): string => {
 }
 
 const applyPreset = (preset: Preset) => {
-  trackEvent('apply_preset', { preset: preset.title, category: preset.category })
+  trackEvent('apply_preset', {
+    preset: preset.title,
+    category: preset.category,
+  })
   shadowStore.loadPreset(preset.shadows)
 }
 
 const copyPresetCSS = async (preset: Preset) => {
-  trackEvent('copy_preset_css', { preset: preset.title, category: preset.category })
+  trackEvent('copy_preset_css', {
+    preset: preset.title,
+    category: preset.category,
+  })
   const css = generatePresetCSS(preset.shadows)
   if (css) {
     const success = await copyToClipboard(css)
