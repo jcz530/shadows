@@ -161,3 +161,32 @@ export function decodeShadowsFromUrl(encoded: string): DecodeResult {
     }
   }
 }
+
+// Base64 encoding utilities for localStorage
+export function encryptData(data: string): string {
+  try {
+    // Simple Base64 encoding with proper UTF-8 handling
+    const encoder = new TextEncoder()
+    const bytes = encoder.encode(data)
+    return btoa(String.fromCharCode(...bytes))
+  } catch (error) {
+    console.error('Failed to encrypt data:', error)
+    throw error
+  }
+}
+
+export function decryptData(encryptedData: string): string {
+  try {
+    // Simple Base64 decoding with proper UTF-8 handling
+    const binaryString = atob(encryptedData)
+    const bytes = new Uint8Array(binaryString.length)
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i)
+    }
+    const decoder = new TextDecoder()
+    return decoder.decode(bytes)
+  } catch (error) {
+    console.error('Failed to decrypt data:', error)
+    throw error
+  }
+}

@@ -1,4 +1,5 @@
 import type { Shadow } from '~/stores/shadow'
+import { encryptData, decryptData } from '~/utils'
 
 interface HistoryState {
   shadows: Shadow[]
@@ -51,7 +52,17 @@ export function useHistory(): HistoryManager {
       try {
         const stored = localStorage.getItem(STORAGE_KEY)
         if (stored) {
-          const data = JSON.parse(stored)
+          // Try to decrypt the data first
+          let data
+          try {
+            const decryptedData = decryptData(stored)
+            data = JSON.parse(decryptedData)
+          } catch (decryptError) {
+            // If decryption fails, try parsing as unencrypted (for backwards compatibility)
+            console.warn('Failed to decrypt history data, trying unencrypted:', decryptError)
+            data = JSON.parse(stored)
+          }
+          
           history.value = data.history || []
           // Restore the saved currentIndex, or default to end of history if not saved
           currentIndex.value =
@@ -72,13 +83,15 @@ export function useHistory(): HistoryManager {
   function saveToStorage() {
     if (import.meta.client) {
       try {
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify({
-            history: history.value,
-            currentIndex: currentIndex.value,
-          }),
-        )
+        const dataToSave = {
+          history: history.value,
+          currentIndex: currentIndex.value,
+        }
+        
+        const jsonString = JSON.stringify(dataToSave)
+        const encryptedData = encryptData(jsonString)
+        
+        localStorage.setItem(STORAGE_KEY, encryptedData)
       } catch (error) {
         console.warn('Failed to save history to localStorage:', error)
       }
