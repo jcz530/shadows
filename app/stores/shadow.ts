@@ -5,6 +5,10 @@ import {
   encodeShadowsToUrl,
   decodeShadowsFromUrl,
 } from '~/utils'
+import { useHistory } from '~/composables/useHistory'
+
+// Module-level history instance
+let historyInstance: ReturnType<typeof useHistory> | null = null
 
 export interface Shadow {
   id: number
@@ -26,6 +30,7 @@ interface ShadowState {
     color: string
     opacity: number
   }
+  isUndoRedo: boolean
 }
 
 export const useShadowStore = defineStore('shadow', {
@@ -49,6 +54,7 @@ export const useShadowStore = defineStore('shadow', {
       color: '#ffffff',
       opacity: 100,
     },
+    isUndoRedo: false,
   }),
 
   getters: {
@@ -77,10 +83,78 @@ export const useShadowStore = defineStore('shadow', {
 
       return `${baseCss}\n-webkit-${baseCss}\n-moz-${baseCss}`
     },
+
+    canUndo(): boolean {
+      // Initialize history if needed
+      if (!historyInstance) {
+        historyInstance = useHistory()
+      }
+      return historyInstance.canUndo.value
+    },
+
+    canRedo(): boolean {
+      // Initialize history if needed
+      if (!historyInstance) {
+        historyInstance = useHistory()
+      }
+      return historyInstance.canRedo.value
+    },
   },
 
   actions: {
+    _getHistory() {
+      if (!historyInstance) {
+        historyInstance = useHistory()
+      }
+      return historyInstance
+    },
+
+    _saveToHistory() {
+      if (!this.isUndoRedo) {
+        this._getHistory().saveState({
+          shadows: JSON.parse(JSON.stringify(this.shadows)),
+          background: { ...this.background },
+          nextId: this.nextId,
+        })
+      }
+    },
+
+    _restoreFromHistory(state: {
+      shadows: Shadow[]
+      background: { color: string; opacity: number }
+      nextId: number
+    }) {
+      this.isUndoRedo = true
+      this.shadows = state.shadows
+      this.background = state.background
+      this.nextId = state.nextId
+      this.syncToUrl()
+      this.isUndoRedo = false
+    },
+
+    undo() {
+      const state = this._getHistory().undo()
+      if (state) {
+        this._restoreFromHistory(state)
+        return true
+      }
+      return false
+    },
+
+    redo() {
+      const state = this._getHistory().redo()
+      if (state) {
+        this._restoreFromHistory(state)
+        return true
+      }
+      return false
+    },
+
+    clearHistory() {
+      this._getHistory().clear()
+    },
     addShadow() {
+      this._saveToHistory()
       const newShadow: Shadow = {
         id: this.nextId++,
         visible: true,
@@ -98,6 +172,7 @@ export const useShadowStore = defineStore('shadow', {
     },
 
     duplicateShadow(shadow: Shadow) {
+      this._saveToHistory()
       const duplicated: Shadow = {
         ...shadow,
         id: this.nextId++,
@@ -107,16 +182,19 @@ export const useShadowStore = defineStore('shadow', {
     },
 
     deleteShadow(shadowId: number) {
+      this._saveToHistory()
       this.shadows = this.shadows.filter(s => s.id !== shadowId)
       this.syncToUrl()
     },
 
     clearShadows() {
+      this._saveToHistory()
       this.shadows = []
       this.syncToUrl()
     },
 
     toggleShadowVisibility(shadowId: number) {
+      this._saveToHistory()
       const shadow = this.shadows.find(s => s.id === shadowId)
       if (shadow) {
         shadow.visible = !shadow.visible
@@ -125,6 +203,7 @@ export const useShadowStore = defineStore('shadow', {
     },
 
     updateShadowField(shadowId: number, field: keyof Shadow, value: unknown) {
+      this._saveToHistory()
       const shadow = this.shadows.find(s => s.id === shadowId)
       if (shadow) {
         ;(shadow as Record<string, unknown>)[field] = value
@@ -140,12 +219,14 @@ export const useShadowStore = defineStore('shadow', {
     },
 
     setBackground(color: string, opacity: number = 100) {
+      this._saveToHistory()
       this.background.color = color
       this.background.opacity = opacity
       this.syncToUrl()
     },
 
     loadPreset(shadows: Omit<Shadow, 'id'>[]) {
+      this._saveToHistory()
       this.shadows = shadows.map(shadow => ({
         ...shadow,
         id: this.nextId++,

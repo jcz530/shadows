@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Copy, Plus, Share, Trash2 } from 'lucide-vue-next'
+import { Copy, Plus, Share, Trash2, Undo, Redo } from 'lucide-vue-next'
 import { useShadowStore } from '~/stores/shadow'
 import { copyToClipboard } from '~/utils'
 import { Button } from '~/components/ui/button'
@@ -40,6 +40,20 @@ const copyShareableURL = async () => {
     toast.success('Shareable URL copied to clipboard!')
   }
 }
+
+const handleUndo = () => {
+  trackEvent('undo')
+  if (shadowStore.undo()) {
+    toast.success('Action undone')
+  }
+}
+
+const handleRedo = () => {
+  trackEvent('redo')
+  if (shadowStore.redo()) {
+    toast.success('Action redone')
+  }
+}
 </script>
 
 <template>
@@ -72,6 +86,25 @@ const copyShareableURL = async () => {
     <!-- Action buttons -->
     <CardFooter>
       <div class="flex gap-3 pt-4">
+        <Button
+          variant="outline"
+          :disabled="!shadowStore.canUndo"
+          title="Undo (Ctrl+Z)"
+          @click="handleUndo"
+        >
+          <Undo class="mr-2 h-4 w-4" />
+          Undo
+        </Button>
+        <Button
+          variant="outline"
+          :disabled="!shadowStore.canRedo"
+          title="Redo (Ctrl+Y)"
+          @click="handleRedo"
+        >
+          <Redo class="mr-2 h-4 w-4" />
+          Redo
+        </Button>
+        <div class="h-8 w-px bg-border"></div>
         <Button @click="addShadow">
           <Plus class="mr-2 h-4 w-4" />
           Add Shadow
