@@ -42,9 +42,15 @@ const handleSettingsChange = (settings: typeof previewSettings.value) => {
   previewSettings.value = { ...settings }
 }
 
-// Load shadows from URL on page mount
+// Initialize from history and load from URL on page mount
 onMounted(async () => {
-  await shadowStore.loadFromUrl()
+  // First try to initialize from history
+  const initializedFromHistory = await shadowStore.initializeFromHistory()
+
+  // Only load from URL if we didn't initialize from history or if URL has parameters
+  if (!initializedFromHistory || window.location.search) {
+    await shadowStore.loadFromUrl()
+  }
 })
 </script>
 

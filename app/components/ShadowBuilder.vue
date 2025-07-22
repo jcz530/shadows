@@ -119,8 +119,8 @@ const handleRedo = () => {
               <Button
                 variant="outline"
                 :disabled="!shadowStore.canRedo"
-                @click="handleRedo"
                 class="relative"
+                @click="handleRedo"
               >
                 <Redo class="mr-2 h-4 w-4" />
                 Redo

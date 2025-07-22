@@ -31,6 +31,7 @@ interface ShadowState {
     opacity: number
   }
   isUndoRedo: boolean
+  _hasBeenInitializedFromHistory: boolean
 }
 
 export const useShadowStore = defineStore('shadow', {
@@ -55,6 +56,7 @@ export const useShadowStore = defineStore('shadow', {
       opacity: 100,
     },
     isUndoRedo: false,
+    _hasBeenInitializedFromHistory: false,
   }),
 
   getters: {
@@ -118,11 +120,64 @@ export const useShadowStore = defineStore('shadow', {
   },
 
   actions: {
+    async initializeFromHistory() {
+      if (!import.meta.client || this._hasBeenInitializedFromHistory)
+        return false
+
+      try {
+        const stored = localStorage.getItem('shadows-history')
+        if (stored) {
+          const data = JSON.parse(stored)
+          const history = data.history || []
+          if (history.length > 0) {
+            // Get the most recent history entry (end of array)
+            const mostRecent = history[history.length - 1]
+            if (
+              mostRecent &&
+              mostRecent.shadows &&
+              mostRecent.background &&
+              mostRecent.nextId
+            ) {
+              // Set flag before updating to avoid triggering history saves
+              this.isUndoRedo = true
+              this._hasBeenInitializedFromHistory = true
+
+              // Restore the state
+              this.shadows = mostRecent.shadows
+              this.nextId = mostRecent.nextId
+              this.background = mostRecent.background
+
+              // Initialize the history manager to ensure it loads properly
+              this._getHistory()
+
+              // Sync to URL
+              this.syncToUrl()
+
+              // Reset flag
+              this.isUndoRedo = false
+
+              return true
+            }
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to initialize from history:', error)
+      }
+
+      this._hasBeenInitializedFromHistory = true
+      return false
+    },
+
     _getHistory() {
       if (!historyInstance) {
         historyInstance = useHistory()
-        // Only save the initial state if no history was loaded from localStorage
-        if (import.meta.client && historyInstance.canUndo.value === false && historyInstance.canRedo.value === false) {
+        // Only save the initial state if no history was loaded and we haven't been initialized from history
+        if (
+          import.meta.client &&
+          !this._hasBeenInitializedFromHistory &&
+          historyInstance.canUndo.value === false &&
+          historyInstance.canRedo.value === false
+        ) {
           historyInstance.saveState({
             shadows: JSON.parse(JSON.stringify(this.shadows)),
             background: { ...this.background },
@@ -158,10 +213,13 @@ export const useShadowStore = defineStore('shadow', {
     }) {
       this.isUndoRedo = true
 
-      // Ensure nextId is consistent with existing shadows
+      // Use the saved nextId directly - it should already be correct from when the state was saved
+      // Only use calculated value as a safety fallback if the saved nextId seems invalid
       const maxId =
         state.shadows.length > 0 ? Math.max(...state.shadows.map(s => s.id)) : 0
-      const validNextId = Math.max(state.nextId, maxId + 1)
+      const minValidNextId = maxId + 1
+      const validNextId =
+        state.nextId >= minValidNextId ? state.nextId : minValidNextId
 
       this.shadows = state.shadows
       this.background = state.background

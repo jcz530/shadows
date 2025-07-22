@@ -30,12 +30,12 @@ export function useHistory(): HistoryManager {
   const canUndo = computed(() => currentIndex.value > 0)
   const canRedo = computed(() => currentIndex.value < history.value.length - 1)
   const undoCount = computed(() => Math.max(0, currentIndex.value))
-  const redoCount = computed(() => Math.max(0, history.value.length - 1 - currentIndex.value))
+  const redoCount = computed(() =>
+    Math.max(0, history.value.length - 1 - currentIndex.value),
+  )
 
   // Load history from localStorage on initialization
-  onMounted(() => {
-    loadFromStorage()
-  })
+  loadFromStorage()
 
   // Save to localStorage whenever history changes
   watch(
@@ -53,8 +53,13 @@ export function useHistory(): HistoryManager {
         if (stored) {
           const data = JSON.parse(stored)
           history.value = data.history || []
-          // Set currentIndex to the end of history so user can access full stored history
-          currentIndex.value = history.value.length > 0 ? history.value.length - 1 : -1
+          // Restore the saved currentIndex, or default to end of history if not saved
+          currentIndex.value =
+            typeof data.currentIndex === 'number'
+              ? data.currentIndex
+              : history.value.length > 0
+                ? history.value.length - 1
+                : -1
         }
       } catch (error) {
         console.warn('Failed to load history from localStorage:', error)

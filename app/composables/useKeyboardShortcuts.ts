@@ -16,7 +16,11 @@ export function useKeyboardShortcuts() {
     }
 
     // Handle Shift+Ctrl+Z (or Shift+Cmd+Z on Mac) for redo
-    if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'z') {
+    if (
+      (event.ctrlKey || event.metaKey) &&
+      event.shiftKey &&
+      event.key === 'z'
+    ) {
       event.preventDefault()
       shadowStore.redo()
       return

@@ -226,7 +226,12 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
         type="color"
         :value="shadow.color"
         class="h-8 w-12 cursor-pointer rounded border"
-        @input="updateFieldAndCommit('color', ($event.target as HTMLInputElement).value)"
+        @input="
+          updateFieldAndCommit(
+            'color',
+            ($event.target as HTMLInputElement).value,
+          )
+        "
       />
     </div>
 
