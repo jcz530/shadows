@@ -151,20 +151,25 @@ export const useShadowStore = defineStore('shadow', {
     syncToUrl() {
       if (import.meta.client) {
         const encoded = encodeShadowsToUrl(this.shadows, this.background)
+        const url = new URL(window.location.href)
+        
         if (encoded) {
-          const url = new URL(window.location.href)
-          url.searchParams.set('data', encoded)
-          window.history.replaceState({}, '', url.toString())
+          // Replace the entire query string with our encoded parameters
+          url.search = encoded
+        } else {
+          // Clear parameters if no shadows
+          url.search = ''
         }
+        
+        window.history.replaceState({}, '', url.toString())
       }
     },
 
     loadFromUrl() {
       if (import.meta.client) {
-        const url = new URL(window.location.href)
-        const encoded = url.searchParams.get('data')
-        if (encoded) {
-          const decoded = decodeShadowsFromUrl(encoded)
+        const queryString = window.location.search.substring(1) // Remove the '?'
+        if (queryString) {
+          const decoded = decodeShadowsFromUrl(queryString)
           if (decoded) {
             this.shadows = decoded.shadows.map(shadow => ({
               ...shadow,

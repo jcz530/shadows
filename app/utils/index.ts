@@ -1,6 +1,5 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import * as pako from 'pako'
 import type { Shadow } from '~/stores/shadow'
 
 export function cn(...inputs: ClassValue[]) {
@@ -55,81 +54,26 @@ interface ShadowData {
   }
 }
 
-// Compact shadow representation for URL encoding (saves ~60% space)
-interface CompactShadow {
-  v: boolean  // visible
-  a: number   // angle
-  d: number   // distance
-  b: number   // blur
-  s: number   // spread
-  c: string   // color (remove # prefix)
-  o: number   // opacity
-}
-
-interface CompactData {
-  s: CompactShadow[]  // shadows
-  bg: [string, number] // background [color, opacity]
-}
-
-function toCompact(shadows: Shadow[], background: { color: string; opacity: number }): CompactData {
-  return {
-    s: shadows.map(shadow => ({
-      v: shadow.visible,
-      a: shadow.angle,
-      d: shadow.distance,
-      b: shadow.blur,
-      s: shadow.spread,
-      c: shadow.color.replace('#', ''), // Remove # to save 1 char per shadow
-      o: shadow.opacity
-    })),
-    bg: [background.color.replace('#', ''), background.opacity]
-  }
-}
-
-function fromCompact(compact: CompactData): ShadowData {
-  let nextId = 1
-  return {
-    shadows: compact.s.map(s => ({
-      id: nextId++,
-      visible: s.v,
-      angle: s.a,
-      distance: s.d,
-      x: 0, // Will be recalculated by store
-      y: 0, // Will be recalculated by store
-      blur: s.b,
-      spread: s.s,
-      color: '#' + s.c,
-      opacity: s.o
-    })),
-    background: {
-      color: '#' + compact.bg[0],
-      opacity: compact.bg[1]
-    }
-  }
-}
-
-// URL encoding/decoding utilities for shadow data with aggressive compression
+// Simple CSS-based URL encoding - just use the box-shadow values directly
 export function encodeShadowsToUrl(shadows: Shadow[], background: { color: string; opacity: number }): string {
   try {
-    const compactData = toCompact(shadows, background)
-    const jsonString = JSON.stringify(compactData)
-    
-    // Use compression on client-side only
-    if (import.meta.client) {
-      // Use highest compression level for maximum space savings
-      const compressed = pako.deflate(jsonString, { 
-        level: 9,
-        windowBits: 15,
-        memLevel: 9,
-        strategy: 0
-      })
-      const encoded = btoa(String.fromCharCode(...compressed))
-      return encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+    const visibleShadows = shadows.filter(shadow => shadow.visible)
+    if (visibleShadows.length === 0) return ''
+
+    // Create CSS box-shadow string
+    const shadowValues = visibleShadows.map(shadow => {
+      const xy = xAndYFromAngleDistance(shadow.angle, shadow.distance)
+      return `${xy.x}px ${xy.y}px ${shadow.blur}px ${shadow.spread}px ${hexToRgba(shadow.color, shadow.opacity)}`
+    }).join(',')
+
+    // Encode as URL parameters
+    const params = new URLSearchParams()
+    params.set('s', shadowValues)
+    if (background.color !== '#ffffff' || background.opacity !== 100) {
+      params.set('bg', `${background.color}:${background.opacity}`)
     }
-    
-    // Fallback to regular base64 on server
-    const encoded = btoa(jsonString)
-    return encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+
+    return params.toString()
   } catch (err) {
     console.error('Failed to encode shadows to URL:', err)
     return ''
@@ -138,52 +82,125 @@ export function encodeShadowsToUrl(shadows: Shadow[], background: { color: strin
 
 export function decodeShadowsFromUrl(encoded: string): ShadowData | null {
   try {
-    // Restore padding and standard base64 characters
-    let base64 = encoded.replace(/-/g, '+').replace(/_/g, '/')
-    while (base64.length % 4) {
-      base64 += '='
+    console.log('Decoding URL:', encoded) // Debug log
+    
+    const params = new URLSearchParams(encoded)
+    const shadowValues = params.get('s')
+    const bgParam = params.get('bg')
+
+    console.log('Shadow values:', shadowValues) // Debug log
+    console.log('Background param:', bgParam) // Debug log
+
+    if (!shadowValues) {
+      console.log('No shadow values found in URL')
+      return null
     }
-    
-    let jsonString: string
-    
-    if (import.meta.client) {
-      try {
-        // Try to decompress first (new compact format)
-        const binaryString = atob(base64)
-        const bytes = new Uint8Array(binaryString.length)
-        for (let i = 0; i < binaryString.length; i++) {
-          bytes[i] = binaryString.charCodeAt(i)
-        }
-        jsonString = pako.inflate(bytes, { to: 'string' })
-        
-        // Try parsing as compact format first
-        const compactData = JSON.parse(jsonString) as CompactData
-        if (compactData.s && compactData.bg) {
-          return fromCompact(compactData)
-        }
-      } catch {
-        // Fallback to regular base64 (old format)
-        jsonString = atob(base64)
+
+    // Parse background
+    let background = { color: '#ffffff', opacity: 100 }
+    if (bgParam) {
+      const [color, opacity] = bgParam.split(':')
+      background = {
+        color: color || '#ffffff',
+        opacity: opacity ? parseInt(opacity) : 100
       }
-    } else {
-      // Server-side fallback
-      jsonString = atob(base64)
+    }
+
+    // Parse shadow values - handle multiple shadows separated by comma
+    // But be careful with commas inside rgba() values
+    const shadows: Shadow[] = []
+    let nextId = 1
+    
+    // Split by comma, but rejoin rgba parts
+    const parts = shadowValues.split(',')
+    const shadowStrings: string[] = []
+    let currentShadow = ''
+    let inRgba = false
+    
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i].trim()
+      currentShadow += (currentShadow ? ',' : '') + part
+      
+      if (part.includes('rgba(') || part.includes('rgb(')) {
+        inRgba = true
+      }
+      if (inRgba && part.includes(')')) {
+        inRgba = false
+        shadowStrings.push(currentShadow)
+        currentShadow = ''
+      } else if (!inRgba && !part.includes('rgba') && !part.includes('rgb')) {
+        // This might be a complete shadow without rgba
+        if (currentShadow.match(/(-?\d+)px\s+(-?\d+)px\s+(\d+)px\s+(-?\d+)px/)) {
+          shadowStrings.push(currentShadow)
+          currentShadow = ''
+        }
+      }
     }
     
-    // Try parsing as old format
-    const data = JSON.parse(jsonString) as ShadowData | CompactData
-    
-    // Check if it's compact format
-    if ('s' in data && 'bg' in data) {
-      return fromCompact(data as CompactData)
+    // Add any remaining shadow
+    if (currentShadow) {
+      shadowStrings.push(currentShadow)
     }
-    
-    // Validate old format
-    if ('shadows' in data && Array.isArray(data.shadows) && data.background) {
-      return data as ShadowData
+
+    console.log('Parsed shadow strings:', shadowStrings) // Debug log
+
+    for (const shadowStr of shadowStrings) {
+      // More flexible regex to match different color formats
+      const match = shadowStr.trim().match(/^(-?\d+)px\s+(-?\d+)px\s+(\d+)px\s+(-?\d+)px\s+(.+)$/)
+      if (match) {
+        const [, x, y, blur, spread, colorPart] = match
+        console.log('Matched shadow:', { x, y, blur, spread, colorPart }) // Debug log
+        
+        let color = '#000000'
+        let opacity = 100
+        
+        // Parse different color formats
+        if (colorPart.includes('rgba(') || colorPart.includes('rgb(')) {
+          const colorMatch = colorPart.match(/rgba?\(([^)]+)\)/)
+          if (colorMatch) {
+            const values = colorMatch[1].split(',').map(v => v.trim())
+            if (values.length >= 3) {
+              const r = parseInt(values[0])
+              const g = parseInt(values[1])
+              const b = parseInt(values[2])
+              const a = values[3] ? parseFloat(values[3]) : 1
+              
+              opacity = Math.round(a * 100)
+              color = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+            }
+          }
+        } else if (colorPart.startsWith('#')) {
+          color = colorPart
+        }
+        
+        // Calculate angle and distance from x,y
+        const xVal = parseInt(x)
+        const yVal = parseInt(y)
+        const distance = Math.round(Math.sqrt(xVal * xVal + yVal * yVal))
+        let angle = Math.round(Math.atan2(xVal, yVal) * 180 / Math.PI)
+        if (angle < 0) angle += 360
+
+        shadows.push({
+          id: nextId++,
+          visible: true,
+          angle,
+          distance,
+          x: xVal,
+          y: yVal,
+          blur: parseInt(blur),
+          spread: parseInt(spread),
+          color,
+          opacity
+        })
+        
+        console.log('Added shadow:', shadows[shadows.length - 1]) // Debug log
+      } else {
+        console.log('Failed to match shadow string:', shadowStr)
+      }
     }
-    
-    return null
+
+    console.log('Final parsed shadows:', shadows) // Debug log
+    return shadows.length > 0 ? { shadows, background } : null
   } catch (err) {
     console.error('Failed to decode shadows from URL:', err)
     return null
