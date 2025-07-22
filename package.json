@@ -26,6 +26,7 @@
     "highlight.js": "^11.11.1",
     "lucide-vue-next": "^0.525.0",
     "nuxt": "^4.0.0",
+    "nuxt-gtag": "^3.0.3",
     "pinia": "^3.0.3",
     "postcss": "^8.5.6",
     "radix-vue": "^1.9.17",
@@ -41,7 +42,6 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.6.0",
-    "@nuxtjs/plausible": "^1.2.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14"
   }

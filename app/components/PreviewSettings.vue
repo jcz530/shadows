@@ -17,11 +17,11 @@ import {
   TooltipTrigger,
 } from '~/components/ui/tooltip'
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
-import { usePlausible } from '~/composables/usePlausible'
+import { useEventTracking } from '~/composables/useEventTracking'
 
 const { getDefaultSettings, formatStyleValue, getSliderConfig } =
   usePreviewDefaults()
-const { trackEvent } = usePlausible()
+const { trackEvent } = useEventTracking()
 
 // Preview settings state
 const settings = reactive(getDefaultSettings())

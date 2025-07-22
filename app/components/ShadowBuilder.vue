@@ -5,11 +5,11 @@ import { copyToClipboard } from '~/utils'
 import { Button } from '~/components/ui/button'
 import ShadowInputRow from '~/components/ShadowInputRow.vue'
 import { CardFooter } from '~/components/ui/card'
-import { usePlausible } from '~/composables/usePlausible'
+import { useEventTracking } from '~/composables/useEventTracking'
 import { toast } from 'vue-sonner'
 
 const shadowStore = useShadowStore()
-const { trackEvent } = usePlausible()
+const { trackEvent } = useEventTracking()
 
 const copyCSS = async () => {
   trackEvent('copy_css', { location: 'shadow_builder' })

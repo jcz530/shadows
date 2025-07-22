@@ -6,7 +6,7 @@ import { Slider } from '~/components/ui/slider'
 import { Switch } from '~/components/ui/switch'
 import { Button } from '~/components/ui/button'
 import { Label } from '~/components/ui/label'
-import { usePlausible } from '~/composables/usePlausible'
+import { useEventTracking } from '~/composables/useEventTracking'
 
 interface ShadowInputRowProps {
   shadow: Shadow
@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const shadowStore = useShadowStore()
-const { trackEvent } = usePlausible()
+const { trackEvent } = useEventTracking()
 
 const updateField = (field: keyof Shadow, value: unknown) => {
   // Extract single value from array if slider returns array
