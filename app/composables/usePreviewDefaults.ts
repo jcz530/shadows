@@ -84,6 +84,7 @@ export interface PreviewSettings {
 
 export function usePreviewDefaults() {
   const getDefaultSettings = (): PreviewSettings => {
+    // Fall back to defaults
     return {
       page: {
         backgroundColor: PREVIEW_DEFAULTS.page.backgroundColor,
@@ -96,6 +97,47 @@ export function usePreviewDefaults() {
       },
       view: PREVIEW_DEFAULTS.view,
       numItems: PREVIEW_DEFAULTS.numItems,
+    }
+  }
+
+  const getSettingsFromStorage = (): PreviewSettings => {
+    // Try to load from localStorage first
+    if (import.meta.client) {
+      try {
+        const stored = localStorage.getItem('shadows-preview-settings')
+        if (stored) {
+          const parsedSettings = JSON.parse(stored)
+          // Merge stored settings with defaults to handle any missing properties
+          return {
+            page: {
+              backgroundColor: parsedSettings.page?.backgroundColor || PREVIEW_DEFAULTS.page.backgroundColor,
+            },
+            previewCards: {
+              backgroundColor: parsedSettings.previewCards?.backgroundColor || PREVIEW_DEFAULTS.previewCards.backgroundColor,
+              borderRadius: parsedSettings.previewCards?.borderRadius ?? PREVIEW_DEFAULTS.previewCards.borderRadius.value,
+              height: parsedSettings.previewCards?.height ?? PREVIEW_DEFAULTS.previewCards.height.value,
+              width: parsedSettings.previewCards?.width ?? PREVIEW_DEFAULTS.previewCards.width.value,
+            },
+            view: parsedSettings.view || PREVIEW_DEFAULTS.view,
+            numItems: parsedSettings.numItems ?? PREVIEW_DEFAULTS.numItems,
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load preview settings from localStorage:', error)
+      }
+    }
+
+    // Fall back to defaults
+    return getDefaultSettings()
+  }
+
+  const saveSettingsToStorage = (settings: PreviewSettings): void => {
+    if (import.meta.client) {
+      try {
+        localStorage.setItem('shadows-preview-settings', JSON.stringify(settings))
+      } catch (error) {
+        console.error('Failed to save preview settings to localStorage:', error)
+      }
     }
   }
 
@@ -122,6 +164,8 @@ export function usePreviewDefaults() {
     VARIED_VIEW_ITEMS,
     formatStyleValue,
     getDefaultSettings,
+    getSettingsFromStorage,
+    saveSettingsToStorage,
     getSliderConfig,
   }
 }

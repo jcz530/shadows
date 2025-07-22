@@ -31,11 +31,11 @@ useHead({
   ],
 })
 
-const { getDefaultSettings } = usePreviewDefaults()
+const { getSettingsFromStorage } = usePreviewDefaults()
 const shadowStore = useShadowStore()
 
-// Preview settings state
-const previewSettings = ref(getDefaultSettings())
+// Preview settings state - load from storage or defaults
+const previewSettings = ref(getSettingsFromStorage())
 
 // Handle settings changes
 const handleSettingsChange = (settings: typeof previewSettings.value) => {

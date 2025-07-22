@@ -13,7 +13,7 @@ const { formatStyleValue, PREVIEW_DEFAULTS, VARIED_VIEW_ITEMS } =
 const props = defineProps<{
   settings: PreviewSettings
 }>()
-
+console.log('settings', props.settings)
 const shadowStore = useShadowStore()
 
 const shadowCSS = computed(() => {
@@ -48,6 +48,7 @@ const cardStyles = computed(() => {
 })
 
 const containerClass = computed(() => {
+  console.log('props.settings?.view', props.settings?.view)
   if (props.settings?.view === 'varied') {
     return 'flex justify-evenly items-center'
   }

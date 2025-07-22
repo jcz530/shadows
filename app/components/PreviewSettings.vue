@@ -19,12 +19,12 @@ import {
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
 import { useEventTracking } from '~/composables/useEventTracking'
 
-const { getDefaultSettings, formatStyleValue, getSliderConfig } =
+const { getSettingsFromStorage, saveSettingsToStorage, formatStyleValue, getSliderConfig } =
   usePreviewDefaults()
 const { trackEvent } = useEventTracking()
 
-// Preview settings state
-const settings = reactive(getDefaultSettings())
+// Preview settings state - load from storage or defaults
+const settings = reactive(getSettingsFromStorage())
 
 // Color picker refs
 const pageColorInput = ref<HTMLInputElement>()
@@ -37,6 +37,8 @@ const emit = defineEmits<{
 // Watch for changes and emit
 const handleSettingsChange = () => {
   emit('settingsChanged', settings)
+  // Save to localStorage whenever settings change
+  saveSettingsToStorage(settings)
 }
 
 // Handle slider changes - without tracking (tracking happens on end)
