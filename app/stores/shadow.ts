@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { nextTick } from 'vue'
 import {
   hexToRgba,
   xAndYFromAngleDistance,
@@ -156,6 +157,8 @@ export const useShadowStore = defineStore('shadow', {
               // Reset flag
               this.isUndoRedo = false
 
+              // Ensure we have the loaded state as current baseline - no additional save needed
+
               return true
             }
           }
@@ -165,27 +168,38 @@ export const useShadowStore = defineStore('shadow', {
       }
 
       this._hasBeenInitializedFromHistory = true
+      
+      // If we didn't load from history, save initial state as baseline for undo
+      nextTick(() => {
+        this._saveInitialState()
+      })
+      
       return false
     },
 
     _getHistory() {
       if (!historyInstance) {
         historyInstance = useHistory()
-        // Only save the initial state if no history was loaded and we haven't been initialized from history
-        if (
-          import.meta.client &&
-          !this._hasBeenInitializedFromHistory &&
-          historyInstance.canUndo.value === false &&
-          historyInstance.canRedo.value === false
-        ) {
-          historyInstance.saveState({
+      }
+      return historyInstance
+    },
+
+    _saveInitialState() {
+      // Save the initial state as baseline for undo operations - only if no history exists
+      if (import.meta.client) {
+        const history = this._getHistory()
+        console.log('_saveInitialState - current undo count:', history.undoCount.value)
+        if (history.undoCount.value === 0) {
+          console.log('Saving initial state to history')
+          history.saveState({
             shadows: JSON.parse(JSON.stringify(this.shadows)),
             background: { ...this.background },
             nextId: this.nextId,
           })
+        } else {
+          console.log('Skipping initial state save - history already has', history.undoCount.value, 'entries')
         }
       }
-      return historyInstance
     },
 
     _saveToHistory() {

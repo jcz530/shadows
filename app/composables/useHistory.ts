@@ -28,7 +28,7 @@ export function useHistory(): HistoryManager {
   const currentIndex = ref(-1)
 
   const canUndo = computed(() => currentIndex.value > 0)
-  const canRedo = computed(() => currentIndex.value < history.value.length - 1)
+  const canRedo = computed(() => currentIndex.value < history.value.length - 1)  
   const undoCount = computed(() => Math.max(0, currentIndex.value))
   const redoCount = computed(() =>
     Math.max(0, history.value.length - 1 - currentIndex.value),
