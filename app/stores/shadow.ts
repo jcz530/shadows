@@ -188,16 +188,12 @@ export const useShadowStore = defineStore('shadow', {
       // Save the initial state as baseline for undo operations - only if no history exists
       if (import.meta.client) {
         const history = this._getHistory()
-        console.log('_saveInitialState - current undo count:', history.undoCount.value)
         if (history.undoCount.value === 0) {
-          console.log('Saving initial state to history')
           history.saveState({
             shadows: JSON.parse(JSON.stringify(this.shadows)),
             background: { ...this.background },
             nextId: this.nextId,
           })
-        } else {
-          console.log('Skipping initial state save - history already has', history.undoCount.value, 'entries')
         }
       }
     },
@@ -209,14 +205,7 @@ export const useShadowStore = defineStore('shadow', {
           background: { ...this.background },
           nextId: this.nextId,
         }
-        console.log('Saving to history:', {
-          shadowsCount: stateToSave.shadows.length,
-          nextId: stateToSave.nextId,
-          isUndoRedo: this.isUndoRedo,
-        })
         this._getHistory().saveState(stateToSave)
-      } else {
-        console.log('Skipping history save - isUndoRedo is true')
       }
     },
 
@@ -252,22 +241,11 @@ export const useShadowStore = defineStore('shadow', {
     },
 
     redo() {
-      const historyManager = this._getHistory()
-      console.log('Attempting redo - canRedo:', historyManager.canRedo.value)
-
-      const state = historyManager.redo()
-      console.log('Redo state received:', state)
-
+      const state = this._getHistory().redo()
       if (state) {
-        console.log('Restoring state:', {
-          shadowsCount: state.shadows.length,
-          nextId: state.nextId,
-          background: state.background,
-        })
         this._restoreFromHistory(state)
         return true
       }
-      console.log('No state to redo')
       return false
     },
 
@@ -418,6 +396,12 @@ export const useShadowStore = defineStore('shadow', {
               id: this.nextId++,
             }))
             this.background = result.data.background
+
+            // Clear existing history and save URL-loaded state as new baseline
+            this.clearHistory()
+            nextTick(() => {
+              this._saveInitialState()
+            })
 
             // Show success toast
             const { toast } = await import('vue-sonner')
