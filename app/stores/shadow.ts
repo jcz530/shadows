@@ -1,5 +1,10 @@
 import { defineStore } from 'pinia'
-import { hexToRgba, xAndYFromAngleDistance, encodeShadowsToUrl, decodeShadowsFromUrl } from '~/utils'
+import {
+  hexToRgba,
+  xAndYFromAngleDistance,
+  encodeShadowsToUrl,
+  decodeShadowsFromUrl,
+} from '~/utils'
 
 export interface Shadow {
   id: number
@@ -152,7 +157,7 @@ export const useShadowStore = defineStore('shadow', {
       if (import.meta.client) {
         const encoded = encodeShadowsToUrl(this.shadows, this.background)
         const url = new URL(window.location.href)
-        
+
         if (encoded) {
           // Replace the entire query string with our encoded parameters
           url.search = encoded
@@ -160,23 +165,35 @@ export const useShadowStore = defineStore('shadow', {
           // Clear parameters if no shadows
           url.search = ''
         }
-        
+
         window.history.replaceState({}, '', url.toString())
       }
     },
 
-    loadFromUrl() {
+    async loadFromUrl() {
       if (import.meta.client) {
         const queryString = window.location.search.substring(1) // Remove the '?'
         if (queryString) {
-          const decoded = decodeShadowsFromUrl(queryString)
-          if (decoded) {
-            this.shadows = decoded.shadows.map(shadow => ({
+          const result = decodeShadowsFromUrl(queryString)
+          if (result.success && result.data) {
+            this.shadows = result.data.shadows.map(shadow => ({
               ...shadow,
               id: this.nextId++,
             }))
-            this.background = decoded.background
+            this.background = result.data.background
+
+            // Show success toast
+            const { toast } = await import('vue-sonner')
+            toast.success('Loaded shadows from URL', {
+              description: `Successfully loaded ${result.data.shadows.length} shadow${result.data.shadows.length === 1 ? '' : 's'} from URL`,
+            })
             return true
+          } else if (result.error) {
+            // Show error toast
+            const { toast } = await import('vue-sonner')
+            toast.error('Failed to load shadows from URL', {
+              description: result.error,
+            })
           }
         }
       }

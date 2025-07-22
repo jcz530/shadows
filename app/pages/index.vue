@@ -43,8 +43,8 @@ const handleSettingsChange = (settings: typeof previewSettings.value) => {
 }
 
 // Load shadows from URL on page mount
-onMounted(() => {
-  shadowStore.loadFromUrl()
+onMounted(async () => {
+  await shadowStore.loadFromUrl()
 })
 </script>
 

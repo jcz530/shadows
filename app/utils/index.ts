@@ -81,10 +81,14 @@ export function encodeShadowsToUrl(shadows: Shadow[], background: { color: strin
   }
 }
 
-export function decodeShadowsFromUrl(encoded: string): ShadowData | null {
+interface DecodeResult {
+  success: boolean
+  data?: ShadowData
+  error?: string
+}
+
+export function decodeShadowsFromUrl(encoded: string): DecodeResult {
   try {
-    console.log('Decoding URL:', encoded) // Debug log
-    
     // Always use URLSearchParams to handle decoding properly
     const params = new URLSearchParams(encoded)
     let shadowValues = params.get('s')
@@ -107,12 +111,8 @@ export function decodeShadowsFromUrl(encoded: string): ShadowData | null {
       }
     }
 
-    console.log('Decoded shadow values:', shadowValues) // Debug log
-    console.log('Decoded background param:', bgParam) // Debug log
-
     if (!shadowValues) {
-      console.log('No shadow values found in URL')
-      return null
+      return { success: false, error: 'No shadow data found in URL' }
     }
 
     // Parse background
@@ -161,14 +161,11 @@ export function decodeShadowsFromUrl(encoded: string): ShadowData | null {
       shadowStrings.push(currentShadow)
     }
 
-    console.log('Parsed shadow strings:', shadowStrings) // Debug log
-
     for (const shadowStr of shadowStrings) {
       // More flexible regex to match different color formats
       const match = shadowStr.trim().match(/^(-?\d+)px\s+(-?\d+)px\s+(\d+)px\s+(-?\d+)px\s+(.+)$/)
       if (match) {
         const [, x, y, blur, spread, colorPart] = match
-        console.log('Matched shadow:', { x, y, blur, spread, colorPart }) // Debug log
         
         let color = '#000000'
         let opacity = 100
@@ -211,17 +208,21 @@ export function decodeShadowsFromUrl(encoded: string): ShadowData | null {
           color,
           opacity
         })
-        
-        console.log('Added shadow:', shadows[shadows.length - 1]) // Debug log
-      } else {
-        console.log('Failed to match shadow string:', shadowStr)
       }
     }
 
-    console.log('Final parsed shadows:', shadows) // Debug log
-    return shadows.length > 0 ? { shadows, background } : null
+    if (shadows.length === 0) {
+      return { success: false, error: 'Could not parse shadow data from URL' }
+    }
+
+    return { 
+      success: true, 
+      data: { shadows, background }
+    }
   } catch (err) {
-    console.error('Failed to decode shadows from URL:', err)
-    return null
+    return { 
+      success: false, 
+      error: err instanceof Error ? err.message : 'Unknown error occurred'
+    }
   }
 }

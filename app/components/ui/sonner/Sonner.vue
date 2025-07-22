@@ -8,19 +8,16 @@ const props = defineProps<ToasterProps>()
   <Sonner
     class="toaster group"
     v-bind="props"
+    rich-colors
     :style="{
-      '--normal-bg': 'var(--popover)',
-      '--normal-text': 'var(--popover-foreground)',
-      '--normal-border': 'var(--border)',
-      '--success-bg': 'var(--popover)',
-      '--success-text': 'var(--popover-foreground)',
-      '--success-border': 'var(--border)',
+      '--success-bg': 'var(--color-purple-100)',
+      '--success-border': 'var(--color-purple-200)',
+      '--success-text': 'var(--color-purple-600)',
+      '--error-bg': 'var(--color-rose-100)',
+      '--error-border': 'var(--color-rose-200)',
+      '--error-text': 'var(--color-rose-700)',
     }"
   />
 </template>
 
-<style scoped>
-:deep([data-sonner-toast][data-type='success'] [data-icon]) {
-  color: var(--color-purple-600) !important;
-}
-</style>
+<style scoped></style>
