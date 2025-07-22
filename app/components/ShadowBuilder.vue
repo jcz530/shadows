@@ -92,49 +92,51 @@ const handleRedo = () => {
     <!-- Action buttons -->
     <CardFooter>
       <div class="flex gap-3 pt-4">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger as-child>
-              <Button
-                variant="outline"
-                :disabled="!shadowStore.canUndo"
-                @click="handleUndo"
-                class="relative"
-              >
-                <Undo class="mr-2 h-4 w-4" />
-                Undo
-                <span
-                  v-if="shadowStore.undoCount > 0"
-                  class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-purple-400 text-xs font-medium text-white"
+        <ClientOnly>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger as-child>
+                <Button
+                  variant="outline"
+                  :disabled="!shadowStore.canUndo"
+                  class="relative"
+                  @click="handleUndo"
                 >
-                  {{ shadowStore.undoCount }}
-                </span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent> Undo (Ctrl+Z) </TooltipContent>
-          </Tooltip>
+                  <Undo class="mr-2 h-4 w-4" />
+                  Undo
+                  <span
+                    v-show="shadowStore.undoCount > 0"
+                    class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-purple-400 text-xs font-medium text-white"
+                  >
+                    {{ shadowStore.undoCount }}
+                  </span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent> Undo (Ctrl+Z) </TooltipContent>
+            </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger as-child>
-              <Button
-                variant="outline"
-                :disabled="!shadowStore.canRedo"
-                class="relative"
-                @click="handleRedo"
-              >
-                <Redo class="mr-2 h-4 w-4" />
-                Redo
-                <span
-                  v-if="shadowStore.redoCount > 0"
-                  class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-purple-400 text-xs font-medium text-white"
+            <Tooltip>
+              <TooltipTrigger as-child>
+                <Button
+                  variant="outline"
+                  :disabled="!shadowStore.canRedo"
+                  class="relative"
+                  @click="handleRedo"
                 >
-                  {{ shadowStore.redoCount }}
-                </span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent> Redo (Shift+Ctrl+Z) </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+                  <Redo class="mr-2 h-4 w-4" />
+                  Redo
+                  <span
+                    v-show="shadowStore.redoCount > 0"
+                    class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-purple-400 text-xs font-medium text-white"
+                  >
+                    {{ shadowStore.redoCount }}
+                  </span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent> Redo (Shift+Ctrl+Z) </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </ClientOnly>
         <div class="h-8 w-px bg-border"></div>
         <Button @click="addShadow">
           <Plus class="mr-2 h-4 w-4" />

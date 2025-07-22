@@ -195,7 +195,7 @@ const handleOpenSettings = () => {
                 :class="{ 'opacity-50': settings.view === 'varied' }"
               >
                 <Label class="text-sm font-medium">Num Items</Label>
-                <Tooltip v-if="settings.view === 'varied'">
+                <Tooltip>
                   <TooltipTrigger as-child>
                     <div>
                       <Slider
@@ -210,12 +210,12 @@ const handleOpenSettings = () => {
                       />
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent v-show="settings.view === 'varied'">
                     <p>Set view to Grid to adjust the number of items</p>
                   </TooltipContent>
                 </Tooltip>
                 <Slider
-                  v-else
+                  v-if="false"
                   :model-value="[settings.numItems]"
                   :min="1"
                   :max="24"
@@ -291,7 +291,7 @@ const handleOpenSettings = () => {
                 <Label class="text-sm font-medium" for="height"
                   >Height ({{ getSliderConfig('height').unit }})
                 </Label>
-                <Tooltip v-if="settings.view === 'varied'">
+                <Tooltip>
                   <TooltipTrigger as-child>
                     <div>
                       <Slider
@@ -307,12 +307,12 @@ const handleOpenSettings = () => {
                       />
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent v-show="settings.view === 'varied'">
                     <p>Set view to Grid to adjust height</p>
                   </TooltipContent>
                 </Tooltip>
                 <Slider
-                  v-else
+                  v-if="false"
                   id="height"
                   :model-value="[settings.previewCards.height]"
                   :min="getSliderConfig('height').min"
@@ -332,7 +332,7 @@ const handleOpenSettings = () => {
                 <Label class="text-sm font-medium" for="width"
                   >Width ({{ getSliderConfig('width').unit }})</Label
                 >
-                <Tooltip v-if="settings.view === 'varied'">
+                <Tooltip>
                   <TooltipTrigger as-child>
                     <div>
                       <Slider
@@ -348,12 +348,12 @@ const handleOpenSettings = () => {
                       />
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent v-show="settings.view === 'varied'">
                     <p>Set view to Grid to adjust width</p>
                   </TooltipContent>
                 </Tooltip>
                 <Slider
-                  v-else
+                  v-if="false"
                   id="width"
                   :model-value="[settings.previewCards.width]"
                   :min="getSliderConfig('width').min"
