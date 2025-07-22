@@ -44,11 +44,14 @@ const handleSettingsChange = (settings: typeof previewSettings.value) => {
 
 // Initialize from history and load from URL on page mount
 onMounted(async () => {
+  // Capture initial URL state before any modifications
+  const hasInitialUrlParams = !!window.location.search
+
   // First try to initialize from history
   const initializedFromHistory = await shadowStore.initializeFromHistory()
 
-  // Only load from URL if we didn't initialize from history or if URL has parameters
-  if (!initializedFromHistory || window.location.search) {
+  // Only load from URL if we didn't initialize from history AND URL had parameters initially
+  if (!initializedFromHistory && hasInitialUrlParams) {
     await shadowStore.loadFromUrl()
   }
 })
