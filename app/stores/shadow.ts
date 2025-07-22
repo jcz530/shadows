@@ -203,7 +203,6 @@ export const useShadowStore = defineStore('shadow', {
     },
 
     updateShadowField(shadowId: number, field: keyof Shadow, value: unknown) {
-      this._saveToHistory()
       const shadow = this.shadows.find(s => s.id === shadowId)
       if (shadow) {
         ;(shadow as Record<string, unknown>)[field] = value
@@ -214,8 +213,13 @@ export const useShadowStore = defineStore('shadow', {
           shadow.x = xy.x
           shadow.y = xy.y
         }
-        this.syncToUrl()
+        // Note: No history save or URL sync here - only on commit
       }
+    },
+
+    commitShadowFieldUpdate() {
+      this._saveToHistory()
+      this.syncToUrl()
     },
 
     setBackground(color: string, opacity: number = 100) {
