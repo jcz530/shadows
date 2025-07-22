@@ -31,11 +31,11 @@ useHead({
   ],
 })
 
-const { getSettingsFromStorage } = usePreviewDefaults()
+const { getDefaultSettings, getSettingsFromStorage } = usePreviewDefaults()
 const shadowStore = useShadowStore()
 
-// Preview settings state - load from storage or defaults
-const previewSettings = ref(getSettingsFromStorage())
+// Preview settings state - start with defaults to avoid hydration mismatch
+const previewSettings = ref(getDefaultSettings())
 
 // Handle settings changes
 const handleSettingsChange = (settings: typeof previewSettings.value) => {
@@ -44,6 +44,10 @@ const handleSettingsChange = (settings: typeof previewSettings.value) => {
 
 // Initialize from history and load from URL on page mount
 onMounted(async () => {
+  // Load stored preview settings after hydration to avoid mismatch
+  const storedSettings = getSettingsFromStorage()
+  previewSettings.value = storedSettings
+
   // Capture initial URL state before any modifications
   const hasInitialUrlParams = !!window.location.search
 

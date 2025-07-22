@@ -101,7 +101,7 @@ export function usePreviewDefaults() {
   }
 
   const getSettingsFromStorage = (): PreviewSettings => {
-    // Try to load from localStorage first
+    // Only try to access localStorage on client side
     if (import.meta.client) {
       try {
         const stored = localStorage.getItem('shadows-preview-settings')
@@ -127,7 +127,7 @@ export function usePreviewDefaults() {
       }
     }
 
-    // Fall back to defaults
+    // Fall back to defaults (this ensures consistent behavior on server and client before hydration)
     return getDefaultSettings()
   }
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { Settings } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
@@ -19,12 +19,19 @@ import {
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
 import { useEventTracking } from '~/composables/useEventTracking'
 
-const { getSettingsFromStorage, saveSettingsToStorage, formatStyleValue, getSliderConfig } =
+const { getDefaultSettings, getSettingsFromStorage, saveSettingsToStorage, formatStyleValue, getSliderConfig } =
   usePreviewDefaults()
 const { trackEvent } = useEventTracking()
 
-// Preview settings state - load from storage or defaults
-const settings = reactive(getSettingsFromStorage())
+// Preview settings state - start with defaults to avoid hydration mismatch
+const settings = reactive(getDefaultSettings())
+
+// Load from storage after mount to avoid hydration issues
+onMounted(() => {
+  const storedSettings = getSettingsFromStorage()
+  // Update reactive object properties
+  Object.assign(settings, storedSettings)
+})
 
 // Color picker refs
 const pageColorInput = ref<HTMLInputElement>()
