@@ -99,23 +99,55 @@ export const useShadowStore = defineStore('shadow', {
       }
       return historyInstance.canRedo.value
     },
+
+    undoCount(): number {
+      // Initialize history if needed
+      if (!historyInstance) {
+        historyInstance = useHistory()
+      }
+      return historyInstance.undoCount.value
+    },
+
+    redoCount(): number {
+      // Initialize history if needed
+      if (!historyInstance) {
+        historyInstance = useHistory()
+      }
+      return historyInstance.redoCount.value
+    },
   },
 
   actions: {
     _getHistory() {
       if (!historyInstance) {
         historyInstance = useHistory()
+        // Only save the initial state if no history was loaded from localStorage
+        if (import.meta.client && historyInstance.canUndo.value === false && historyInstance.canRedo.value === false) {
+          historyInstance.saveState({
+            shadows: JSON.parse(JSON.stringify(this.shadows)),
+            background: { ...this.background },
+            nextId: this.nextId,
+          })
+        }
       }
       return historyInstance
     },
 
     _saveToHistory() {
       if (!this.isUndoRedo) {
-        this._getHistory().saveState({
+        const stateToSave = {
           shadows: JSON.parse(JSON.stringify(this.shadows)),
           background: { ...this.background },
           nextId: this.nextId,
+        }
+        console.log('Saving to history:', {
+          shadowsCount: stateToSave.shadows.length,
+          nextId: stateToSave.nextId,
+          isUndoRedo: this.isUndoRedo,
         })
+        this._getHistory().saveState(stateToSave)
+      } else {
+        console.log('Skipping history save - isUndoRedo is true')
       }
     },
 
@@ -125,9 +157,15 @@ export const useShadowStore = defineStore('shadow', {
       nextId: number
     }) {
       this.isUndoRedo = true
+
+      // Ensure nextId is consistent with existing shadows
+      const maxId =
+        state.shadows.length > 0 ? Math.max(...state.shadows.map(s => s.id)) : 0
+      const validNextId = Math.max(state.nextId, maxId + 1)
+
       this.shadows = state.shadows
       this.background = state.background
-      this.nextId = state.nextId
+      this.nextId = validNextId
       this.syncToUrl()
       this.isUndoRedo = false
     },
@@ -142,11 +180,22 @@ export const useShadowStore = defineStore('shadow', {
     },
 
     redo() {
-      const state = this._getHistory().redo()
+      const historyManager = this._getHistory()
+      console.log('Attempting redo - canRedo:', historyManager.canRedo.value)
+
+      const state = historyManager.redo()
+      console.log('Redo state received:', state)
+
       if (state) {
+        console.log('Restoring state:', {
+          shadowsCount: state.shadows.length,
+          nextId: state.nextId,
+          background: state.background,
+        })
         this._restoreFromHistory(state)
         return true
       }
+      console.log('No state to redo')
       return false
     },
 
@@ -154,9 +203,10 @@ export const useShadowStore = defineStore('shadow', {
       this._getHistory().clear()
     },
     addShadow() {
-      this._saveToHistory()
+      // Create new shadow with guaranteed unique ID
+      const shadowId = this.nextId
       const newShadow: Shadow = {
-        id: this.nextId++,
+        id: shadowId,
         visible: true,
         angle: 90,
         distance: 8,
@@ -167,38 +217,55 @@ export const useShadowStore = defineStore('shadow', {
         color: '#000000',
         opacity: 20,
       }
+
+      // Update nextId and add shadow
+      this.nextId = shadowId + 1
       this.shadows.push(newShadow)
       this.syncToUrl()
+
+      // Save the new state after making changes
+      this._saveToHistory()
     },
 
     duplicateShadow(shadow: Shadow) {
-      this._saveToHistory()
+      const shadowId = this.nextId
       const duplicated: Shadow = {
         ...shadow,
-        id: this.nextId++,
+        id: shadowId,
       }
+
+      this.nextId = shadowId + 1
       this.shadows.push(duplicated)
       this.syncToUrl()
+
+      // Save the new state after making changes
+      this._saveToHistory()
     },
 
     deleteShadow(shadowId: number) {
-      this._saveToHistory()
       this.shadows = this.shadows.filter(s => s.id !== shadowId)
       this.syncToUrl()
+
+      // Save the new state after making changes
+      this._saveToHistory()
     },
 
     clearShadows() {
-      this._saveToHistory()
       this.shadows = []
       this.syncToUrl()
+
+      // Save the new state after making changes
+      this._saveToHistory()
     },
 
     toggleShadowVisibility(shadowId: number) {
-      this._saveToHistory()
       const shadow = this.shadows.find(s => s.id === shadowId)
       if (shadow) {
         shadow.visible = !shadow.visible
         this.syncToUrl()
+
+        // Save the new state after making changes
+        this._saveToHistory()
       }
     },
 
@@ -218,24 +285,37 @@ export const useShadowStore = defineStore('shadow', {
     },
 
     commitShadowFieldUpdate() {
-      this._saveToHistory()
+      // Only save history if this isn't part of an undo/redo operation
+      if (!this.isUndoRedo) {
+        this._saveToHistory()
+      }
       this.syncToUrl()
     },
 
     setBackground(color: string, opacity: number = 100) {
-      this._saveToHistory()
       this.background.color = color
       this.background.opacity = opacity
       this.syncToUrl()
+
+      // Save the new state after making changes
+      this._saveToHistory()
     },
 
     loadPreset(shadows: Omit<Shadow, 'id'>[]) {
-      this._saveToHistory()
-      this.shadows = shadows.map(shadow => ({
-        ...shadow,
-        id: this.nextId++,
-      }))
+      let currentId = this.nextId
+      this.shadows = shadows.map(shadow => {
+        const shadowWithId = {
+          ...shadow,
+          id: currentId,
+        }
+        currentId++
+        return shadowWithId
+      })
+      this.nextId = currentId
       this.syncToUrl()
+
+      // Save the new state after making changes
+      this._saveToHistory()
     },
 
     syncToUrl() {

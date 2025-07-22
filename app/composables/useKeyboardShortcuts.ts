@@ -15,11 +15,8 @@ export function useKeyboardShortcuts() {
       return
     }
 
-    // Handle Ctrl+Y (or Cmd+Shift+Z on Mac) for redo
-    if (
-      ((event.ctrlKey || event.metaKey) && event.key === 'y') ||
-      ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'z')
-    ) {
+    // Handle Shift+Ctrl+Z (or Shift+Cmd+Z on Mac) for redo
+    if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'z') {
       event.preventDefault()
       shadowStore.redo()
       return

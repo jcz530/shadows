@@ -7,6 +7,12 @@ import ShadowInputRow from '~/components/ShadowInputRow.vue'
 import { CardFooter } from '~/components/ui/card'
 import { useEventTracking } from '~/composables/useEventTracking'
 import { toast } from 'vue-sonner'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from '~/components/ui/tooltip'
 
 const shadowStore = useShadowStore()
 const { trackEvent } = useEventTracking()
@@ -86,24 +92,49 @@ const handleRedo = () => {
     <!-- Action buttons -->
     <CardFooter>
       <div class="flex gap-3 pt-4">
-        <Button
-          variant="outline"
-          :disabled="!shadowStore.canUndo"
-          title="Undo (Ctrl+Z)"
-          @click="handleUndo"
-        >
-          <Undo class="mr-2 h-4 w-4" />
-          Undo
-        </Button>
-        <Button
-          variant="outline"
-          :disabled="!shadowStore.canRedo"
-          title="Redo (Ctrl+Y)"
-          @click="handleRedo"
-        >
-          <Redo class="mr-2 h-4 w-4" />
-          Redo
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger as-child>
+              <Button
+                variant="outline"
+                :disabled="!shadowStore.canUndo"
+                @click="handleUndo"
+                class="relative"
+              >
+                <Undo class="mr-2 h-4 w-4" />
+                Undo
+                <span
+                  v-if="shadowStore.undoCount > 0"
+                  class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-purple-400 text-xs font-medium text-white"
+                >
+                  {{ shadowStore.undoCount }}
+                </span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent> Undo (Ctrl+Z) </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger as-child>
+              <Button
+                variant="outline"
+                :disabled="!shadowStore.canRedo"
+                @click="handleRedo"
+                class="relative"
+              >
+                <Redo class="mr-2 h-4 w-4" />
+                Redo
+                <span
+                  v-if="shadowStore.redoCount > 0"
+                  class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-purple-400 text-xs font-medium text-white"
+                >
+                  {{ shadowStore.redoCount }}
+                </span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent> Redo (Shift+Ctrl+Z) </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <div class="h-8 w-px bg-border"></div>
         <Button @click="addShadow">
           <Plus class="mr-2 h-4 w-4" />

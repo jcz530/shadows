@@ -12,6 +12,8 @@ interface HistoryState {
 interface HistoryManager {
   canUndo: Readonly<Ref<boolean>>
   canRedo: Readonly<Ref<boolean>>
+  undoCount: Readonly<Ref<number>>
+  redoCount: Readonly<Ref<number>>
   saveState: (state: HistoryState) => void
   undo: () => HistoryState | null
   redo: () => HistoryState | null
@@ -27,6 +29,8 @@ export function useHistory(): HistoryManager {
 
   const canUndo = computed(() => currentIndex.value > 0)
   const canRedo = computed(() => currentIndex.value < history.value.length - 1)
+  const undoCount = computed(() => Math.max(0, currentIndex.value))
+  const redoCount = computed(() => Math.max(0, history.value.length - 1 - currentIndex.value))
 
   // Load history from localStorage on initialization
   onMounted(() => {
@@ -49,7 +53,8 @@ export function useHistory(): HistoryManager {
         if (stored) {
           const data = JSON.parse(stored)
           history.value = data.history || []
-          currentIndex.value = data.currentIndex ?? -1
+          // Set currentIndex to the end of history so user can access full stored history
+          currentIndex.value = history.value.length > 0 ? history.value.length - 1 : -1
         }
       } catch (error) {
         console.warn('Failed to load history from localStorage:', error)
@@ -123,6 +128,8 @@ export function useHistory(): HistoryManager {
   return {
     canUndo: readonly(canUndo),
     canRedo: readonly(canRedo),
+    undoCount: readonly(undoCount),
+    redoCount: readonly(redoCount),
     saveState,
     undo,
     redo,
