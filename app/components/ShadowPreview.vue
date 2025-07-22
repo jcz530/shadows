@@ -67,7 +67,7 @@ const previewItems = computed(() => {
   }))
 })
 
-type PreviewItem = 
+type PreviewItem =
   | { type: 'small' | 'medium' | 'large'; width: string; height: string }
   | { type: 'standard'; index: number }
 

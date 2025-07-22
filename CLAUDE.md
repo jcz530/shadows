@@ -100,14 +100,14 @@ npm run lint:fix
 interface Shadow {
   id: number
   visible: boolean
-  angle: number        // degrees (0-360)
-  distance: number     // pixels
-  x: number           // calculated from angle/distance
-  y: number           // calculated from angle/distance  
-  blur: number        // pixels
-  spread: number      // pixels (-50 to 50)
-  color: string       // hex color
-  opacity: number     // percentage (0-100)
+  angle: number // degrees (0-360)
+  distance: number // pixels
+  x: number // calculated from angle/distance
+  y: number // calculated from angle/distance
+  blur: number // pixels
+  spread: number // pixels (-50 to 50)
+  color: string // hex color
+  opacity: number // percentage (0-100)
 }
 ```
 
