@@ -197,7 +197,8 @@ const PREVIEW_SETTINGS_KEY = 'shadows-preview-settings'
 export function savePreviewSettings(settings: unknown): void {
   try {
     const jsonString = JSON.stringify(settings)
-    localStorage.setItem(PREVIEW_SETTINGS_KEY, jsonString)
+    const encoded = encryptData(jsonString)
+    localStorage.setItem(PREVIEW_SETTINGS_KEY, encoded)
   } catch (error) {
     console.error('Failed to save preview settings to localStorage:', error)
   }
@@ -207,7 +208,8 @@ export function loadPreviewSettings(): unknown | null {
   try {
     const stored = localStorage.getItem(PREVIEW_SETTINGS_KEY)
     if (!stored) return null
-    return JSON.parse(stored)
+    const decoded = decryptData(stored)
+    return JSON.parse(decoded)
   } catch (error) {
     console.error('Failed to load preview settings from localStorage:', error)
     return null
@@ -221,3 +223,4 @@ export function clearPreviewSettings(): void {
     console.error('Failed to clear preview settings from localStorage:', error)
   }
 }
+
