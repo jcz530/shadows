@@ -66,14 +66,15 @@ export function encodeShadowsToUrl(shadows: Shadow[], background: { color: strin
       return `${xy.x}px ${xy.y}px ${shadow.blur}px ${shadow.spread}px ${hexToRgba(shadow.color, shadow.opacity)}`
     }).join(',')
 
-    // Encode as URL parameters
-    const params = new URLSearchParams()
-    params.set('s', shadowValues)
+    // Manually build query string to control encoding
+    const params: string[] = []
+    params.push(`s=${encodeURIComponent(shadowValues)}`)
+    
     if (background.color !== '#ffffff' || background.opacity !== 100) {
-      params.set('bg', `${background.color}:${background.opacity}`)
+      params.push(`bg=${encodeURIComponent(`${background.color}:${background.opacity}`)}`)
     }
 
-    return params.toString()
+    return params.join('&')
   } catch (err) {
     console.error('Failed to encode shadows to URL:', err)
     return ''
@@ -84,12 +85,30 @@ export function decodeShadowsFromUrl(encoded: string): ShadowData | null {
   try {
     console.log('Decoding URL:', encoded) // Debug log
     
+    // Always use URLSearchParams to handle decoding properly
     const params = new URLSearchParams(encoded)
-    const shadowValues = params.get('s')
-    const bgParam = params.get('bg')
+    let shadowValues = params.get('s')
+    let bgParam = params.get('bg')
 
-    console.log('Shadow values:', shadowValues) // Debug log
-    console.log('Background param:', bgParam) // Debug log
+    // Double-decode if needed (sometimes values get double-encoded)
+    if (shadowValues && shadowValues.includes('%')) {
+      try {
+        shadowValues = decodeURIComponent(shadowValues)
+      } catch {
+        // If decoding fails, use the original value
+      }
+    }
+    
+    if (bgParam && bgParam.includes('%')) {
+      try {
+        bgParam = decodeURIComponent(bgParam)
+      } catch {
+        // If decoding fails, use the original value
+      }
+    }
+
+    console.log('Decoded shadow values:', shadowValues) // Debug log
+    console.log('Decoded background param:', bgParam) // Debug log
 
     if (!shadowValues) {
       console.log('No shadow values found in URL')
