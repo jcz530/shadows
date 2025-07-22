@@ -5,6 +5,7 @@ import {
   xAndYFromAngleDistance,
   encodeShadowsToUrl,
   decodeShadowsFromUrl,
+  decryptData,
 } from '~/utils'
 import { useHistory } from '~/composables/useHistory'
 
@@ -128,7 +129,16 @@ export const useShadowStore = defineStore('shadow', {
       try {
         const stored = localStorage.getItem('shadows-history')
         if (stored) {
-          const data = JSON.parse(stored)
+          // Try to decrypt the data first
+          let data
+          try {
+            const decryptedData = decryptData(stored)
+            data = JSON.parse(decryptedData)
+          } catch (decryptError) {
+            // If decryption fails, try parsing as unencrypted (for backwards compatibility)
+            console.warn('Failed to decrypt history data, trying unencrypted:', decryptError)
+            data = JSON.parse(stored)
+          }
           const history = data.history || []
           if (history.length > 0) {
             // Get the most recent history entry (end of array)
