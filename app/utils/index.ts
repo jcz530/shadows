@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import * as pako from 'pako'
+import type { Shadow } from '~/stores/shadow'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -42,5 +44,73 @@ export async function copyToClipboard(text: string): Promise<boolean> {
   } catch (err) {
     console.error('Failed to copy: ', err)
     return false
+  }
+}
+
+interface ShadowData {
+  shadows: Shadow[]
+  background: {
+    color: string
+    opacity: number
+  }
+}
+
+// URL encoding/decoding utilities for shadow data with compression
+export function encodeShadowsToUrl(shadows: Shadow[], background: { color: string; opacity: number }): string {
+  try {
+    const data: ShadowData = { shadows, background }
+    const jsonString = JSON.stringify(data)
+    
+    // Use compression on client-side only
+    if (import.meta.client) {
+      const compressed = pako.deflate(jsonString, { to: 'string' })
+      const encoded = btoa(compressed)
+      return encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+    }
+    
+    // Fallback to regular base64 on server
+    const encoded = btoa(jsonString)
+    return encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+  } catch (err) {
+    console.error('Failed to encode shadows to URL:', err)
+    return ''
+  }
+}
+
+export function decodeShadowsFromUrl(encoded: string): ShadowData | null {
+  try {
+    // Restore padding and standard base64 characters
+    let base64 = encoded.replace(/-/g, '+').replace(/_/g, '/')
+    while (base64.length % 4) {
+      base64 += '='
+    }
+    
+    let jsonString: string
+    
+    if (import.meta.client) {
+      try {
+        // Try to decompress first (new format)
+        const compressed = atob(base64)
+        jsonString = pako.inflate(compressed, { to: 'string' })
+      } catch {
+        // Fallback to regular base64 (old format)
+        jsonString = atob(base64)
+      }
+    } else {
+      // Server-side fallback
+      jsonString = atob(base64)
+    }
+    
+    const data = JSON.parse(jsonString) as ShadowData
+    
+    // Validate the data structure
+    if (data && Array.isArray(data.shadows) && data.background) {
+      return data
+    }
+    
+    return null
+  } catch (err) {
+    console.error('Failed to decode shadows from URL:', err)
+    return null
   }
 }

@@ -3,8 +3,9 @@ import PreviewSettings from '~/components/PreviewSettings.vue'
 import BuilderCard from '~/components/BuilderCard.vue'
 import ShadowPreview from '~/components/ShadowPreview.vue'
 import PresetCard from '~/components/PresetCard.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
+import { useShadowStore } from '~/stores/shadow'
 
 useHead({
   title: 'Shadows - CSS Box-Shadow Generator',
@@ -31,6 +32,7 @@ useHead({
 })
 
 const { getDefaultSettings } = usePreviewDefaults()
+const shadowStore = useShadowStore()
 
 // Preview settings state
 const previewSettings = ref(getDefaultSettings())
@@ -39,6 +41,11 @@ const previewSettings = ref(getDefaultSettings())
 const handleSettingsChange = (settings: typeof previewSettings.value) => {
   previewSettings.value = { ...settings }
 }
+
+// Load shadows from URL on page mount
+onMounted(() => {
+  shadowStore.loadFromUrl()
+})
 </script>
 
 <template>

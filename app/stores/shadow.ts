@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { hexToRgba, xAndYFromAngleDistance } from '~/utils'
+import { hexToRgba, xAndYFromAngleDistance, encodeShadowsToUrl, decodeShadowsFromUrl } from '~/utils'
 
 export interface Shadow {
   id: number
@@ -89,6 +89,7 @@ export const useShadowStore = defineStore('shadow', {
         opacity: 20,
       }
       this.shadows.push(newShadow)
+      this.syncToUrl()
     },
 
     duplicateShadow(shadow: Shadow) {
@@ -97,20 +98,24 @@ export const useShadowStore = defineStore('shadow', {
         id: this.nextId++,
       }
       this.shadows.push(duplicated)
+      this.syncToUrl()
     },
 
     deleteShadow(shadowId: number) {
       this.shadows = this.shadows.filter(s => s.id !== shadowId)
+      this.syncToUrl()
     },
 
     clearShadows() {
       this.shadows = []
+      this.syncToUrl()
     },
 
     toggleShadowVisibility(shadowId: number) {
       const shadow = this.shadows.find(s => s.id === shadowId)
       if (shadow) {
         shadow.visible = !shadow.visible
+        this.syncToUrl()
       }
     },
 
@@ -125,12 +130,14 @@ export const useShadowStore = defineStore('shadow', {
           shadow.x = xy.x
           shadow.y = xy.y
         }
+        this.syncToUrl()
       }
     },
 
     setBackground(color: string, opacity: number = 100) {
       this.background.color = color
       this.background.opacity = opacity
+      this.syncToUrl()
     },
 
     loadPreset(shadows: Omit<Shadow, 'id'>[]) {
@@ -138,6 +145,37 @@ export const useShadowStore = defineStore('shadow', {
         ...shadow,
         id: this.nextId++,
       }))
+      this.syncToUrl()
+    },
+
+    syncToUrl() {
+      if (import.meta.client) {
+        const encoded = encodeShadowsToUrl(this.shadows, this.background)
+        if (encoded) {
+          const url = new URL(window.location.href)
+          url.searchParams.set('data', encoded)
+          window.history.replaceState({}, '', url.toString())
+        }
+      }
+    },
+
+    loadFromUrl() {
+      if (import.meta.client) {
+        const url = new URL(window.location.href)
+        const encoded = url.searchParams.get('data')
+        if (encoded) {
+          const decoded = decodeShadowsFromUrl(encoded)
+          if (decoded) {
+            this.shadows = decoded.shadows.map(shadow => ({
+              ...shadow,
+              id: this.nextId++,
+            }))
+            this.background = decoded.background
+            return true
+          }
+        }
+      }
+      return false
     },
   },
 })
