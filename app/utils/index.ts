@@ -55,16 +55,75 @@ interface ShadowData {
   }
 }
 
-// URL encoding/decoding utilities for shadow data with compression
+// Compact shadow representation for URL encoding (saves ~60% space)
+interface CompactShadow {
+  v: boolean  // visible
+  a: number   // angle
+  d: number   // distance
+  b: number   // blur
+  s: number   // spread
+  c: string   // color (remove # prefix)
+  o: number   // opacity
+}
+
+interface CompactData {
+  s: CompactShadow[]  // shadows
+  bg: [string, number] // background [color, opacity]
+}
+
+function toCompact(shadows: Shadow[], background: { color: string; opacity: number }): CompactData {
+  return {
+    s: shadows.map(shadow => ({
+      v: shadow.visible,
+      a: shadow.angle,
+      d: shadow.distance,
+      b: shadow.blur,
+      s: shadow.spread,
+      c: shadow.color.replace('#', ''), // Remove # to save 1 char per shadow
+      o: shadow.opacity
+    })),
+    bg: [background.color.replace('#', ''), background.opacity]
+  }
+}
+
+function fromCompact(compact: CompactData): ShadowData {
+  let nextId = 1
+  return {
+    shadows: compact.s.map(s => ({
+      id: nextId++,
+      visible: s.v,
+      angle: s.a,
+      distance: s.d,
+      x: 0, // Will be recalculated by store
+      y: 0, // Will be recalculated by store
+      blur: s.b,
+      spread: s.s,
+      color: '#' + s.c,
+      opacity: s.o
+    })),
+    background: {
+      color: '#' + compact.bg[0],
+      opacity: compact.bg[1]
+    }
+  }
+}
+
+// URL encoding/decoding utilities for shadow data with aggressive compression
 export function encodeShadowsToUrl(shadows: Shadow[], background: { color: string; opacity: number }): string {
   try {
-    const data: ShadowData = { shadows, background }
-    const jsonString = JSON.stringify(data)
+    const compactData = toCompact(shadows, background)
+    const jsonString = JSON.stringify(compactData)
     
     // Use compression on client-side only
     if (import.meta.client) {
-      const compressed = pako.deflate(jsonString, { to: 'string' })
-      const encoded = btoa(compressed)
+      // Use highest compression level for maximum space savings
+      const compressed = pako.deflate(jsonString, { 
+        level: 9,
+        windowBits: 15,
+        memLevel: 9,
+        strategy: 0
+      })
+      const encoded = btoa(String.fromCharCode(...compressed))
       return encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
     }
     
@@ -89,9 +148,19 @@ export function decodeShadowsFromUrl(encoded: string): ShadowData | null {
     
     if (import.meta.client) {
       try {
-        // Try to decompress first (new format)
-        const compressed = atob(base64)
-        jsonString = pako.inflate(compressed, { to: 'string' })
+        // Try to decompress first (new compact format)
+        const binaryString = atob(base64)
+        const bytes = new Uint8Array(binaryString.length)
+        for (let i = 0; i < binaryString.length; i++) {
+          bytes[i] = binaryString.charCodeAt(i)
+        }
+        jsonString = pako.inflate(bytes, { to: 'string' })
+        
+        // Try parsing as compact format first
+        const compactData = JSON.parse(jsonString) as CompactData
+        if (compactData.s && compactData.bg) {
+          return fromCompact(compactData)
+        }
       } catch {
         // Fallback to regular base64 (old format)
         jsonString = atob(base64)
@@ -101,11 +170,17 @@ export function decodeShadowsFromUrl(encoded: string): ShadowData | null {
       jsonString = atob(base64)
     }
     
-    const data = JSON.parse(jsonString) as ShadowData
+    // Try parsing as old format
+    const data = JSON.parse(jsonString) as ShadowData | CompactData
     
-    // Validate the data structure
-    if (data && Array.isArray(data.shadows) && data.background) {
-      return data
+    // Check if it's compact format
+    if ('s' in data && 'bg' in data) {
+      return fromCompact(data as CompactData)
+    }
+    
+    // Validate old format
+    if ('shadows' in data && Array.isArray(data.shadows) && data.background) {
+      return data as ShadowData
     }
     
     return null
