@@ -27,7 +27,7 @@ const getPresetShadowCSS = (shadows: PresetShadow[]): string => {
     .filter(shadow => shadow.visible)
     .map(shadow => {
       const rgba = hexToRgba(shadow.color, shadow.opacity)
-      return `${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${rgba}`
+      return `${shadow.inset ? 'inset ' : ''}${shadow.x}px ${shadow.y}px ${shadow.blur}px ${shadow.spread}px ${rgba}`
     })
     .join(', ')
 }

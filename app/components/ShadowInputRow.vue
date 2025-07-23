@@ -62,7 +62,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
 </script>
 
 <template>
-  <div class="grid grid-cols-8 items-center gap-4 border-b p-4">
+  <div class="grid grid-cols-9 items-center gap-4 border-b p-4">
     <!-- On/Off Toggle -->
     <div class="flex justify-center">
       <Switch
@@ -221,18 +221,29 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
 
     <!-- Color -->
     <div class="space-y-2">
-      <Label class="text-xs font-medium text-muted-foreground">Color</Label>
-      <input
-        type="color"
-        :value="shadow.color"
-        class="h-8 w-12 cursor-pointer rounded border"
-        @input="
-          updateFieldAndCommit(
-            'color',
-            ($event.target as HTMLInputElement).value,
-          )
-        "
-      />
+      <div class="flex justify-center">
+        <input
+          type="color"
+          :value="shadow.color"
+          class="h-8 w-12 cursor-pointer rounded border"
+          @input="
+            updateFieldAndCommit(
+              'color',
+              ($event.target as HTMLInputElement).value,
+            )
+          "
+        />
+      </div>
+    </div>
+
+    <!-- Inset -->
+    <div class="space-y-2">
+      <div class="flex justify-center">
+        <Switch
+          :model-value="shadow.inset"
+          @update:model-value="updateFieldAndCommit('inset', $event)"
+        />
+      </div>
     </div>
 
     <!-- Opacity -->

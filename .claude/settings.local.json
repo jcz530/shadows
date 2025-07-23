@@ -5,7 +5,8 @@
       "Bash(ls:*)",
       "Bash(mkdir:*)",
       "Bash(git commit:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(npm run lint)"
     ],
     "deny": []
   }

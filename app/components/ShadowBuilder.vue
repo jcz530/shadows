@@ -72,7 +72,7 @@ const handleRedo = () => {
   <div class="space-y-4">
     <!-- Header row with labels -->
     <div
-      class="grid grid-cols-8 items-center gap-4 border-b bg-muted/50 p-4 text-sm font-medium text-muted-foreground"
+      class="grid grid-cols-9 items-center gap-4 border-b bg-muted/50 p-4 text-sm font-medium text-muted-foreground"
     >
       <div class="text-center">On/Off</div>
       <div class="text-center">Angle</div>
@@ -80,6 +80,7 @@ const handleRedo = () => {
       <div class="text-center">Blur</div>
       <div class="text-center">Spread</div>
       <div class="text-center">Color</div>
+      <div class="text-center">Inset</div>
       <div class="text-center">Opacity</div>
       <div class="text-center">Actions</div>
     </div>
