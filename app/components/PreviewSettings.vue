@@ -204,25 +204,33 @@ const handleOpenSettings = () => {
                 :class="{ 'opacity-50': settings.view === 'varied' }"
               >
                 <Label class="text-sm font-medium">Num Items</Label>
-                <Tooltip>
+                <Tooltip v-if="settings.view === 'varied'">
                   <TooltipTrigger as-child>
-                    <div>
-                      <Slider
-                        :model-value="[settings.numItems]"
-                        :min="1"
-                        :max="24"
-                        :step="1"
-                        :disabled="settings.view === 'varied'"
-                        class="w-full"
-                        @update:model-value="updateNumItems"
-                        @value-commit="trackNumItemsChange"
-                      />
-                    </div>
+                    <Slider
+                      :model-value="[settings.numItems]"
+                      :min="1"
+                      :max="24"
+                      :step="1"
+                      :disabled="settings.view === 'varied'"
+                      class="w-full"
+                      @update:model-value="updateNumItems"
+                      @value-commit="trackNumItemsChange"
+                    />
                   </TooltipTrigger>
-                  <TooltipContent v-show="settings.view === 'varied'">
+                  <TooltipContent>
                     <p>Set view to Grid to adjust the number of items</p>
                   </TooltipContent>
                 </Tooltip>
+                <Slider
+                  v-else
+                  :model-value="[settings.numItems]"
+                  :min="1"
+                  :max="24"
+                  :step="1"
+                  class="w-full"
+                  @update:model-value="updateNumItems"
+                  @value-commit="trackNumItemsChange"
+                />
                 <Slider
                   v-if="false"
                   :model-value="[settings.numItems]"
@@ -302,21 +310,19 @@ const handleOpenSettings = () => {
                 </Label>
                 <Tooltip>
                   <TooltipTrigger as-child>
-                    <div>
-                      <Slider
-                        id="height"
-                        :model-value="[settings.previewCards.height]"
-                        :min="getSliderConfig('height').min"
-                        :max="getSliderConfig('height').max"
-                        :step="getSliderConfig('height').step"
-                        :disabled="settings.view === 'varied'"
-                        class="w-full"
-                        @update:model-value="updateHeight"
-                        @value-commit="trackHeightChange"
-                      />
-                    </div>
+                    <Slider
+                      id="height"
+                      :model-value="[settings.previewCards.height]"
+                      :min="getSliderConfig('height').min"
+                      :max="getSliderConfig('height').max"
+                      :step="getSliderConfig('height').step"
+                      :disabled="settings.view === 'varied'"
+                      class="w-full"
+                      @update:model-value="updateHeight"
+                      @value-commit="trackHeightChange"
+                    />
                   </TooltipTrigger>
-                  <TooltipContent v-show="settings.view === 'varied'">
+                  <TooltipContent v-if="settings.view === 'varied'">
                     <p>Set view to Grid to adjust height</p>
                   </TooltipContent>
                 </Tooltip>
@@ -343,21 +349,19 @@ const handleOpenSettings = () => {
                 >
                 <Tooltip>
                   <TooltipTrigger as-child>
-                    <div>
-                      <Slider
-                        id="width"
-                        :model-value="[settings.previewCards.width]"
-                        :min="getSliderConfig('width').min"
-                        :max="getSliderConfig('width').max"
-                        :step="getSliderConfig('width').step"
-                        :disabled="settings.view === 'varied'"
-                        class="w-full"
-                        @update:model-value="updateWidth"
-                        @value-commit="trackWidthChange"
-                      />
-                    </div>
+                    <Slider
+                      id="width"
+                      :model-value="[settings.previewCards.width]"
+                      :min="getSliderConfig('width').min"
+                      :max="getSliderConfig('width').max"
+                      :step="getSliderConfig('width').step"
+                      :disabled="settings.view === 'varied'"
+                      class="w-full"
+                      @update:model-value="updateWidth"
+                      @value-commit="trackWidthChange"
+                    />
                   </TooltipTrigger>
-                  <TooltipContent v-show="settings.view === 'varied'">
+                  <TooltipContent v-if="settings.view === 'varied'">
                     <p>Set view to Grid to adjust width</p>
                   </TooltipContent>
                 </Tooltip>
