@@ -13,7 +13,6 @@ const { formatStyleValue, PREVIEW_DEFAULTS, VARIED_VIEW_ITEMS } =
 const props = defineProps<{
   settings: PreviewSettings
 }>()
-
 const shadowStore = useShadowStore()
 
 const shadowCSS = computed(() => {

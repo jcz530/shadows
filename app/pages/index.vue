@@ -31,10 +31,10 @@ useHead({
   ],
 })
 
-const { getDefaultSettings } = usePreviewDefaults()
+const { getDefaultSettings, getSettingsFromStorage } = usePreviewDefaults()
 const shadowStore = useShadowStore()
 
-// Preview settings state
+// Preview settings state - start with defaults to avoid hydration mismatch
 const previewSettings = ref(getDefaultSettings())
 
 // Handle settings changes
@@ -42,9 +42,22 @@ const handleSettingsChange = (settings: typeof previewSettings.value) => {
   previewSettings.value = { ...settings }
 }
 
-// Load shadows from URL on page mount
+// Initialize from history and load from URL on page mount
 onMounted(async () => {
-  await shadowStore.loadFromUrl()
+  // Load stored preview settings after hydration to avoid mismatch
+  const storedSettings = getSettingsFromStorage()
+  previewSettings.value = storedSettings
+
+  // Capture initial URL state before any modifications
+  const hasInitialUrlParams = !!window.location.search
+
+  // First try to initialize from history
+  const initializedFromHistory = await shadowStore.initializeFromHistory()
+
+  // Only load from URL if we didn't initialize from history AND URL had parameters initially
+  if (!initializedFromHistory && hasInitialUrlParams) {
+    await shadowStore.loadFromUrl()
+  }
 })
 </script>
 

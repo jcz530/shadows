@@ -28,9 +28,17 @@ const updateField = (field: keyof Shadow, value: unknown) => {
   shadowStore.updateShadowField(props.shadow.id, field, singleValue)
 }
 
-// Track slider changes only on completion
-const trackSliderChange = (field: keyof Shadow, value: unknown) => {
+// Update field and immediately commit (for discrete actions like toggle, color change, increment/decrement)
+const updateFieldAndCommit = (field: keyof Shadow, value: unknown) => {
   const singleValue = Array.isArray(value) ? value[0] : value
+  shadowStore.updateShadowField(props.shadow.id, field, singleValue)
+  shadowStore.commitShadowFieldUpdate()
+}
+
+// Track and commit slider changes only on completion
+const handleSliderCommit = (field: keyof Shadow, value: unknown) => {
+  const singleValue = Array.isArray(value) ? value[0] : value
+  shadowStore.commitShadowFieldUpdate()
   trackEvent('adjust_shadow_field', {
     field: field as string,
     value: singleValue,
@@ -42,14 +50,14 @@ const incrementValue = (field: keyof Shadow, min: number, max: number) => {
   trackEvent('increment_field', { field: field as string })
   const currentValue = props.shadow[field] as number
   const newValue = Math.min(currentValue + 1, max)
-  updateField(field, newValue)
+  updateFieldAndCommit(field, newValue)
 }
 
 const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
   trackEvent('decrement_field', { field: field as string })
   const currentValue = props.shadow[field] as number
   const newValue = Math.max(currentValue - 1, min)
-  updateField(field, newValue)
+  updateFieldAndCommit(field, newValue)
 }
 </script>
 
@@ -59,7 +67,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
     <div class="flex justify-center">
       <Switch
         :model-value="shadow.visible"
-        @update:model-value="updateField('visible', $event)"
+        @update:model-value="updateFieldAndCommit('visible', $event)"
       />
     </div>
 
@@ -72,7 +80,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="0"
           :max="360"
           @update:model-value="updateField('angle', $event)"
-          @value-commit="trackSliderChange('angle', $event)"
+          @value-commit="handleSliderCommit('angle', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"
@@ -109,7 +117,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="0"
           :max="100"
           @update:model-value="updateField('distance', $event)"
-          @value-commit="trackSliderChange('distance', $event)"
+          @value-commit="handleSliderCommit('distance', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"
@@ -146,7 +154,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="0"
           :max="100"
           @update:model-value="updateField('blur', $event)"
-          @value-commit="trackSliderChange('blur', $event)"
+          @value-commit="handleSliderCommit('blur', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"
@@ -183,7 +191,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="-50"
           :max="50"
           @update:model-value="updateField('spread', $event)"
-          @value-commit="trackSliderChange('spread', $event)"
+          @value-commit="handleSliderCommit('spread', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"
@@ -218,7 +226,12 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
         type="color"
         :value="shadow.color"
         class="h-8 w-12 cursor-pointer rounded border"
-        @input="updateField('color', ($event.target as HTMLInputElement).value)"
+        @input="
+          updateFieldAndCommit(
+            'color',
+            ($event.target as HTMLInputElement).value,
+          )
+        "
       />
     </div>
 
@@ -231,7 +244,7 @@ const decrementValue = (field: keyof Shadow, min: number, _max: number) => {
           :min="0"
           :max="100"
           @update:model-value="updateField('opacity', $event)"
-          @value-commit="trackSliderChange('opacity', $event)"
+          @value-commit="handleSliderCommit('opacity', $event)"
         />
         <div
           class="flex flex-col items-center justify-center gap-2 sm:flex-row"

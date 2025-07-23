@@ -161,3 +161,65 @@ export function decodeShadowsFromUrl(encoded: string): DecodeResult {
     }
   }
 }
+
+// Base64 encoding utilities for localStorage
+export function encryptData(data: string): string {
+  try {
+    // Simple Base64 encoding with proper UTF-8 handling
+    const encoder = new TextEncoder()
+    const bytes = encoder.encode(data)
+    return btoa(String.fromCharCode(...bytes))
+  } catch (error) {
+    console.error('Failed to encrypt data:', error)
+    throw error
+  }
+}
+
+export function decryptData(encryptedData: string): string {
+  try {
+    // Simple Base64 decoding with proper UTF-8 handling
+    const binaryString = atob(encryptedData)
+    const bytes = new Uint8Array(binaryString.length)
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i)
+    }
+    const decoder = new TextDecoder()
+    return decoder.decode(bytes)
+  } catch (error) {
+    console.error('Failed to decrypt data:', error)
+    throw error
+  }
+}
+
+// Local storage utilities for preview settings
+const PREVIEW_SETTINGS_KEY = 'shadows-preview-settings'
+
+export function savePreviewSettings(settings: unknown): void {
+  try {
+    const jsonString = JSON.stringify(settings)
+    const encoded = encryptData(jsonString)
+    localStorage.setItem(PREVIEW_SETTINGS_KEY, encoded)
+  } catch (error) {
+    console.error('Failed to save preview settings to localStorage:', error)
+  }
+}
+
+export function loadPreviewSettings(): unknown | null {
+  try {
+    const stored = localStorage.getItem(PREVIEW_SETTINGS_KEY)
+    if (!stored) return null
+    const decoded = decryptData(stored)
+    return JSON.parse(decoded)
+  } catch (error) {
+    console.error('Failed to load preview settings from localStorage:', error)
+    return null
+  }
+}
+
+export function clearPreviewSettings(): void {
+  try {
+    localStorage.removeItem(PREVIEW_SETTINGS_KEY)
+  } catch (error) {
+    console.error('Failed to clear preview settings from localStorage:', error)
+  }
+}

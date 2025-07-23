@@ -82,8 +82,23 @@ export interface PreviewSettings {
   numItems: number
 }
 
+interface ParsedPreviewSettings {
+  page?: {
+    backgroundColor?: string
+  }
+  previewCards?: {
+    backgroundColor?: string
+    borderRadius?: number
+    height?: number
+    width?: number
+  }
+  view?: 'grid' | 'varied'
+  numItems?: number
+}
+
 export function usePreviewDefaults() {
   const getDefaultSettings = (): PreviewSettings => {
+    // Fall back to defaults
     return {
       page: {
         backgroundColor: PREVIEW_DEFAULTS.page.backgroundColor,
@@ -96,6 +111,108 @@ export function usePreviewDefaults() {
       },
       view: PREVIEW_DEFAULTS.view,
       numItems: PREVIEW_DEFAULTS.numItems,
+    }
+  }
+
+  const getSettingsFromStorage = (): PreviewSettings => {
+    // Only try to access localStorage on client side
+    if (import.meta.client) {
+      try {
+        // Try URL first, then localStorage
+        const urlSettings = getSettingsFromUrl()
+        if (urlSettings) {
+          return urlSettings
+        }
+
+        const stored = localStorage.getItem('shadows-preview-settings')
+        if (stored) {
+          const decoded = window.atob(stored)
+          const parsedSettings = JSON.parse(decoded)
+          // Merge stored settings with defaults to handle any missing properties
+          return mergeWithDefaults(parsedSettings)
+        }
+      } catch (error) {
+        console.error('Failed to load preview settings:', error)
+      }
+    }
+
+    // Fall back to defaults (this ensures consistent behavior on server and client before hydration)
+    return getDefaultSettings()
+  }
+
+  const getSettingsFromUrl = (): PreviewSettings | null => {
+    if (!import.meta.client) return null
+
+    try {
+      const params = new URLSearchParams(window.location.search)
+      const previewParam = params.get('p')
+
+      if (!previewParam) return null
+
+      const decoded = window.atob(previewParam)
+      const parsedSettings = JSON.parse(decoded)
+      return mergeWithDefaults(parsedSettings)
+    } catch (error) {
+      console.error('Failed to load preview settings from URL:', error)
+      return null
+    }
+  }
+
+  const mergeWithDefaults = (
+    parsedSettings: ParsedPreviewSettings,
+  ): PreviewSettings => {
+    return {
+      page: {
+        backgroundColor:
+          parsedSettings?.page?.backgroundColor ||
+          PREVIEW_DEFAULTS.page.backgroundColor,
+      },
+      previewCards: {
+        backgroundColor:
+          parsedSettings?.previewCards?.backgroundColor ||
+          PREVIEW_DEFAULTS.previewCards.backgroundColor,
+        borderRadius:
+          parsedSettings?.previewCards?.borderRadius ??
+          PREVIEW_DEFAULTS.previewCards.borderRadius.value,
+        height:
+          parsedSettings?.previewCards?.height ??
+          PREVIEW_DEFAULTS.previewCards.height.value,
+        width:
+          parsedSettings?.previewCards?.width ??
+          PREVIEW_DEFAULTS.previewCards.width.value,
+      },
+      view: parsedSettings?.view || PREVIEW_DEFAULTS.view,
+      numItems: parsedSettings?.numItems ?? PREVIEW_DEFAULTS.numItems,
+    }
+  }
+
+  const saveSettingsToStorage = (settings: PreviewSettings): void => {
+    if (import.meta.client) {
+      try {
+        // Save to localStorage with base64 encoding
+        const jsonString = JSON.stringify(settings)
+        const encoded = window.btoa(jsonString)
+        localStorage.setItem('shadows-preview-settings', encoded)
+
+        // Update URL with preview settings
+        updateUrlWithPreviewSettings(settings)
+      } catch (error) {
+        console.error('Failed to save preview settings:', error)
+      }
+    }
+  }
+
+  const updateUrlWithPreviewSettings = (settings: PreviewSettings): void => {
+    try {
+      const url = new URL(window.location.href)
+      const jsonString = JSON.stringify(settings)
+      const encoded = window.btoa(jsonString)
+      url.searchParams.set('p', encoded)
+
+      // Update URL without triggering navigation
+      window.history.replaceState({}, '', url.toString())
+    } catch (error) {
+      console.error('Failed to update URL with preview settings:', error)
     }
   }
 
@@ -122,6 +239,10 @@ export function usePreviewDefaults() {
     VARIED_VIEW_ITEMS,
     formatStyleValue,
     getDefaultSettings,
+    getSettingsFromStorage,
+    getSettingsFromUrl,
+    saveSettingsToStorage,
+    updateUrlWithPreviewSettings,
     getSliderConfig,
   }
 }

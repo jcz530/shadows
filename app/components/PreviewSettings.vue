@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { Settings } from 'lucide-vue-next'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
@@ -19,12 +19,24 @@ import {
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
 import { useEventTracking } from '~/composables/useEventTracking'
 
-const { getDefaultSettings, formatStyleValue, getSliderConfig } =
-  usePreviewDefaults()
+const {
+  getDefaultSettings,
+  getSettingsFromStorage,
+  saveSettingsToStorage,
+  formatStyleValue,
+  getSliderConfig,
+} = usePreviewDefaults()
 const { trackEvent } = useEventTracking()
 
-// Preview settings state
+// Preview settings state - start with defaults to avoid hydration mismatch
 const settings = reactive(getDefaultSettings())
+
+// Load from storage after mount to avoid hydration issues
+onMounted(() => {
+  const storedSettings = getSettingsFromStorage()
+  // Update reactive object properties
+  Object.assign(settings, storedSettings)
+})
 
 // Color picker refs
 const pageColorInput = ref<HTMLInputElement>()
@@ -37,6 +49,8 @@ const emit = defineEmits<{
 // Watch for changes and emit
 const handleSettingsChange = () => {
   emit('settingsChanged', settings)
+  // Save to localStorage whenever settings change
+  saveSettingsToStorage(settings)
 }
 
 // Handle slider changes - without tracking (tracking happens on end)
@@ -104,6 +118,14 @@ const handleCardColorChange = () => {
 // Track opening the settings popover
 const handleOpenSettings = () => {
   trackEvent('open_preview_settings')
+}
+
+// Reset settings to defaults
+const resetToDefaults = () => {
+  trackEvent('reset_preview_settings')
+  const defaults = getDefaultSettings()
+  Object.assign(settings, defaults)
+  handleSettingsChange()
 }
 </script>
 
@@ -197,18 +219,16 @@ const handleOpenSettings = () => {
                 <Label class="text-sm font-medium">Num Items</Label>
                 <Tooltip v-if="settings.view === 'varied'">
                   <TooltipTrigger as-child>
-                    <div>
-                      <Slider
-                        :model-value="[settings.numItems]"
-                        :min="1"
-                        :max="24"
-                        :step="1"
-                        :disabled="settings.view === 'varied'"
-                        class="w-full"
-                        @update:model-value="updateNumItems"
-                        @value-commit="trackNumItemsChange"
-                      />
-                    </div>
+                    <Slider
+                      :model-value="[settings.numItems]"
+                      :min="1"
+                      :max="24"
+                      :step="1"
+                      :disabled="settings.view === 'varied'"
+                      class="w-full"
+                      @update:model-value="updateNumItems"
+                      @value-commit="trackNumItemsChange"
+                    />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Set view to Grid to adjust the number of items</p>
@@ -216,6 +236,16 @@ const handleOpenSettings = () => {
                 </Tooltip>
                 <Slider
                   v-else
+                  :model-value="[settings.numItems]"
+                  :min="1"
+                  :max="24"
+                  :step="1"
+                  class="w-full"
+                  @update:model-value="updateNumItems"
+                  @value-commit="trackNumItemsChange"
+                />
+                <Slider
+                  v-if="false"
                   :model-value="[settings.numItems]"
                   :min="1"
                   :max="24"
@@ -291,28 +321,26 @@ const handleOpenSettings = () => {
                 <Label class="text-sm font-medium" for="height"
                   >Height ({{ getSliderConfig('height').unit }})
                 </Label>
-                <Tooltip v-if="settings.view === 'varied'">
+                <Tooltip>
                   <TooltipTrigger as-child>
-                    <div>
-                      <Slider
-                        id="height"
-                        :model-value="[settings.previewCards.height]"
-                        :min="getSliderConfig('height').min"
-                        :max="getSliderConfig('height').max"
-                        :step="getSliderConfig('height').step"
-                        :disabled="settings.view === 'varied'"
-                        class="w-full"
-                        @update:model-value="updateHeight"
-                        @value-commit="trackHeightChange"
-                      />
-                    </div>
+                    <Slider
+                      id="height"
+                      :model-value="[settings.previewCards.height]"
+                      :min="getSliderConfig('height').min"
+                      :max="getSliderConfig('height').max"
+                      :step="getSliderConfig('height').step"
+                      :disabled="settings.view === 'varied'"
+                      class="w-full"
+                      @update:model-value="updateHeight"
+                      @value-commit="trackHeightChange"
+                    />
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent v-if="settings.view === 'varied'">
                     <p>Set view to Grid to adjust height</p>
                   </TooltipContent>
                 </Tooltip>
                 <Slider
-                  v-else
+                  v-if="false"
                   id="height"
                   :model-value="[settings.previewCards.height]"
                   :min="getSliderConfig('height').min"
@@ -332,28 +360,26 @@ const handleOpenSettings = () => {
                 <Label class="text-sm font-medium" for="width"
                   >Width ({{ getSliderConfig('width').unit }})</Label
                 >
-                <Tooltip v-if="settings.view === 'varied'">
+                <Tooltip>
                   <TooltipTrigger as-child>
-                    <div>
-                      <Slider
-                        id="width"
-                        :model-value="[settings.previewCards.width]"
-                        :min="getSliderConfig('width').min"
-                        :max="getSliderConfig('width').max"
-                        :step="getSliderConfig('width').step"
-                        :disabled="settings.view === 'varied'"
-                        class="w-full"
-                        @update:model-value="updateWidth"
-                        @value-commit="trackWidthChange"
-                      />
-                    </div>
+                    <Slider
+                      id="width"
+                      :model-value="[settings.previewCards.width]"
+                      :min="getSliderConfig('width').min"
+                      :max="getSliderConfig('width').max"
+                      :step="getSliderConfig('width').step"
+                      :disabled="settings.view === 'varied'"
+                      class="w-full"
+                      @update:model-value="updateWidth"
+                      @value-commit="trackWidthChange"
+                    />
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent v-if="settings.view === 'varied'">
                     <p>Set view to Grid to adjust width</p>
                   </TooltipContent>
                 </Tooltip>
                 <Slider
-                  v-else
+                  v-if="false"
                   id="width"
                   :model-value="[settings.previewCards.width]"
                   :min="getSliderConfig('width').min"
@@ -368,6 +394,18 @@ const handleOpenSettings = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <!-- Reset Button -->
+          <div class="mt-6 border-t pt-4">
+            <Button
+              variant="ghost"
+              size="sm"
+              class="w-full"
+              @click="resetToDefaults"
+            >
+              Reset to Defaults
+            </Button>
           </div>
         </PopoverContent>
       </Popover>

@@ -949,12 +949,29 @@ export const materialDesignPresets: Preset[] = [
 
 export const tailwindPresets: Preset[] = [
   {
-    title: 'Small',
+    title: 'shadow-2xs',
     category: 'tailwind',
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
+        distance: 1,
+        x: 0,
+        y: 1,
+        blur: 0,
+        spread: 0,
+        color: '#000000',
+        opacity: 5,
+      },
+    ],
+  },
+  {
+    title: 'shadow-xs',
+    category: 'tailwind',
+    shadows: [
+      {
+        visible: true,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
@@ -966,12 +983,12 @@ export const tailwindPresets: Preset[] = [
     ],
   },
   {
-    title: 'Default',
+    title: 'shadow-sm',
     category: 'tailwind',
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
@@ -982,24 +999,24 @@ export const tailwindPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
         blur: 2,
-        spread: 0,
+        spread: -1,
         color: '#000000',
-        opacity: 6,
+        opacity: 10,
       },
     ],
   },
   {
-    title: 'Medium',
+    title: 'shadow-md',
     category: 'tailwind',
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 4,
         x: 0,
         y: 4,
@@ -1010,24 +1027,24 @@ export const tailwindPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 2,
         x: 0,
         y: 2,
         blur: 4,
-        spread: -1,
+        spread: -2,
         color: '#000000',
-        opacity: 6,
+        opacity: 10,
       },
     ],
   },
   {
-    title: 'Large',
+    title: 'shadow-lg',
     category: 'tailwind',
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 10,
         x: 0,
         y: 10,
@@ -1038,24 +1055,24 @@ export const tailwindPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 4,
         x: 0,
         y: 4,
         blur: 6,
-        spread: -2,
+        spread: -4,
         color: '#000000',
-        opacity: 5,
+        opacity: 10,
       },
     ],
   },
   {
-    title: 'Extra Large',
+    title: 'shadow-xl',
     category: 'tailwind',
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 20,
         x: 0,
         y: 20,
@@ -1066,24 +1083,24 @@ export const tailwindPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
-        distance: 10,
+        angle: 0,
+        distance: 8,
         x: 0,
-        y: 10,
+        y: 8,
         blur: 10,
-        spread: -5,
+        spread: -6,
         color: '#000000',
-        opacity: 4,
+        opacity: 10,
       },
     ],
   },
   {
-    title: '2XL',
+    title: 'shadow-2xl',
     category: 'tailwind',
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 25,
         x: 0,
         y: 25,
