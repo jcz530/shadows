@@ -136,7 +136,10 @@ export const useShadowStore = defineStore('shadow', {
             data = JSON.parse(decryptedData)
           } catch (decryptError) {
             // If decryption fails, try parsing as unencrypted (for backwards compatibility)
-            console.warn('Failed to decrypt history data, trying unencrypted:', decryptError)
+            console.warn(
+              'Failed to decrypt history data, trying unencrypted:',
+              decryptError,
+            )
             data = JSON.parse(stored)
           }
           const history = data.history || []
@@ -242,8 +245,14 @@ export const useShadowStore = defineStore('shadow', {
     },
 
     _describeStateChange(
-      oldState: { shadows: Shadow[]; background: any },
-      newState: { shadows: Shadow[]; background: any },
+      oldState: {
+        shadows: Shadow[]
+        background: { color: string; opacity: number }
+      },
+      newState: {
+        shadows: Shadow[]
+        background: { color: string; opacity: number }
+      },
     ): { title: string; description: string } {
       const oldShadowCount = oldState.shadows.length
       const newShadowCount = newState.shadows.length
@@ -254,13 +263,13 @@ export const useShadowStore = defineStore('shadow', {
           const added = newShadowCount - oldShadowCount
           return {
             title: `Added ${added} shadow${added === 1 ? '' : 's'}`,
-            description: `${oldShadowCount} → ${newShadowCount} layers`
+            description: `${oldShadowCount} → ${newShadowCount} layers`,
           }
         } else {
           const removed = oldShadowCount - newShadowCount
           return {
             title: `Removed ${removed} shadow${removed === 1 ? '' : 's'}`,
-            description: `${oldShadowCount} → ${newShadowCount} layers`
+            description: `${oldShadowCount} → ${newShadowCount} layers`,
           }
         }
       }
@@ -269,14 +278,14 @@ export const useShadowStore = defineStore('shadow', {
       if (oldState.background.color !== newState.background.color) {
         return {
           title: 'Changed background color',
-          description: `${oldState.background.color} → ${newState.background.color}`
+          description: `${oldState.background.color} → ${newState.background.color}`,
         }
       }
 
       if (oldState.background.opacity !== newState.background.opacity) {
         return {
           title: 'Changed background opacity',
-          description: `${oldState.background.opacity}% → ${newState.background.opacity}%`
+          description: `${oldState.background.opacity}% → ${newState.background.opacity}%`,
         }
       }
 
@@ -287,12 +296,12 @@ export const useShadowStore = defineStore('shadow', {
         if (newVisibleCount > oldVisibleCount) {
           return {
             title: 'Showed shadow layer',
-            description: `${oldVisibleCount} → ${newVisibleCount} visible`
+            description: `${oldVisibleCount} → ${newVisibleCount} visible`,
           }
         } else {
           return {
             title: 'Hidden shadow layer',
-            description: `${oldVisibleCount} → ${newVisibleCount} visible`
+            description: `${oldVisibleCount} → ${newVisibleCount} visible`,
           }
         }
       }
@@ -309,25 +318,25 @@ export const useShadowStore = defineStore('shadow', {
         if (oldShadow.color !== newShadow.color) {
           return {
             title: 'Changed shadow color',
-            description: `${oldShadow.color} → ${newShadow.color}`
+            description: `${oldShadow.color} → ${newShadow.color}`,
           }
         }
         if (oldShadow.blur !== newShadow.blur) {
           return {
             title: 'Changed shadow blur',
-            description: `${oldShadow.blur}px → ${newShadow.blur}px`
+            description: `${oldShadow.blur}px → ${newShadow.blur}px`,
           }
         }
         if (oldShadow.spread !== newShadow.spread) {
           return {
             title: 'Changed shadow spread',
-            description: `${oldShadow.spread}px → ${newShadow.spread}px`
+            description: `${oldShadow.spread}px → ${newShadow.spread}px`,
           }
         }
         if (oldShadow.opacity !== newShadow.opacity) {
           return {
             title: 'Changed shadow opacity',
-            description: `${oldShadow.opacity}% → ${newShadow.opacity}%`
+            description: `${oldShadow.opacity}% → ${newShadow.opacity}%`,
           }
         }
         if (
@@ -336,14 +345,14 @@ export const useShadowStore = defineStore('shadow', {
         ) {
           return {
             title: 'Changed shadow position',
-            description: `${oldShadow.angle}°/${oldShadow.distance}px → ${newShadow.angle}°/${newShadow.distance}px`
+            description: `${oldShadow.angle}°/${oldShadow.distance}px → ${newShadow.angle}°/${newShadow.distance}px`,
           }
         }
       }
 
       return {
         title: 'Changed shadow properties',
-        description: ''
+        description: '',
       }
     },
 
@@ -357,10 +366,10 @@ export const useShadowStore = defineStore('shadow', {
       if (state) {
         const changeInfo = this._describeStateChange(currentState, state)
         this._restoreFromHistory(state)
-        return { 
-          success: true, 
+        return {
+          success: true,
           title: changeInfo.title,
-          description: changeInfo.description 
+          description: changeInfo.description,
         }
       }
       return { success: false }
@@ -376,10 +385,10 @@ export const useShadowStore = defineStore('shadow', {
       if (state) {
         const changeInfo = this._describeStateChange(currentState, state)
         this._restoreFromHistory(state)
-        return { 
-          success: true, 
+        return {
+          success: true,
           title: changeInfo.title,
-          description: changeInfo.description 
+          description: changeInfo.description,
         }
       }
       return { success: false }

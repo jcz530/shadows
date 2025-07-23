@@ -29,7 +29,7 @@ export function useHistory(): HistoryManager {
   const currentIndex = ref(-1)
 
   const canUndo = computed(() => currentIndex.value > 0)
-  const canRedo = computed(() => currentIndex.value < history.value.length - 1)  
+  const canRedo = computed(() => currentIndex.value < history.value.length - 1)
   const undoCount = computed(() => Math.max(0, currentIndex.value))
   const redoCount = computed(() =>
     Math.max(0, history.value.length - 1 - currentIndex.value),
@@ -59,10 +59,13 @@ export function useHistory(): HistoryManager {
             data = JSON.parse(decryptedData)
           } catch (decryptError) {
             // If decryption fails, try parsing as unencrypted (for backwards compatibility)
-            console.warn('Failed to decrypt history data, trying unencrypted:', decryptError)
+            console.warn(
+              'Failed to decrypt history data, trying unencrypted:',
+              decryptError,
+            )
             data = JSON.parse(stored)
           }
-          
+
           history.value = data.history || []
           // Restore the saved currentIndex, or default to end of history if not saved
           currentIndex.value =
@@ -87,10 +90,10 @@ export function useHistory(): HistoryManager {
           history: history.value,
           currentIndex: currentIndex.value,
         }
-        
+
         const jsonString = JSON.stringify(dataToSave)
         const encryptedData = encryptData(jsonString)
-        
+
         localStorage.setItem(STORAGE_KEY, encryptedData)
       } catch (error) {
         console.warn('Failed to save history to localStorage:', error)

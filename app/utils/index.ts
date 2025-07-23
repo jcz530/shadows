@@ -223,4 +223,3 @@ export function clearPreviewSettings(): void {
     console.error('Failed to clear preview settings from localStorage:', error)
   }
 }
-

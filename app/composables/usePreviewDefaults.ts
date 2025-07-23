@@ -142,11 +142,11 @@ export function usePreviewDefaults() {
 
   const getSettingsFromUrl = (): PreviewSettings | null => {
     if (!import.meta.client) return null
-    
+
     try {
       const params = new URLSearchParams(window.location.search)
       const previewParam = params.get('p')
-      
+
       if (!previewParam) return null
 
       const decoded = window.atob(previewParam)
@@ -158,16 +158,28 @@ export function usePreviewDefaults() {
     }
   }
 
-  const mergeWithDefaults = (parsedSettings: ParsedPreviewSettings): PreviewSettings => {
+  const mergeWithDefaults = (
+    parsedSettings: ParsedPreviewSettings,
+  ): PreviewSettings => {
     return {
       page: {
-        backgroundColor: parsedSettings?.page?.backgroundColor || PREVIEW_DEFAULTS.page.backgroundColor,
+        backgroundColor:
+          parsedSettings?.page?.backgroundColor ||
+          PREVIEW_DEFAULTS.page.backgroundColor,
       },
       previewCards: {
-        backgroundColor: parsedSettings?.previewCards?.backgroundColor || PREVIEW_DEFAULTS.previewCards.backgroundColor,
-        borderRadius: parsedSettings?.previewCards?.borderRadius ?? PREVIEW_DEFAULTS.previewCards.borderRadius.value,
-        height: parsedSettings?.previewCards?.height ?? PREVIEW_DEFAULTS.previewCards.height.value,
-        width: parsedSettings?.previewCards?.width ?? PREVIEW_DEFAULTS.previewCards.width.value,
+        backgroundColor:
+          parsedSettings?.previewCards?.backgroundColor ||
+          PREVIEW_DEFAULTS.previewCards.backgroundColor,
+        borderRadius:
+          parsedSettings?.previewCards?.borderRadius ??
+          PREVIEW_DEFAULTS.previewCards.borderRadius.value,
+        height:
+          parsedSettings?.previewCards?.height ??
+          PREVIEW_DEFAULTS.previewCards.height.value,
+        width:
+          parsedSettings?.previewCards?.width ??
+          PREVIEW_DEFAULTS.previewCards.width.value,
       },
       view: parsedSettings?.view || PREVIEW_DEFAULTS.view,
       numItems: parsedSettings?.numItems ?? PREVIEW_DEFAULTS.numItems,
@@ -181,7 +193,7 @@ export function usePreviewDefaults() {
         const jsonString = JSON.stringify(settings)
         const encoded = window.btoa(jsonString)
         localStorage.setItem('shadows-preview-settings', encoded)
-        
+
         // Update URL with preview settings
         updateUrlWithPreviewSettings(settings)
       } catch (error) {
@@ -196,7 +208,7 @@ export function usePreviewDefaults() {
       const jsonString = JSON.stringify(settings)
       const encoded = window.btoa(jsonString)
       url.searchParams.set('p', encoded)
-      
+
       // Update URL without triggering navigation
       window.history.replaceState({}, '', url.toString())
     } catch (error) {

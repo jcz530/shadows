@@ -19,8 +19,13 @@ import {
 import { usePreviewDefaults } from '~/composables/usePreviewDefaults'
 import { useEventTracking } from '~/composables/useEventTracking'
 
-const { getDefaultSettings, getSettingsFromStorage, saveSettingsToStorage, formatStyleValue, getSliderConfig } =
-  usePreviewDefaults()
+const {
+  getDefaultSettings,
+  getSettingsFromStorage,
+  saveSettingsToStorage,
+  formatStyleValue,
+  getSliderConfig,
+} = usePreviewDefaults()
 const { trackEvent } = useEventTracking()
 
 // Preview settings state - start with defaults to avoid hydration mismatch
@@ -390,12 +395,12 @@ const resetToDefaults = () => {
               </div>
             </div>
           </div>
-          
+
           <!-- Reset Button -->
           <div class="mt-6 border-t pt-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               class="w-full"
               @click="resetToDefaults"
             >
