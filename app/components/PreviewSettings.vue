@@ -114,6 +114,14 @@ const handleCardColorChange = () => {
 const handleOpenSettings = () => {
   trackEvent('open_preview_settings')
 }
+
+// Reset settings to defaults
+const resetToDefaults = () => {
+  trackEvent('reset_preview_settings')
+  const defaults = getDefaultSettings()
+  Object.assign(settings, defaults)
+  handleSettingsChange()
+}
 </script>
 
 <template>
@@ -381,6 +389,18 @@ const handleOpenSettings = () => {
                 </div>
               </div>
             </div>
+          </div>
+          
+          <!-- Reset Button -->
+          <div class="mt-6 border-t pt-4">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              class="w-full"
+              @click="resetToDefaults"
+            >
+              Reset to Defaults
+            </Button>
           </div>
         </PopoverContent>
       </Popover>
