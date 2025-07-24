@@ -15,7 +15,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 2,
         x: 0,
         y: 2,
@@ -27,7 +27,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
@@ -39,7 +39,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
@@ -57,7 +57,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 3,
         x: 0,
         y: 3,
@@ -69,7 +69,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 2,
         x: 0,
         y: 2,
@@ -81,7 +81,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
@@ -99,7 +99,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 3,
         x: 0,
         y: 3,
@@ -111,7 +111,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 3,
         x: 0,
         y: 3,
@@ -123,7 +123,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
@@ -141,7 +141,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 2,
         x: 0,
         y: 2,
@@ -153,7 +153,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 4,
         x: 0,
         y: 4,
@@ -165,7 +165,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
@@ -183,7 +183,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 3,
         x: 0,
         y: 3,
@@ -195,7 +195,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 5,
         x: 0,
         y: 5,
@@ -207,7 +207,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
@@ -225,7 +225,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 3,
         x: 0,
         y: 3,
@@ -237,7 +237,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 6,
         x: 0,
         y: 6,
@@ -249,7 +249,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 1,
         x: 0,
         y: 1,
@@ -267,7 +267,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 4,
         x: 0,
         y: 4,
@@ -279,7 +279,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 7,
         x: 0,
         y: 7,
@@ -291,7 +291,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 2,
         x: 0,
         y: 2,
@@ -309,7 +309,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 5,
         x: 0,
         y: 5,
@@ -321,7 +321,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 8,
         x: 0,
         y: 8,
@@ -333,7 +333,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 3,
         x: 0,
         y: 3,
@@ -351,7 +351,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 5,
         x: 0,
         y: 5,
@@ -363,7 +363,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 9,
         x: 0,
         y: 9,
@@ -375,7 +375,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 3,
         x: 0,
         y: 3,
@@ -393,7 +393,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 6,
         x: 0,
         y: 6,
@@ -405,7 +405,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 10,
         x: 0,
         y: 10,
@@ -417,7 +417,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 4,
         x: 0,
         y: 4,
@@ -435,7 +435,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 6,
         x: 0,
         y: 6,
@@ -447,7 +447,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 11,
         x: 0,
         y: 11,
@@ -459,7 +459,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 4,
         x: 0,
         y: 4,
@@ -477,7 +477,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 7,
         x: 0,
         y: 7,
@@ -489,7 +489,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 12,
         x: 0,
         y: 12,
@@ -501,7 +501,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 5,
         x: 0,
         y: 5,
@@ -519,7 +519,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 7,
         x: 0,
         y: 7,
@@ -531,7 +531,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 13,
         x: 0,
         y: 13,
@@ -543,7 +543,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 5,
         x: 0,
         y: 5,
@@ -561,7 +561,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 7,
         x: 0,
         y: 7,
@@ -573,7 +573,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 14,
         x: 0,
         y: 14,
@@ -585,7 +585,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 5,
         x: 0,
         y: 5,
@@ -603,7 +603,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 8,
         x: 0,
         y: 8,
@@ -615,7 +615,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 15,
         x: 0,
         y: 15,
@@ -627,7 +627,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 6,
         x: 0,
         y: 6,
@@ -645,7 +645,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 8,
         x: 0,
         y: 8,
@@ -657,7 +657,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 16,
         x: 0,
         y: 16,
@@ -669,7 +669,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 6,
         x: 0,
         y: 6,
@@ -687,7 +687,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 8,
         x: 0,
         y: 8,
@@ -699,7 +699,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 17,
         x: 0,
         y: 17,
@@ -711,7 +711,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 6,
         x: 0,
         y: 6,
@@ -729,7 +729,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 9,
         x: 0,
         y: 9,
@@ -741,7 +741,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 18,
         x: 0,
         y: 18,
@@ -753,7 +753,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 7,
         x: 0,
         y: 7,
@@ -771,7 +771,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 9,
         x: 0,
         y: 9,
@@ -783,7 +783,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 19,
         x: 0,
         y: 19,
@@ -795,7 +795,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 7,
         x: 0,
         y: 7,
@@ -813,7 +813,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 10,
         x: 0,
         y: 10,
@@ -825,7 +825,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 20,
         x: 0,
         y: 20,
@@ -837,7 +837,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 8,
         x: 0,
         y: 8,
@@ -855,7 +855,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 10,
         x: 0,
         y: 10,
@@ -867,7 +867,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 21,
         x: 0,
         y: 21,
@@ -879,7 +879,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 8,
         x: 0,
         y: 8,
@@ -897,7 +897,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 10,
         x: 0,
         y: 10,
@@ -909,7 +909,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 22,
         x: 0,
         y: 22,
@@ -921,7 +921,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 8,
         x: 0,
         y: 8,
@@ -939,7 +939,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 11,
         x: 0,
         y: 11,
@@ -951,7 +951,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 23,
         x: 0,
         y: 23,
@@ -963,7 +963,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 9,
         x: 0,
         y: 9,
@@ -981,7 +981,7 @@ export const materialDesignPresets: Preset[] = [
     shadows: [
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 11,
         x: 0,
         y: 11,
@@ -993,7 +993,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 24,
         x: 0,
         y: 24,
@@ -1005,7 +1005,7 @@ export const materialDesignPresets: Preset[] = [
       },
       {
         visible: true,
-        angle: 180,
+        angle: 0,
         distance: 9,
         x: 0,
         y: 9,
