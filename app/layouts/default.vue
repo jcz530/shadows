@@ -37,12 +37,12 @@ import { Button } from '@/components/ui/button'
     <!-- Additional Content -->
     <div class="container mx-auto max-w-7xl px-4 py-8 text-center">
       <p class="text-muted-foreground">
-        Want to nerd out some more on Box Shadows? Take a read of 
-        <a 
-          href="https://joeczubiak.com/box-shadows/" 
-          target="_blank" 
+        Want to nerd out some more on Box Shadows? Take a read of
+        <a
+          href="https://joeczubiak.com/box-shadows/"
+          target="_blank"
           rel="noopener noreferrer"
-          class="text-purple-600 hover:text-purple-700 underline"
+          class="text-purple-600 underline hover:text-purple-700"
         >
           this
         </a>

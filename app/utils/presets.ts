@@ -23,6 +23,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -1,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -34,6 +35,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -45,6 +47,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -62,6 +65,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -2,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -73,6 +77,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -84,6 +89,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -101,6 +107,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -2,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -112,6 +119,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -123,6 +131,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -140,6 +149,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -1,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -151,6 +161,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -162,6 +173,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -179,6 +191,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -1,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -190,6 +203,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -201,6 +215,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -218,6 +233,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -1,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -229,6 +245,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -240,6 +257,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -257,6 +275,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -2,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -268,6 +287,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 1,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -279,6 +299,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 1,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -296,6 +317,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -3,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -307,6 +329,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 1,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -318,6 +341,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -335,6 +359,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -3,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -346,6 +371,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 1,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -357,6 +383,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -374,6 +401,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -3,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -385,6 +413,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 1,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -396,6 +425,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 3,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -413,6 +443,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -4,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -424,6 +455,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 1,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -435,6 +467,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 3,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -452,6 +485,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -4,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -463,6 +497,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -474,6 +509,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 4,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -491,6 +527,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -4,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -502,6 +539,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -513,6 +551,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 4,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -530,6 +569,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -4,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -541,6 +581,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -552,6 +593,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 4,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -569,6 +611,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -5,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -580,6 +623,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -591,6 +635,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 5,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -608,6 +653,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -5,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -619,6 +665,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -630,6 +677,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 5,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -647,6 +695,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -5,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -658,6 +707,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -669,6 +719,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 5,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -686,6 +737,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -5,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -697,6 +749,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -708,6 +761,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 6,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -725,6 +779,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -6,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -736,6 +791,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 2,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -747,6 +803,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 6,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -764,6 +821,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -6,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -775,6 +833,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 3,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -786,6 +845,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 7,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -803,6 +863,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -6,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -814,6 +875,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 3,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -825,6 +887,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 7,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -842,6 +905,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -6,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -853,6 +917,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 3,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -864,6 +929,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 7,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -881,6 +947,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -7,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -892,6 +959,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 3,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -903,6 +971,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 8,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -920,6 +989,7 @@ export const materialDesignPresets: Preset[] = [
         spread: -7,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
       {
         visible: true,
@@ -931,6 +1001,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 3,
         color: '#000000',
         opacity: 14,
+        inset: false,
       },
       {
         visible: true,
@@ -942,6 +1013,7 @@ export const materialDesignPresets: Preset[] = [
         spread: 8,
         color: '#000000',
         opacity: 12,
+        inset: false,
       },
     ],
   },
@@ -962,6 +1034,7 @@ export const tailwindPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 5,
+        inset: false,
       },
     ],
   },
@@ -979,6 +1052,7 @@ export const tailwindPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 5,
+        inset: false,
       },
     ],
   },
@@ -996,6 +1070,7 @@ export const tailwindPresets: Preset[] = [
         spread: 0,
         color: '#000000',
         opacity: 10,
+        inset: false,
       },
       {
         visible: true,
@@ -1007,6 +1082,7 @@ export const tailwindPresets: Preset[] = [
         spread: -1,
         color: '#000000',
         opacity: 10,
+        inset: false,
       },
     ],
   },
@@ -1024,6 +1100,7 @@ export const tailwindPresets: Preset[] = [
         spread: -1,
         color: '#000000',
         opacity: 10,
+        inset: false,
       },
       {
         visible: true,
@@ -1035,6 +1112,7 @@ export const tailwindPresets: Preset[] = [
         spread: -2,
         color: '#000000',
         opacity: 10,
+        inset: false,
       },
     ],
   },
@@ -1052,6 +1130,7 @@ export const tailwindPresets: Preset[] = [
         spread: -3,
         color: '#000000',
         opacity: 10,
+        inset: false,
       },
       {
         visible: true,
@@ -1063,6 +1142,7 @@ export const tailwindPresets: Preset[] = [
         spread: -4,
         color: '#000000',
         opacity: 10,
+        inset: false,
       },
     ],
   },
@@ -1080,6 +1160,7 @@ export const tailwindPresets: Preset[] = [
         spread: -5,
         color: '#000000',
         opacity: 10,
+        inset: false,
       },
       {
         visible: true,
@@ -1091,6 +1172,7 @@ export const tailwindPresets: Preset[] = [
         spread: -6,
         color: '#000000',
         opacity: 10,
+        inset: false,
       },
     ],
   },
@@ -1108,6 +1190,7 @@ export const tailwindPresets: Preset[] = [
         spread: -12,
         color: '#000000',
         opacity: 25,
+        inset: false,
       },
     ],
   },

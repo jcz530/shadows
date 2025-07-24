@@ -23,6 +23,7 @@ export interface Shadow {
   spread: number
   color: string
   opacity: number
+  inset: boolean
 }
 
 interface ShadowState {
@@ -50,6 +51,7 @@ export const useShadowStore = defineStore('shadow', {
         spread: 3,
         color: '#000000',
         opacity: 20,
+        inset: false,
       },
     ],
     nextId: 2,
@@ -71,7 +73,8 @@ export const useShadowStore = defineStore('shadow', {
       let css = 'box-shadow: '
       visibleShadows.forEach((shadow, index) => {
         const xy = xAndYFromAngleDistance(shadow.angle, shadow.distance)
-        css += `${xy.x}px ${xy.y}px ${shadow.blur}px ${shadow.spread}px ${hexToRgba(shadow.color, shadow.opacity)}`
+        const insetKeyword = shadow.inset ? 'inset ' : ''
+        css += `${insetKeyword}${xy.x}px ${xy.y}px ${shadow.blur}px ${shadow.spread}px ${hexToRgba(shadow.color, shadow.opacity)}`
         if (index < visibleShadows.length - 1) {
           css += ', '
         }
@@ -411,6 +414,7 @@ export const useShadowStore = defineStore('shadow', {
         spread: 3,
         color: '#000000',
         opacity: 20,
+        inset: false,
       }
 
       // Update nextId and add shadow
