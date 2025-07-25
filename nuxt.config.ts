@@ -131,6 +131,8 @@ export default defineNuxtConfig({
         href: '/favicons/safari-pinned-tab.svg',
       },
       { rel: 'manifest', href: '/manifest.json' },
+      { rel: 'preload', href: '/shadows-social-image.png', as: 'image' },
+      { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
     ],
   },
 })
