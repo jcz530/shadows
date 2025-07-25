@@ -13,8 +13,11 @@ import { Button } from '@/components/ui/button'
         <div class="flex items-center">
           <img
             src="~/assets/shadows-logo.svg"
-            alt="Shadows"
+            alt="Shadows CSS Box-Shadow Generator Logo"
             class="h-6 w-auto"
+            width="120"
+            height="24"
+            loading="eager"
           />
         </div>
         <a
@@ -50,7 +53,7 @@ import { Button } from '@/components/ui/button'
     </div>
 
     <!-- Footer -->
-    <footer class="w-full">
+    <footer class="w-full" role="contentinfo">
       <div class="bg-purple-600 py-4">
         <div class="flex items-center justify-center gap-4 text-white">
           <Button
@@ -59,6 +62,7 @@ import { Button } from '@/components/ui/button'
             href="https://github.com/jcz530/shadows"
             target="_blank"
             rel="noopener"
+            aria-label="View source code on GitHub"
           >
             <Github class="h-4 w-4" />
           </Button>
@@ -68,6 +72,7 @@ import { Button } from '@/components/ui/button'
             href="https://joeczubiak.com?ref=shadows"
             target="_blank"
             rel="noopener"
+            aria-label="Visit Joe Czubiak's website"
           >
             <span class="text-xs uppercase">Built by</span>
             <img
@@ -76,7 +81,8 @@ import { Button } from '@/components/ui/button'
               src="https://joeczubiak.com/images/joe-czubiak-logo.svg"
               width="35"
               height="14"
-              alt="Joe Czubiak logo"
+              alt="Joe Czubiak developer logo"
+              loading="lazy"
             />
           </Button>
         </div>
